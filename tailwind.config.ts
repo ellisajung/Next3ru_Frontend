@@ -11,6 +11,9 @@ const config: Config = {
       colors: {
         "white-40": "rgba(255,255,255,0.4)",
       },
+      borderRadius: {
+        custom: "18px",
+      },
     },
   },
   plugins: [],
