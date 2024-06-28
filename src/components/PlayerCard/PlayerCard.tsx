@@ -32,7 +32,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ name, imageUrl, number, positio
     <div className="relative my-4 rounded-custom border border-black p-1 bg-black w-122 h-166.87">
       <div className="relative">
         <Image src={imageUrl} alt={name} width={113} height={151} />
-        <div className={`absolute rounded-sm p-1 ${getColorClass(rating)}`} style={{ top: "-14%", left: "85%" }}>
+        <div className={`absolute px-1 rounded-custom text-lg ${getColorClass(rating)}`} style={{ top: "-13%", left: "88%" }}>
           {rating}
         </div>
         <div className="bg-black text-white text-sm absolute px-1 " style={{ top: "0%", left: "0%" }}>
