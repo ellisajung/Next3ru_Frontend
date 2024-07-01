@@ -2,26 +2,26 @@
 
 import React from "react";
 import PlayerCard from "../PlayerCard/PlayerCard";
+import Player from "@/store/Today-player";
 
 interface PlayerListProps {
-  players2: {
-    name: string;
-    imageUrl: string;
-    number: string;
-    position: {
-      top: string;
-      left: string;
-    };
-    role: string;
-    rating: number;
-  }[];
+  playerList: Player[];
+  onClick: (playerName: string) => void;
 }
-
-const PlayerList: React.FC<PlayerListProps> = ({ players2 }) => {
+const PlayerList: React.FC<PlayerListProps> = ({ playerList, onClick }) => {
   return (
     <div className="flex flex-col">
-      {players2.map((player, index) => (
-        <PlayerCard key={index} name={player.name} imageUrl={player.imageUrl} number={player.number} position={player.position} role={player.role} rating={player.rating} />
+      {playerList.map((player, index) => (
+        <PlayerCard
+          key={index}
+          name={player.name}
+          imageUrl={player.imageUrl}
+          number={player.number}
+          position={player.position}
+          role={player.role}
+          rating={player.rating}
+          onClick={() => onClick(player.name)}
+        />
       ))}
     </div>
   );
