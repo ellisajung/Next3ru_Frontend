@@ -1,31 +1,40 @@
 // components/TodayPlayerCon.tsx
-import React from "react";
+"use client";
 import Image from "next/image";
 import PlayerCard from "../PlayerCard/PlayerCard";
+import { useStore } from "@/store/Today-player";
+import PlayerList from "../PlayerList/PlayerList";
 
-interface PlayerListProps {
-  players: {
-    name: string;
-    imageUrl: string;
-    number: string;
-    position: {
-      top: string;
-      left: string;
-    };
-    role: string;
-    rating: number;
-  }[];
-}
+const TodayPlayerCon = () => {
+  const { todayPlayers, todayPlayersSub } = useStore((state) => ({
+    todayPlayers: state.todayPlayers,
+    todayPlayersSub: state.todayPlayersSub,
+  }));
 
-const TodayPlayerCon: React.FC<PlayerListProps> = ({ players }) => {
+  const handlePlayerCardClick = (playerName: string) => {
+    alert(`Player ${playerName} clicked!`);
+  };
   return (
-    <div className="relative">
+    <div className="relative flex flex-wrap">
       <Image src="/images/Field.jpg" alt="야구장" width={1500} height={1500} />
-      {players.map((player, index) => (
-        <div key={index} className="absolute" style={{ top: player.position.top, left: player.position.left }}>
-          <PlayerCard name={player.name} imageUrl={player.imageUrl} number={player.number} position={player.position} role={player.role} rating={player.rating} />
+      {todayPlayers.map((player, index) => (
+        <div
+          key={index}
+          className="absolute"
+          style={{ top: player.position.top, left: player.position.left }}
+        >
+          <PlayerCard
+            name={player.name}
+            imageUrl={player.imageUrl}
+            number={player.number}
+            position={player.position}
+            role={player.role}
+            rating={player.rating}
+            onClick={() => handlePlayerCardClick(player.name)}
+          />
         </div>
       ))}
+      <PlayerList playerList={todayPlayersSub} onClick={handlePlayerCardClick}></PlayerList>
     </div>
   );
 };
