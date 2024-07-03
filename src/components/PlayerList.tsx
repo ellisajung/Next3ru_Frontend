@@ -1,7 +1,7 @@
 // components/PlayerList.tsx
 
 import React from "react";
-import PlayerCard from "../PlayerCard/PlayerCard";
+import PlayerCard from "./PlayerCard";
 import Player from "@/store/Today-player";
 
 interface PlayerListProps {

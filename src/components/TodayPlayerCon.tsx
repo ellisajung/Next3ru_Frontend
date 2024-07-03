@@ -1,9 +1,9 @@
 // components/TodayPlayerCon.tsx
 "use client";
 import Image from "next/image";
-import PlayerCard from "../PlayerCard/PlayerCard";
+import PlayerCard from "./PlayerCard";
 import { useStore } from "@/store/Today-player";
-import PlayerList from "../PlayerList/PlayerList";
+import PlayerList from "./PlayerList";
 
 const TodayPlayerCon = () => {
   const { todayPlayers, todayPlayersSub } = useStore((state) => ({
@@ -15,10 +15,12 @@ const TodayPlayerCon = () => {
     alert(`Player ${playerName} clicked!`);
   };
   return (
-    <div className="relative flex flex-wrap">
+    <div className="relative flex">
       <Image src="/images/Field.jpg" alt="야구장" width={1500} height={1500} />
       {todayPlayers.map((player, index) => (
         <div
+          flex-wrap
+          justify-center
           key={index}
           className="absolute"
           style={{ top: player.position.top, left: player.position.left }}
@@ -34,7 +36,9 @@ const TodayPlayerCon = () => {
           />
         </div>
       ))}
-      <PlayerList playerList={todayPlayersSub} onClick={handlePlayerCardClick}></PlayerList>
+      <div>
+        <PlayerList playerList={todayPlayersSub} onClick={handlePlayerCardClick}></PlayerList>
+      </div>
     </div>
   );
 };
