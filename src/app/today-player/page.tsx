@@ -1,7 +1,7 @@
 // pages/pitch.tsx
 
-import PlayerList from "@/components/PlayerList/PlayerList";
-import TodayPlayerCon from "@/components/TodayPlayerCon/TodayPlayerCon";
+import PlayerList from "@/components/PlayerList";
+import TodayPlayerCon from "@/components/TodayPlayerCon";
 import React from "react";
 
 const TodayPlayer = () => {

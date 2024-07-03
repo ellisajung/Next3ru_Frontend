@@ -14,7 +14,7 @@ const NavBar = () => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div className="bg-white w-screen h-screen">
+    <div>
       <header>
         <div className="gnb_header text-[#ffffff] gap-2 font-['KT'] xl:flex xl:justify-end xl:items-center xl:pr-3 xl:h-[39px] xl:bg-gradient-to-r xl:from-[#F69AA9] xl:via-[#E1ADED] xl:via-[#AAC6E5] xl:to-[#97D5E0] hidden">
           <a className="hover:text-black transition-color" href="/">
@@ -44,9 +44,7 @@ const NavBar = () => {
                 <a href="http://kt-sports.co.kr/sports/site/main.do">
                   <Image
                     src={
-                      isHovered
-                        ? "images/navbar/ktsports_black.svg"
-                        : "/images/navbar/ktsports.svg"
+                      isHovered ? "images/navbar/ktsports_black.svg" : "/images/navbar/ktsports.svg"
                     }
                     alt="스포츠로고"
                     className={`w-[80px] rounded-md p-1.5 ${
