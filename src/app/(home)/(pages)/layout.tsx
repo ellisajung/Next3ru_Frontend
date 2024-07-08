@@ -12,14 +12,8 @@ const PagesLayout = ({
         className="grid w-full h-full grid-cols-[200px_1fr] grid-rows-[50px_1fr] mx-auto"
       >
         {/* 페이지 상단 브레드스크럼 영역 시작*/}
-        <div
-          id="breadscrumb"
-          className="col-span-2 bg-yellow-300"
-        >
-          <div
-            id="breadscrumb-wrap"
-            className="h-full flex items-center"
-          >
+        <div id="breadscrumb" className="col-span-2 bg-yellow-300">
+          <div id="breadscrumb-wrap" className="h-full flex items-center">
             <h2
               id="category"
               className="text-base font-semibold leading-7 text-gray-700"
@@ -42,23 +36,14 @@ const PagesLayout = ({
                 <path d="m9 18 6-6-6-6"></path>
               </svg>
             </span>
-            <h2
-              id="sub-category"
-              className="font-semibold"
-            >
+            <h2 id="sub-category" className="font-semibold">
               티켓 정보
             </h2>
           </div>
         </div>
         {/* 사이드 네브바 영역 시작 */}
-        <div
-          id="side-nav"
-          className="bg-pink-400 mt-16"
-        >
-          <div
-            id="side-nav-wrap"
-            className=""
-          >
+        <div id="side-nav" className="bg-pink-400 mt-16">
+          <div id="side-nav-wrap" className="">
             <ul className="flex flex-col">
               <li className="w-full">
                 <Link
@@ -79,10 +64,7 @@ const PagesLayout = ({
         </div>
         {/* 사이드 네브바 영역 끝 */}
         {/* 페이지 컨텐츠 영역 시작 */}
-        <div
-          id="page-content"
-          className="bg-blue-400 mt-16"
-        >
+        <div id="page-content" className="bg-blue-400 mt-16">
           {children}
         </div>
         {/* 페이지 컨텐츠 영역 끝 */}
