@@ -12,6 +12,8 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "target": "es2015", // 또는 더 높은 버전으로 설정할 수 있습니다.
+    "downlevelIteration": true,
     "plugins": [
       {
         "name": "next"
