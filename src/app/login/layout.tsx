@@ -1,5 +1,11 @@
 const LoginLayout = () => {
-  return <div>LoginLayout</div>;
+  return (
+    <html lang="en">
+      <body>
+        <div>LoginLayout</div>;
+      </body>
+    </html>
+  );
 };
 
 export default LoginLayout;
