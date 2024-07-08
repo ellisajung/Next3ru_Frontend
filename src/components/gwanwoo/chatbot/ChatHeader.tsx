@@ -1,13 +1,25 @@
+//채팅 화면의 Header 부분
 "use client";
 
 import { useState, useEffect } from "react";
-// import Typing from "react-typing-animation";
+import { Icon } from "@mui/material";
+import { IoIosSettings } from "react-icons/io";
+import ChatHeaderFlex from "./ChatHeaderFlex";
 
 const ChatHeader = () => {
   return (
-    <header>
-      <h2>This is Header</h2>
-    </header>
+    <>
+      <div
+        className="
+      flex
+      flex-col
+      space-between
+      "
+      >
+        <ChatHeaderFlex />
+        <IoIosSettings />
+      </div>
+    </>
   );
 };
 

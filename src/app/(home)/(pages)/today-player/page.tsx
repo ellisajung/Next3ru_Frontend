@@ -1,15 +1,20 @@
-// pages/pitch.tsx
-
-import PlayerList from "@/components/chungwoo/PlayerList";
+import ColorMeaning from "@/components/chungwoo/ColorMeaning";
 import TodayPlayerCon from "@/components/chungwoo/TodayPlayerCon";
-import React from "react";
+import TodayPlayerHitterModal from "@/components/chungwoo/TodayPlayerHitterModal";
+import TodayPlayerPitcherModal from "@/components/chungwoo/TodayPlayerPitcherModal";
 
 const TodayPlayer = () => {
   return (
     <div>
-      <h1>오늘 경기 선수들</h1>
       <div className="flex justify-center">
-        <TodayPlayerCon />
+        <div className="">
+          <ColorMeaning />
+        </div>
+        <div className="">
+          <TodayPlayerCon />
+        </div>
+        <TodayPlayerHitterModal />
+        <TodayPlayerPitcherModal />
       </div>
     </div>
   );
