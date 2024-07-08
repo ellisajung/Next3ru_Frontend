@@ -15,12 +15,15 @@ const TodayPlayerCon = () => {
     alert(`Player ${playerName} clicked!`);
   };
   return (
-    <div className="relative flex">
-      <Image src="/images/Field.jpg" alt="야구장" width={1500} height={1500} />
+    <div className="relative flex flex-wrap">
+      <Image
+        src="/images/Field.jpg"
+        alt="야구장"
+        width={1500}
+        height={1500}
+      />
       {todayPlayers.map((player, index) => (
         <div
-          flex-wrap
-          justify-center
           key={index}
           className="absolute"
           style={{ top: player.position.top, left: player.position.left }}
@@ -36,9 +39,10 @@ const TodayPlayerCon = () => {
           />
         </div>
       ))}
-      <div>
-        <PlayerList playerList={todayPlayersSub} onClick={handlePlayerCardClick}></PlayerList>
-      </div>
+      <PlayerList
+        playerList={todayPlayersSub}
+        onClick={handlePlayerCardClick}
+      ></PlayerList>
     </div>
   );
 };
