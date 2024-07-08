@@ -1,6 +1,7 @@
 "use client";
+import "@/styles/jaemin.css";
 import Image from "next/image";
-import React, { useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 
 // import Logo from "";
@@ -14,15 +15,21 @@ const NavBar = () => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div>
+    <div className="bg-white w-screen h-[150px]">
       <header>
         <div className="gnb_header text-[#ffffff] gap-2 font-['KT'] xl:flex xl:justify-end xl:items-center xl:pr-3 xl:h-[39px] xl:bg-gradient-to-r xl:from-[#F69AA9] xl:via-[#E1ADED] xl:via-[#AAC6E5] xl:to-[#97D5E0] hidden">
-          <a className="hover:text-black transition-color" href="/">
+          <a
+            className="hover:text-black transition-color"
+            href="/"
+          >
             로그인
           </a>
           &nbsp;
           <b>|</b>&nbsp;
-          <a className="hover:text-black transition-color " href="/">
+          <a
+            className="hover:text-black transition-color "
+            href="/"
+          >
             회원가입
           </a>
           &nbsp;
@@ -44,7 +51,9 @@ const NavBar = () => {
                 <a href="http://kt-sports.co.kr/sports/site/main.do">
                   <Image
                     src={
-                      isHovered ? "images/navbar/ktsports_black.svg" : "/images/navbar/ktsports.svg"
+                      isHovered
+                        ? "images/navbar/ktsports_black.svg"
+                        : "/images/navbar/ktsports.svg"
                     }
                     alt="스포츠로고"
                     className={`w-[80px] rounded-md p-1.5 ${
@@ -95,7 +104,7 @@ const NavBar = () => {
                 <a href="Sponser">스폰서</a>
               </li>
               <li className="text-[#FF0000] font-extrabold">
-                <a href="ticket">티켓구매</a>
+                <a href="ticket">티켓</a>
               </li>
             </ul>
 
