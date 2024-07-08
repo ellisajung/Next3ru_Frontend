@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import Box from "@mui/material/Box";
 import SpeedDial from "@mui/material/SpeedDial";
@@ -15,7 +17,7 @@ const actions = [
   { icon: <ShareIcon />, name: "Share" },
 ];
 
-export default function ControlledOpenSpeedDial() {
+const ControlledOpenSpeedDial = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -41,4 +43,6 @@ export default function ControlledOpenSpeedDial() {
       </SpeedDial>
     </Box>
   );
-}
+};
+
+export default ControlledOpenSpeedDial;
