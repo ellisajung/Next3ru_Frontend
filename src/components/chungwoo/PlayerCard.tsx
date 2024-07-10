@@ -76,12 +76,12 @@ const PlayerCard: React.FC<Player> = ({
 
         <div
           className={`absolute p-1 rounded-lg font-bold text-xl text-center w-12 h-8 ${colorClass}`}
-          style={{ top: "-10%", left: "90%" }}
+          style={{ top: "-30%", left: "90%" }}
         >
           {rating}
         </div>
         <div
-          className={`absolute w-24 h-16 `}
+          className={`absolute w-24 h-16`}
           style={{ top: getImageTop(imageSrc), left: getImageLeft(imageSrc) }}
         >
           <Image src={imageSrc} alt="weather" layout="fill" />
