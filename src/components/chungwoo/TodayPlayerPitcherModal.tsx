@@ -1,15 +1,17 @@
 "use client";
-import { useStore as useTodayPlayerModalStore } from "@/store/Today-player-Modal";
-import { useStore as useTodayPlayerStore } from "@/store/Today-player";
+import { useStore } from "@/store/Today-player";
 
 const TodayPlayerPitcherModal = () => {
-  const { hpitchers } = useTodayPlayerModalStore();
-  const { selectedPlayerPcode } = useTodayPlayerStore();
+  const { players } = useStore();
+  const { selectedPlayerPcode } = useStore();
 
   // selectedPlayerPcode와 일치하는 player 찾기
-  const player = hpitchers.find((p) => p.pcode === selectedPlayerPcode);
+  const player = players.find(
+    (p) =>
+      p.pcode === selectedPlayerPcode &&
+      (p.position === "SP" || p.position === "RP" || p.position === "CP")
+  );
 
-  // player가 존재하지 않으면 null을 반환하여 아무것도 렌더링하지 않음
   if (!player) {
     return null;
   }
@@ -35,7 +37,7 @@ const TodayPlayerPitcherModal = () => {
                 <th className="px-4 py-2 border border-gray-200">세</th>
                 <th className="px-4 py-2 border border-gray-200">이닝</th>
                 <th className="px-4 py-2 border border-gray-200">타자</th>
-                {/* <th className="px-4 py-2 border border-gray-200">투구수</th> */}
+                <th className="px-4 py-2 border border-gray-200">투구수</th>
                 <th className="px-4 py-2 border border-gray-200">타수</th>
                 <th className="px-4 py-2 border border-gray-200">피안타</th>
                 <th className="px-4 py-2 border border-gray-200">피홈런</th>
@@ -49,13 +51,13 @@ const TodayPlayerPitcherModal = () => {
             <tbody>
               <tr className="text-center">
                 <td className="px-4 py-2 border border-gray-200">{player.name}</td>
-                <td className="px-4 py-2 border border-gray-200">{player.game}</td>
+                <td className="px-4 py-2 border border-gray-200">{player.changeinn}</td>
                 <td className="px-4 py-2 border border-gray-200">{player.w}</td>
                 <td className="px-4 py-2 border border-gray-200">{player.l}</td>
                 <td className="px-4 py-2 border border-gray-200">{player.s}</td>
                 <td className="px-4 py-2 border border-gray-200">{player.inn}</td>
                 <td className="px-4 py-2 border border-gray-200">{player.bf}</td>
-                {/* <td className="px-4 py-2 border border-gray-200">{player.p}</td> */}
+                <td className="px-4 py-2 border border-gray-200">{player.tb}</td>
                 <td className="px-4 py-2 border border-gray-200">{player.ab}</td>
                 <td className="px-4 py-2 border border-gray-200">{player.hit}</td>
                 <td className="px-4 py-2 border border-gray-200">{player.hr}</td>

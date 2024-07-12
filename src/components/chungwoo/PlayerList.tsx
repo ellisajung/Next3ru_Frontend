@@ -17,12 +17,10 @@ const PlayerList: React.FC<PlayerListProps> = ({ playerList, onClick }) => {
           name={player.name}
           imageUrl={player.imageUrl}
           number={player.number}
-          position={player.position}
-          role={player.role}
+          position_translated={player.position_translated || player.position}
           rating={player.rating}
           pcode={player.pcode}
           changeinn={player.changeinn}
-          onClick={() => onClick(player.name)}
         />
       ))}
     </div>
