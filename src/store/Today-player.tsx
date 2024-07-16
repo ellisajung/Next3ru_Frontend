@@ -90,13 +90,17 @@ interface Player {
   hitter: boolean; // 추가: hitter 여부를 나타내는 필드
   pitcher: boolean; // 추가: pitcher 여부를 나타내는 필드
   getImageUrl: () => string;
+  num: string;
+  ERA: string;
 }
 export default Player;
 interface Store {
   players: Player[];
   selectedPlayerPcode: string | null;
   setSelectedPlayerPcode: (pcode: string) => void;
+  getPositionStyle: (role: string) => void;
   fetchPlayers: (date: string) => Promise<void>;
+  loading: boolean; // 로딩 상태 추가
 }
 
 export const getColorClass = (rating: number) => {
@@ -111,17 +115,62 @@ export const getColorClass = (rating: number) => {
   }
 };
 
+const translatePosition = (position: string): string => {
+  if (position === "좌중") {
+    return "LF";
+  } else if (position === "타좌") {
+    return "H";
+  } else if (position === "우좌") {
+    return "RF";
+  }
+  return position;
+};
+
 export const useStore = create<Store>((set) => ({
   players: [],
   selectedPlayerPcode: null,
+  loading: false, // 로딩 상태 추가
   setSelectedPlayerPcode: (pcode) => set({ selectedPlayerPcode: pcode }),
+  getPositionStyle: (role) => {
+    switch (role) {
+      case "SP":
+        return "top-[45%] left-[46.5%]";
+      case "CP":
+        return "top-[30%] left-[56%]";
+      case "C":
+        return "top-[75%] left-[46.5%]";
+      case "1B":
+        return "top-[45%] left-[63%]";
+      case "2B":
+        return "top-[22%] left-[56%]";
+      case "SS":
+        return "top-[22%] left-[37%]";
+      case "3B":
+        return "top-[45%] left-[30%]";
+      case "LF":
+        return "top-[10%] left-[26%]";
+      case "CF":
+        return "top-[10%] left-[46.5%]";
+      case "RF":
+        return "top-[10%] left-[67%]";
+      case "DH":
+        return "top-[75%] left-[30%]";
+      default:
+        return "top-1/2 left-1/2"; // 기본 위치 (중앙)
+    }
+  },
   fetchPlayers: async (date) => {
     try {
+      set({ loading: true });
       const response = await axios.get(`http://3.35.50.52:5002/get_info?date=${date}`);
       const { KTbatters, KTpitchers } = response.data;
       const batters: Player[] = KTbatters.map((player: Player) => ({
         // Player 타입 명시
         ...player,
+        position_translated:
+          player.position_translated === "Unknown position"
+            ? translatePosition(player.position)
+            : player.position_translated,
         hitter: true,
         pitcher: false,
         imageUrl: `/images/hitter/${player.name}.svg`,
@@ -136,7 +185,9 @@ export const useStore = create<Store>((set) => ({
       const players: Player[] = [...batters, ...pitchers];
 
       set({ players });
+      set({ loading: false });
     } catch (error) {
+      set({ loading: false });
       console.error("Error fetching players:", error);
     }
   },

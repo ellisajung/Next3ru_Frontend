@@ -1,4 +1,3 @@
-// PitcherDashBoard.js
 "use client";
 import { useStore } from "@/store/PlayerPitcher";
 import React from "react";
@@ -28,20 +27,20 @@ const PitcherDashBoard = () => {
   };
 
   const chartData = {
-    labels: Object.keys(pitchAverages2), // pitchAverages2에 맞춰 라벨 업데이트
+    labels: Object.keys(pitchAverages2),
     datasets: [
       {
-        label: "KBO 상위 20명 평균값",
-        data: Object.values(pitchAverages1), // pitchAverages1 데이터 유지
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
-        borderColor: "rgba(75, 192, 192, 1)",
+        label: "OOO선수 값",
+        data: Object.values(pitchAverages2),
+        backgroundColor: "rgba(255, 159, 64, 0.2)",
+        borderColor: "rgba(255, 159, 64, 1)",
         borderWidth: 1,
       },
       {
-        label: "OOO선수 값",
-        data: Object.values(pitchAverages2), // pitchAverages2 데이터 적용
-        backgroundColor: "rgba(255, 159, 64, 0.2)",
-        borderColor: "rgba(255, 159, 64, 1)",
+        label: "KBO 상위 20명 평균값",
+        data: Object.values(pitchAverages1),
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        borderColor: "rgba(75, 192, 192, 1)",
         borderWidth: 1,
       },
     ],
@@ -67,7 +66,7 @@ const PitcherDashBoard = () => {
     datasets: [
       {
         label: "투구 비율",
-        data: [40, 25, 20, 15], // 각각 투구 종류의 비율 (총 합이 100이어야 함)
+        data: [40, 25, 20, 15],
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
           "rgba(54, 162, 235, 0.2)",
@@ -85,70 +84,26 @@ const PitcherDashBoard = () => {
     ],
   };
 
-  const options = {
-    indexAxis: "y" as const,
-    elements: {
-      bar: {
-        borderWidth: 2,
-      },
-    },
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "right" as const,
-      },
-      title: {
-        display: true,
-        text: "Chart.js Horizontal Bar Chart",
-      },
-    },
-    scales: {
-      x: {
-        stacked: true,
-        beginAtZero: true,
-      },
-      y: {
-        stacked: true,
-        beginAtZero: true,
-      },
-    },
-  };
-
-  const data = {
-    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+  const pitchingIndex = {
+    labels: ["ERA", "WHIP", "AVG", "K/9", "BB/9"],
     datasets: [
       {
-        label: "KBO 평균",
-        data: [12, 1, 3, 5, 2, 3],
-        backgroundColor: "rgba(192, 192, 192, 0.2)", // 회색
-        borderColor: "rgba(192, 192, 192, 1)", // 회색
+        label: "쿠에바스 선수의 기록", // Adjusted label
+        data: [4.32, 1.22, 0.235, 8.55, 2.96], // Adjusted data values
+        backgroundColor: "rgba(255, 159, 64, 0.2)",
+        borderColor: "rgba(255, 159, 64, 1)",
         borderWidth: 1,
-        stack: "Stack 1",
       },
       {
-        label: "# of Votes 2",
-        data: [8, 15, 4, 10, 6, 7],
-        backgroundColor: [
-          "rgba(255, 159, 64, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(255, 206, 86, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(255, 99, 132, 0.2)",
-        ],
-        borderColor: [
-          "rgba(255, 159, 64, 1)",
-          "rgba(153, 102, 255, 1)",
-          "rgba(75, 192, 192, 1)",
-          "rgba(255, 206, 86, 1)",
-          "rgba(54, 162, 235, 1)",
-          "rgba(255, 99, 132, 1)",
-        ],
+        label: "KBO 평균",
+        data: [4.87, 1.51, 0.276, 7.59, 3.83], // Adjusted data values
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        borderColor: "rgba(75, 192, 192, 1)",
         borderWidth: 1,
-        stack: "Stack 1",
       },
     ],
   };
+
   const { pitchers, setSelectedPlayerPcode, selectedPlayerPcode } = useStore((state) => ({
     pitchers: state.pitchers,
     setSelectedPlayerPcode: state.setSelectedPlayerPcode,
@@ -187,9 +142,7 @@ const PitcherDashBoard = () => {
           <Pie data={pitchDistribution} />
         </div>
         <div className="col-span-2 p-4 bg-white shadow">
-          <div className="horizontal-bar-chart">
-            <Bar data={data} options={options} />
-          </div>
+          <Bar data={pitchingIndex} />
         </div>
       </div>
     </div>
