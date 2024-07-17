@@ -3,26 +3,31 @@
 import Image from "next/image";
 import PlayerCard from "@/components/chungwoo/PlayerCard";
 import { useStore } from "@/store/Today-player";
-import { useEffect } from "react";
-import ColorMeaning from "./ColorMeaning";
-
+import { CSSProperties, useEffect, useState } from "react";
+import BeatLoader from "react-spinners/BeatLoader";
+import { truncate } from "fs";
 const TodayPlayerCon = () => {
-  const { players, setSelectedPlayerPcode, selectedPlayerPcode, fetchPlayers } = useStore(
+  const { players, setSelectedPlayerPcode, fetchPlayers, loading, getPositionStyle } = useStore(
     (state) => ({
       players: state.players,
       setSelectedPlayerPcode: state.setSelectedPlayerPcode,
       selectedPlayerPcode: state.selectedPlayerPcode,
       fetchPlayers: state.fetchPlayers,
+      loading: state.loading,
+      getPositionStyle: state.getPositionStyle,
     })
   );
 
   useEffect(() => {
     // 예시로 특정 날짜 데이터 가져오기 (2024년 7월 4일)
-    fetchPlayers("20240702");
+    fetchPlayers("20240713");
   }, []);
 
-  const startingMember = players ? players.filter((changeinn) => changeinn.changeinn === "") : [];
-  const todayPlayersSub = players ? players.filter((changeinn) => changeinn.changeinn !== "") : [];
+  const startingMember = players
+    ? players.filter((player) => player.changeinn === "" || parseInt(player.turn, 10) <= 19)
+    : [];
+
+  const todayPlayersSub = players ? players.filter((player) => player.changeinn !== "") : [];
 
   const handlePlayerCardClick = (pcode: string) => (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation(); // 이벤트 전파 막기
@@ -32,90 +37,91 @@ const TodayPlayerCon = () => {
   const handleParentClick = () => {
     setSelectedPlayerPcode("0"); // 부모 요소 클릭 시 초기화
   };
+  const maxRating = Math.max(...players.map((player) => player.rating));
 
-  const getPositionStyle = (role: string) => {
-    switch (role) {
-      case "SP":
-        return "top-[53%] left-[46.5%]";
-      case "CP":
-        return "top-[30%] left-[56%]";
-      case "RF":
-        return "top-[22%] left-[72%]";
-      case "C":
-        return "top-[75%] left-[46.5%]";
-      case "1B":
-        return "top-[53%] left-[63%]";
-      case "2B":
-        return "top-[35%] left-[57%]";
-      case "SS":
-        return "top-[35%] left-[38%]";
-      case "3B":
-        return "top-[53%] left-[29%]";
-      case "LF":
-        return "top-[22%] left-[20%]";
-      case "CF":
-        return "top-[17%] left-[46.5%]";
-      case "RF":
-        return "top-[12%] left-[66%]";
-      case "DH":
-        return "top-[75%] left-[29%]";
-      default:
-        return "top-1/2 left-1/2"; // 기본 위치 (중앙)
-    }
+  const override: CSSProperties = {
+    display: "block",
+    margin: "0 auto",
   };
 
   return (
-    <div id="today-player" onClick={handleParentClick}>
-      <div id="today-player-wrap" className="relative flex justify-center items-center h-full">
-        {/* 선발선수 영역시작 */}
-        <div id="starting-members">
-          <div id="starting-members-wrap" className="relative w-[1700px] h-[1677px]">
-            <Image src="/images/DiamondField.svg" alt="야구장" layout="fill" />
-            {startingMember.map((player, index) => (
-              <div
-                onClick={handlePlayerCardClick(player.pcode)}
-                key={index}
-                className={`absolute cursor-pointer ${getPositionStyle(
-                  player.position_translated || player.position
-                )}`}
-              >
-                <PlayerCard
-                  name={player.name}
-                  imageUrl={player.imageUrl}
-                  number={player.number}
-                  position_translated={player.position_translated || player.position}
-                  rating={player.rating}
-                  pcode={player.pcode}
-                  changeinn={player.changeinn}
-                />
+    <div id="today-player" onClick={handleParentClick} className="h-full ">
+      {loading ? (
+        <div className="flex flex-col justify-center items-center text-center h-full">
+          <h1 className="p-12 text-2xl">AI 컨디션 평점 분석 중...</h1>
+          <BeatLoader color={"#FE642E"} loading={loading} cssOverride={override} size={150} />
+        </div>
+      ) : (
+        <div id="today-player-wrap" className="relative flex-col">
+          {players.length > 0 && (
+            <h1 className="p-6 text-2xl text-center font-bold text-gray-800 bg-gray-200 rounded-lg shadow-md hover:bg-gray-300 transition duration-300">
+              <button className="mr-12">{"<"}</button>
+              {`${players[0].gday.slice(0, 4)}-${players[0].gday.slice(
+                4,
+                6
+              )}-${players[0].gday.slice(6, 8)}`}{" "}
+              선수 컨디션 지표
+              <button className="ml-12">{">"}</button>
+            </h1>
+          )}
+
+          {/* 선발선수 영역시작 */}
+          <div id="starting-members" className="flex justify-center">
+            <div id="starting-members-wrap" className="relative w-[1920px] h-[1000px]">
+              <Image src="/images/BaseballField.svg" alt="야구장" layout="fill" />
+              {startingMember.map((player, index) => (
+                <div
+                  onClick={handlePlayerCardClick(player.pcode)}
+                  key={index}
+                  className={`absolute cursor-pointer ${getPositionStyle(
+                    player.position_translated || player.position
+                  )}`}
+                >
+                  <PlayerCard
+                    name={player.name}
+                    imageUrl={player.imageUrl}
+                    number={player.num}
+                    position_translated={player.position_translated || player.position}
+                    rating={player.rating}
+                    pcode={player.pcode}
+                    changeinn={player.changeinn}
+                    isMaxRating={player.rating === maxRating}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+          {/* 선발선수 영역 끝 */}
+          {/* 교체 선수 영역 시작 */}
+          <div id="change-members">
+            <div id="change-members-wrap" className="flex-col">
+              <div className="p-6 text-2xl text-center font-bold text-gray-800 bg-gray-200 rounded-lg shadow-md hover:bg-gray-300 transition duration-300">
+                교체선수
               </div>
-            ))}
+              <div className="flex flew-row items-center justify-center">
+                {todayPlayersSub.map((player, index) => (
+                  <div
+                    onClick={handlePlayerCardClick(player.pcode)}
+                    key={index}
+                    className="flex  cursor-pointer m-8 "
+                  >
+                    <PlayerCard
+                      name={player.name}
+                      imageUrl={player.imageUrl}
+                      number={player.num}
+                      position_translated={player.position_translated || player.position}
+                      rating={player.rating}
+                      pcode={player.pcode}
+                      changeinn={player.changeinn}
+                      isMaxRating={player.rating === maxRating} // 최고 rating 여부 전달
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-        {/* 선발선수 영역 끝 */}
-        {/* 교체 선수 영역 시작 */}
-        <div id="change-members">
-          <div id="change-members-wrap" className="flex-col h-full">
-            {todayPlayersSub.map((player, index) => (
-              <div
-                onClick={handlePlayerCardClick(player.pcode)}
-                key={index}
-                className="my-12 cursor-pointer "
-              >
-                <PlayerCard
-                  name={player.name}
-                  imageUrl={player.imageUrl}
-                  number={player.number}
-                  position_translated={player.position_translated || player.position}
-                  rating={player.rating}
-                  pcode={player.pcode}
-                  changeinn={player.changeinn}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

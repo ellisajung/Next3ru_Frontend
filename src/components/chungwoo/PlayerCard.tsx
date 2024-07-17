@@ -30,25 +30,6 @@ const getImageSrc = (rating: number) => {
   }
 };
 
-const getImageTop = (imageSrc: String) => {
-  if (imageSrc === "/images/번개.svg") {
-    return "-37%";
-  } else if (imageSrc === "/images/비.svg") {
-    return "-37%";
-  } else {
-    return "-37%";
-  }
-};
-
-const getImageLeft = (imageSrc: String) => {
-  if (imageSrc === "/images/해구름.svg") {
-    return "-50%";
-  } else if (imageSrc === "/images/구름.svg") {
-    return "-50%";
-  } else {
-    return "-50%";
-  }
-};
 interface PlayerCardProps {
   name: string;
   imageUrl: string;
@@ -57,6 +38,7 @@ interface PlayerCardProps {
   rating: number;
   pcode: string;
   changeinn: string;
+  isMaxRating: boolean;
 }
 const PlayerCard: React.FC<PlayerCardProps> = ({
   name,
@@ -66,45 +48,43 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
   rating,
   pcode,
   changeinn,
+  isMaxRating,
 }) => {
   const colorClass = getColorClass(rating);
   const imageSrc = getImageSrc(rating);
 
   return (
-    <div className="relative my-4 p-1 rounded-[18px] border border-black bg-black ">
-      <div className="relative w-32 h-36">
-        <Image src={imageUrl} alt={name} layout="fill" style={{ top: "0%", left: "0%" }} />
-
+    <div
+      className={`relative p-1 rounded-[18px] border border-black bg-black ${
+        isMaxRating ? "animate-pulseBorder animate-burningImage" : ""
+      }`}
+    >
+      <Image src={imageUrl} alt={name} layout="fill" style={{ top: "-25%", left: "0%" }} />
+      <div className="relative w-32 h-32">
         <div
-          className={`absolute p-1 rounded-[18px] font-bold text-xl text-center w-16 h-8 ${colorClass}`}
-          style={{ top: "-10%", left: "80%" }}
+          className={`absolute rounded-[9px] flex justify-center items-center p-1  font-bold text-lg  w-12 h-8 ${colorClass}`}
+          style={{ top: "-15%", left: "-20%" }}
         >
           {rating.toFixed(2)}
         </div>
-        <div
-          className={`absolute w-32 h-28`}
-          style={{ top: getImageTop(imageSrc), left: getImageLeft(imageSrc) }}
-        >
+        <div className={`absolute w-20 h-20`} style={{ top: "-35%", left: "75%" }}>
           <Image src={imageSrc} alt="weather" layout="fill" />
         </div>
       </div>
       <div className="text-white relative overflow-hidden p-1 rounded-lg">
-        <div className="text-white-40 text-lg pl-1 flex justify-start ">No. {number}</div>
-        <div
-          className="bg-black text-white text-lg absolute px-1"
-          style={{ top: "6%", left: "80%" }}
-        >
-          {position_translated}
+        <div className="flex justify-between text-sm">
+          <div className="text-gray-400">No. {number}</div>
+          <div className=" text-white">{position_translated}</div>
         </div>
         <div className="ml-4 text-lg">
           {name}
           <Image
-            src="/images/logo.svg"
+            src="/images/card_logo.svg"
             alt="로고다"
             width={51.37}
             height={54.17}
             className="absolute"
-            style={{ top: "50%", left: "70%" }}
+            style={{ top: "50%", left: "75%" }}
           />
         </div>
       </div>
