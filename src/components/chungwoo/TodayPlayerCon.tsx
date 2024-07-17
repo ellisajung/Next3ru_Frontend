@@ -45,7 +45,7 @@ const TodayPlayerCon = () => {
   };
 
   return (
-    <div id="today-player" onClick={handleParentClick} className="h-full">
+    <div id="today-player" onClick={handleParentClick} className="h-full ">
       {loading ? (
         <div className="flex flex-col justify-center items-center text-center h-full">
           <h1 className="p-12 text-2xl">AI 컨디션 평점 분석 중...</h1>

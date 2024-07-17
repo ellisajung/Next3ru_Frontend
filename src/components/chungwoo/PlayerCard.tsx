@@ -63,11 +63,11 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
       <div className="relative w-32 h-32">
         <div
           className={`absolute rounded-[9px] flex justify-center items-center p-1  font-bold text-lg  w-12 h-8 ${colorClass}`}
-          style={{ top: "-15%", left: "85%" }}
+          style={{ top: "-15%", left: "-20%" }}
         >
           {rating.toFixed(2)}
         </div>
-        <div className={`absolute w-20 h-20`} style={{ top: "-35%", left: "-35%" }}>
+        <div className={`absolute w-20 h-20`} style={{ top: "-35%", left: "75%" }}>
           <Image src={imageSrc} alt="weather" layout="fill" />
         </div>
       </div>
