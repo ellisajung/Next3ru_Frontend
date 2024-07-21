@@ -1,48 +1,70 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useStore } from "@/store/PitcherDashBoard";
+import { useStore as useStore2 } from "@/store/PlayerPitcher";
 import Image from "next/image";
-import { useStore } from "@/store/PlayerPitcher"; // assuming your store import is correct
-
-const PlayerCard = () => {
-  const { pitchers, setSelectedPlayerPcode, selectedPlayerPcode } = useStore((state) => ({
-    pitchers: state.pitchers,
-    setSelectedPlayerPcode: state.setSelectedPlayerPcode,
-    selectedPlayerPcode: state.selectedPlayerPcode,
+const PlayerPitcher = () => {
+  const { pitcher, fetchPitcher } = useStore((state) => ({
+    pitcher: state.pitcher,
+    fetchPitcher: state.fetchPitcher,
   }));
 
+  const { pitcherList, selectedPitcherPcode, setSelectedPitcherPcode } = useStore2((state) => ({
+    pitcherList: state.pitcherList,
+    selectedPitcherPcode: state.selectedPitcherPcode,
+    setSelectedPitcherPcode: state.setSelectedPitcherPcode,
+  }));
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredPitchers, setFilteredPitchers] = useState(pitcherList);
+
+  useEffect(() => {
+    setFilteredPitchers(
+      pitcherList.filter((player) =>
+        player.playerName.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+  }, [searchTerm, pitcherList]);
   return (
-    <div className="grid grid-cols-2 gap-4 p-4">
-      {pitchers.map((player) => (
-        <div className="">
-          <div
-            key={player.pcode} // assuming each player has a unique pcode
-            className="relative my-4 p-1 rounded-[18px] border border-black bg-black"
-          >
-            <div className="relative w-40 h-36 ">
+    <div className="p-2 ">
+      <input
+        className="placeholder:italic placeholder:text-slate-400 block bg-white border border-slate-300 w-full"
+        placeholder="선수명 검색"
+        type="text"
+        name="search"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      {filteredPitchers.map((player) => (
+        <div
+          key={player.pcode}
+          className="bg-black p-2 opacity-95 my-2"
+          onClick={(event: React.MouseEvent<HTMLDivElement>) => {
+            setSelectedPitcherPcode(player.pcode);
+            fetchPitcher(player.pcode);
+          }}
+        >
+          <div className="flex items-center opacity-100 ">
+            <div className="relative w-[45px] h-[45px] bg-white rounded-full overflow-hidden">
               <Image
-                src={player.imageUrl}
-                alt={player.name}
+                src={`${player?.playerPrvwImg}`}
+                alt={player?.playerName || "Default Alt Text"}
                 layout="fill"
-                style={{ top: "0%", left: "0%" }}
               />
-              <div className="bg-black text-white absolute px-1" style={{ top: "0%", left: "0%" }}>
-                {player.role}
-              </div>
             </div>
-            <div className="text-white relative overflow-hidden p-1 rounded-lg">
-              <div className="text-gray-500  pl-1 flex justify-start">No. {player.number}</div>
-              <div className="ml-4 font-bold">
-                {player.name}
-                <Image
-                  src="/images/logo.svg"
-                  alt="로고다"
-                  width={41.37}
-                  height={44.17}
-                  className="absolute"
-                  style={{ top: "30%", left: "75%" }}
-                />
-              </div>
+            <div className="ml-4 w-[44.43px] text-gray-300 text-white text-sm">
+              No. {player.backnum}{" "}
             </div>
+            <div className="ml-12 mr-6 w-[48.67px] text-white font-bold ">{player.playerName}</div>
+          </div>
+          <div className="relative">
+            <Image
+              src="/images/logo.svg"
+              alt="로고다"
+              width={39.37}
+              height={42.17}
+              className="absolute top-[-43px] left-[175px] z-[-1] opacity-25"
+            />
           </div>
         </div>
       ))}
@@ -50,4 +72,4 @@ const PlayerCard = () => {
   );
 };
 
-export default PlayerCard;
+export default PlayerPitcher;

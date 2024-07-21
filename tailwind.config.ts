@@ -2,11 +2,7 @@ import type { Config } from "tailwindcss";
 
 const config = {
   darkMode: ["class"],
-  content: [
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
-  ],
+  content: ["./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
   prefix: "",
   theme: {
     // container: {
@@ -17,6 +13,10 @@ const config = {
     //   },
     // },
     extend: {
+      backgroundImage: {
+        "custom-gradient":
+          "linear-gradient(145deg,#000000,#1C1C1C, #2E2E2E, #151515,#000000,#000000,#000000,#EC1C23)",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

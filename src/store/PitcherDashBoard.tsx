@@ -1,66 +1,91 @@
+import axios from "axios";
 import { create } from "zustand";
 
 interface Player {
-  name: string;
-  imageUrl: string;
-  number: string;
-  role: string;
+  AVG: number;
+  "BB/9": number;
+  "K/9": number;
+  Salary: {
+    "2020": number;
+    "2021": number;
+    "2022": number;
+    "2023": number;
+    "2024": number;
+  };
+  backnum: string;
+  birth: string;
+  bloodGroups: string;
+  bornPlace: string;
+  career: string;
+  career2: string;
+  debutYear: string;
+  energybar: number;
+  energybarName: string;
+  engName: string;
+  gyear: string;
+  hasFanpage: string;
+  height: string;
+  hittype: string;
+  mobilePlayerImg: string;
+  mobilePlayerImg1: string;
+  mobilePlayerImg2: string;
+  money: string;
   pcode: string;
-  onClick?: () => void;
+  pitchingRatio: {
+    "2-seam Fastball": number;
+    "4-seam Fastball": number;
+    ChangeUp: number;
+    Curve: number;
+    Cutter: number;
+    Forkball: number;
+    Sinker: number;
+    Slider: number;
+  };
+  pitchingValue: {
+    "2-seam Fastball": number;
+    "4-seam Fastball": number;
+    ChangeUp: number;
+    Curve: number;
+    Cutter: number;
+    Forkball: number;
+    Sinker: number;
+    Slider: number;
+  };
+  playerName: string;
+  playerPrvwImg: string;
+  playerPrvwImg1: string;
+  playerPrvwImg2: string;
+  playerPrvwImg3: string;
+  position: string;
+  position2: string;
+  promise: string;
+  rank: number;
+  rankName: string;
+  teamCode: string;
+  teamName: string;
+  weight: string;
 }
 export default Player;
 
 interface PlayerListProps {
-  pitchers: Player[];
+  pitcher: Player | null; // Player 타입의 객체로 정의
   selectedPlayerPcode: string | null; // 추가된 상태
   setSelectedPlayerPcode: (pcode: string) => void;
+  fetchPitcher: (pcode: string) => Promise<void>;
 }
 
 export const useStore = create<PlayerListProps>((set) => ({
-  pitchers: [
-    {
-      name: "쿠에바스",
-      imageUrl: "/images/pitcher/쿠에바스.svg",
-      number: "33",
-      role: "SP",
-      pcode: "69032",
-    },
-    {
-      name: "장성우",
-      imageUrl: "/images/hitter/catcher/장성우.svg",
-      number: "33",
-      role: "C",
-      pcode: "78548",
-    },
-    {
-      name: "벤자민",
-      imageUrl: "/images/pitcher/벤자민.svg",
-      number: "99",
-      role: "RP",
-      pcode: "52043",
-    },
-    {
-      name: "김민수",
-      imageUrl: "/images/pitcher/김민수.svg",
-      number: "1",
-      role: "RP",
-      pcode: "65048",
-    },
-    {
-      name: "하준호",
-      imageUrl: "/images/pitcher/하준호.svg",
-      number: "49",
-      role: "RP",
-      pcode: "78517",
-    },
-    {
-      name: "박영현",
-      imageUrl: "/images/pitcher/박영현.svg",
-      number: "11",
-      role: "CP",
-      pcode: "52060",
-    },
-  ],
+  pitcher: null,
+
+  fetchPitcher: async (pcode) => {
+    try {
+      const response = await axios.get(`http://43.203.217.238:5002/player/${pcode}`);
+      const pitcherData: Player = response.data; // 단일 객체로 받아옴
+      set({ pitcher: pitcherData }); // 객체를 설정
+    } catch (error) {
+      console.error("Error fetching players:", error);
+    }
+  },
 
   selectedPlayerPcode: null, // 초기 값은 null로 설정
   setSelectedPlayerPcode: (pcode) => set({ selectedPlayerPcode: pcode }), // setSelectedPlayerPcode 함수 정의
