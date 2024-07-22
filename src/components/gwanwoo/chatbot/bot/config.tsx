@@ -56,11 +56,11 @@ const config = {
     },
     {
       widgetName: "dailySchedule", //일정
-      widgetFunc: (props: any) => <DailyRecord />,
+      widgetFunc: (props: any) => <DailySchedule />,
     },
     {
       widgetName: "teamRecord", //팀기록
-      widgetFunc: (props: any) => <DailyBriefing />,
+      widgetFunc: (props: any) => <TeamRecord />,
     },
     {
       widgetName: "FavoritePlayer", //관심선수

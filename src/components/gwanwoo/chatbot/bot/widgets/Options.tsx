@@ -19,7 +19,7 @@ const Options: React.FC<OptionsProps> = ({ title, options }) => {
       <div className="flex justify-center">
         {options.map((option) => (
           <div
-            className="flex flex-col basis-2/6 items-center rounded-md border-2 border-black cursor-pointer"
+            className="flex flex-col w-72 h-16 basis-2/6 justify-center space-y-2 items-center rounded-md border-2 border-black cursor-pointer"
             onClick={option.handler}
             key={option.id}
           >
