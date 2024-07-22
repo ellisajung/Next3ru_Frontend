@@ -1,0 +1,33 @@
+import React, { useState } from "react";
+import Options from "./Options";
+
+import { AiTwotoneClockCircle } from "react-icons/ai";
+import { BsClipboard2Fill } from "react-icons/bs";
+import { FaRegStar } from "react-icons/fa";
+
+const GeneralOptions = (props: any) => {
+  const options = [
+    {
+      name: "일정",
+      handler: props.actionProvider.handleGlobalStats,
+      id: 1,
+      icon: <AiTwotoneClockCircle />,
+    },
+    {
+      name: "팀기록",
+      handler: props.actionProvider.handleLocalStats,
+      id: 2,
+      icon: <BsClipboard2Fill />,
+    },
+    {
+      name: "관심선수",
+      handler: props.actionProvider.handleContact,
+      id: 3,
+      icon: <FaRegStar />,
+    },
+  ];
+
+  return <Options options={options} title="Options" {...props} />;
+};
+
+export default GeneralOptions;
