@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useStore } from "@/store/PitcherDashBoard";
 import { useStore as useStore2 } from "@/store/PlayerPitcher";
 import Image from "next/image";
+
 const PlayerPitcher = () => {
   const { pitcher, fetchPitcher } = useStore((state) => ({
     pitcher: state.pitcher,
@@ -17,6 +18,8 @@ const PlayerPitcher = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredPitchers, setFilteredPitchers] = useState(pitcherList);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pitchersPerPage = 15;
 
   useEffect(() => {
     setFilteredPitchers(
@@ -25,6 +28,13 @@ const PlayerPitcher = () => {
       )
     );
   }, [searchTerm, pitcherList]);
+
+  const indexOfLastPitcher = currentPage * pitchersPerPage;
+  const indexOfFirstPitcher = indexOfLastPitcher - pitchersPerPage;
+  const currentPitchers = filteredPitchers.slice(indexOfFirstPitcher, indexOfLastPitcher);
+
+  const paginate = (pageNumber: React.SetStateAction<number>) => setCurrentPage(pageNumber);
+
   return (
     <div className="p-2 ">
       <input
@@ -35,11 +45,11 @@ const PlayerPitcher = () => {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      {filteredPitchers.map((player) => (
+      {currentPitchers.map((player) => (
         <div
           key={player.pcode}
-          className="bg-black p-2 opacity-95 my-2"
-          onClick={(event: React.MouseEvent<HTMLDivElement>) => {
+          className="bg-black p-2 opacity-95 my-2 w-[258.9px]"
+          onClick={() => {
             setSelectedPitcherPcode(player.pcode);
             fetchPitcher(player.pcode);
           }}
@@ -68,6 +78,19 @@ const PlayerPitcher = () => {
           </div>
         </div>
       ))}
+      <div className="flex justify-center mt-4">
+        {Array.from({ length: Math.ceil(filteredPitchers.length / pitchersPerPage) }, (_, i) => (
+          <button
+            key={i + 1}
+            onClick={() => paginate(i + 1)}
+            className={`mx-1 px-3 py-1 ${
+              currentPage === i + 1 ? "bg-blue-500 text-white" : "bg-white text-blue-500"
+            } border border-blue-500 rounded`}
+          >
+            {i + 1}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
