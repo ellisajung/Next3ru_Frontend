@@ -7,12 +7,12 @@ const PagesLayout = ({
 }>) => {
   return (
     <>
-      <div
+      {/* <div
         id="body-wrap"
-        className="grid w-full h-screen grid-cols-[200px_1fr] grid-rows-[50px_1fr] mx-auto"
-      >
-        {/* 페이지 상단 브레드스크럼 영역 시작*/}
-        <div id="breadscrumb" className="col-span-2 bg-yellow-300">
+        className="grid w-full h-screen grid-cols-[200px_1fr] grid-rows-[50px_1fr] mx-auto" */}
+
+      {/* 페이지 상단 브레드스크럼 영역 시작*/}
+      {/* <div id="breadscrumb" className="col-span-2 bg-yellow-300">
           <div id="breadscrumb-wrap" className="h-full flex items-center">
             <h2 id="category" className="text-base font-semibold leading-7 text-gray-700">
               티켓
@@ -37,9 +37,9 @@ const PagesLayout = ({
               티켓 정보
             </h2>
           </div>
-        </div>
-        {/* 사이드 네브바 영역 시작 */}
-        <div id="side-nav" className="bg-pink-400 mt-16">
+        </div> */}
+      {/* 사이드 네브바 영역 시작 */}
+      {/* <div id="side-nav" className="bg-pink-400 mt-16">
           <div id="side-nav-wrap" className="">
             <ul className="flex flex-col">
               <li className="w-full">
@@ -55,14 +55,14 @@ const PagesLayout = ({
               </li>
             </ul>
           </div>
-        </div>
-        {/* 사이드 네브바 영역 끝 */}
-        {/* 페이지 컨텐츠 영역 시작 */}
-        <div id="page-content" className="bg-white mt-16">
-          {children}
-        </div>
-        {/* 페이지 컨텐츠 영역 끝 */}
+        </div> */}
+      {/* 사이드 네브바 영역 끝 */}
+      {/* 페이지 컨텐츠 영역 시작 */}
+      <div id="page-content" className="bg-white mt-16">
+        {children}
       </div>
+      {/* 페이지 컨텐츠 영역 끝 */}
+      {/* </div> */}
     </>
   );
 };
