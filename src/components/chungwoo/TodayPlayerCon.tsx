@@ -68,7 +68,7 @@ const TodayPlayerCon = () => {
           {/* 선발선수 영역시작 */}
           <div id="starting-members" className="flex justify-center">
             <div id="starting-members-wrap" className="relative w-[1920px] h-[1000px]">
-              <Image src="/images/BaseballField.svg" alt="야구장" layout="fill" />
+              <Image src="/images/DiamondField.svg" alt="야구장" layout="fill" />
               {startingMember.map((player, index) => (
                 <div
                   onClick={handlePlayerCardClick(player.pcode)}
