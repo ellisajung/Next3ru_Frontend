@@ -9,7 +9,7 @@ type MessageParserProps = {
 const MessageParser = ({ children, actions }: MessageParserProps) => {
   const parse = (message: string) => {
     if (message.includes("hello")) {
-      actions.handleHello(); // actions 객체의 handleHello 함수 호출 ->  응답에 따른 답변 호출
+      actions.handleSchedule(); // actions 객체의 handleHello 함수 호출 ->  응답에 따른 답변 호출
     }
   };
 
