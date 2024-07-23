@@ -63,7 +63,7 @@ const config = {
       widgetFunc: (props: any) => <TeamRecord />,
     },
     {
-      widgetName: "FavoritePlayer", //관심선수
+      widgetName: "playerRanking", //관심선수
       widgetFunc: (props: any) => <FavoritePlayer />,
     },
   ],
