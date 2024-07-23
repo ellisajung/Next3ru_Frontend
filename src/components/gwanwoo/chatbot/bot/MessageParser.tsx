@@ -8,8 +8,16 @@ type MessageParserProps = {
 
 const MessageParser = ({ children, actions }: MessageParserProps) => {
   const parse = (message: string) => {
-    if (message.includes("hello")) {
-      actions.handleSchedule(); // actions 객체의 handleHello 함수 호출 ->  응답에 따른 답변 호출
+    if (message.includes("schedule")) {
+      actions.handleDailySchedule(); // actions 객체의 handleHello 함수 호출 ->  응답에 따른 답변 호출
+    }
+
+    if (message.includes("teamRecord")) {
+      actions.handleTeamRecord(); // actions 객체의 handleHello 함수 호출 ->  응답에 따른 답변 호출
+    }
+
+    if (message.includes("playerRanking")) {
+      actions.handlePlayerRanking(); // actions 객체의 handleHello 함수 호출 ->  응답에 따른 답변 호출
     }
   };
 

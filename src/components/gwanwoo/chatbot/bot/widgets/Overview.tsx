@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Options from "./Options";
 
 import { AiTwotoneClockCircle } from "react-icons/ai";
@@ -9,19 +9,19 @@ const GeneralOptions = (props: any) => {
   const options = [
     {
       name: "일정",
-      handler: props.actionProvider.handleGlobalStats,
+      handler: props.actionProvider.handleDailySchedule,
       id: 1,
       icon: <AiTwotoneClockCircle />,
     },
     {
       name: "팀기록",
-      handler: props.actionProvider.handleLocalStats,
+      handler: props.actionProvider.handleTeamRecord,
       id: 2,
       icon: <BsClipboard2Fill />,
     },
     {
       name: "관심선수",
-      handler: props.actionProvider.handleContact,
+      handler: props.actionProvider.handlePlayerRanking,
       id: 3,
       icon: <FaRegStar />,
     },
