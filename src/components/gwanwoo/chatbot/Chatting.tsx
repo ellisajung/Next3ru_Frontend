@@ -8,11 +8,7 @@ import ActionProvider from "@/components/gwanwoo/chatbot/bot/ActionProvider";
 
 const Chatting = () => {
   return (
-    <Chatbot
-      config={config}
-      messageParser={MessageParser}
-      actionProvider={ActionProvider}
-    />
+    <Chatbot config={config as any} messageParser={MessageParser} actionProvider={ActionProvider} />
   );
 };
 
