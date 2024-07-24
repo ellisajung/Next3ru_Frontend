@@ -20,7 +20,7 @@ const TodayPlayerCon = () => {
 
   useEffect(() => {
     // 예시로 특정 날짜 데이터 가져오기 (2024년 7월 4일)
-    fetchPlayers("20240713");
+    fetchPlayers("20240712");
   }, []);
 
   const startingMember = players

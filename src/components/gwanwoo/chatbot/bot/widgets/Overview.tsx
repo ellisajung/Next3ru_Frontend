@@ -14,7 +14,7 @@ const GeneralOptions = (props: any) => {
       icon: <AiTwotoneClockCircle />,
     },
     {
-      name: "팀기록",
+      name: "KBO 리그기록",
       handler: props.actionProvider.handleTeamRecord,
       id: 2,
       icon: <BsClipboard2Fill />,
