@@ -1,5 +1,4 @@
 // components/PlayerCard.tsx
-
 import React from "react";
 import Image from "next/image";
 
@@ -7,19 +6,14 @@ interface PlayerCardProps {
   name: string;
   imageUrl: string;
   num: string;
-  position_translated: string;
-  rating: number;
-  pcode: string;
-  changeinn: string;
+  position: string;
 }
+
 const PlayerCard: React.FC<PlayerCardProps> = ({
   name,
   imageUrl,
   num,
-  position_translated,
-  rating,
-  pcode,
-  changeinn,
+  position,
 }) => {
   const handleDragStart = (event: React.DragEvent<HTMLDivElement>) => {
     event.dataTransfer.setData("text", event.currentTarget.id);
@@ -27,10 +21,9 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
 
   return (
     <div
-      id={pcode}
-      draggable="true"
+      draggable
       onDragStart={handleDragStart}
-      className="relative  rounded-3xl border border-black bg-black "
+      className="relative rounded-3xl border border-black bg-black"
     >
       <div className="relative w-[130px] h-[120px]">
         <Image
@@ -45,7 +38,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
         className="bg-transparent text-white text-xl absolute px-1 font-['KT'] opacity-40"
         style={{ top: "2%", right: "72%" }}
       >
-        {position_translated}
+        {position}
       </div>
       <div className="text-white relative overflow-hidden p-1 rounded-lg">
         <div className="text-sm mt-2 ml-1 flex justify-start opacity-40 font-['KT']">
