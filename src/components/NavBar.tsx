@@ -10,14 +10,20 @@ const NavBar = () => {
 
   return (
     <div>
-      <header className="fixed w-full z-50">
+      <header className="relative w-full">
         <div className="gnb_header text-[#ffffff] gap-2 font-['KT'] xl:flex xl:justify-end xl:items-center xl:pr-3 xl:h-[39px] xl:bg-gradient-to-r xl:from-[#F69AA9] xl:via-[#E1ADED] xl:via-[#AAC6E5] xl:to-[#97D5E0] hidden">
-          <a className="hover:text-black transition-color" href="/">
+          <a
+            className="hover:text-black transition-color"
+            href="/"
+          >
             로그인
           </a>
           &nbsp;
           <b>|</b>&nbsp;
-          <a className="hover:text-black transition-color " href="/">
+          <a
+            className="hover:text-black transition-color "
+            href="/"
+          >
             회원가입
           </a>
           &nbsp;
@@ -91,7 +97,10 @@ const NavBar = () => {
                 <a href="Sponser">스폰서</a>
               </li>
               <li>
-                <a className="text-[#FF0000] font-extrabold" href="ticket">
+                <a
+                  className="text-[#FF0000] font-extrabold"
+                  href="ticket"
+                >
                   티켓구매
                 </a>
               </li>{" "}
@@ -111,7 +120,7 @@ const NavBar = () => {
             <div className="left_nav flex xl:hidden ">
               <button className="flex items-center">
                 <Image
-                  src={"images/navbar/Hambugar.svg"}
+                  src={"/images/navbar/Hambugar.svg"}
                   alt="Home Icon"
                   className="w-8 h-8"
                   width={40} // width 추가
@@ -122,7 +131,7 @@ const NavBar = () => {
             <div className="right_nav  flex ml-auto xl:hidden ">
               <button className="flex items-center">
                 <Image
-                  src={"images/navbar/Mypage.svg"}
+                  src={"/images/navbar/Mypage.svg"}
                   alt="Profile Icon"
                   className="w-10 h-10"
                   width={40} // width 추가
