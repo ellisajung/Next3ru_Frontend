@@ -6,15 +6,15 @@ const TeamRecord = () => {
     <div className="w-max h-max border-2 rounded-xl p-3 border-black bg-slate-50">
       <div className="flex p-3">
         <div className="flex-col">
-          <h2 className="font-[KT]">KT Wiz</h2>
-          <h2>순위 (2024 KBO리그)</h2>
+          <h2 className="font-[KT] font-bold">KT Wiz</h2>
+          <h2 className="text-sm text-gray-400 py-0">순위 (2024 KBO리그)</h2>
         </div>
-        <div>
+        <div className="flex-end space-x-2">
           <Image
             src="./images/chatbot/Kt Wiz.svg"
             alt="Kt Wiz"
-            width={24}
-            height={24}
+            width={48}
+            height={48}
           />
         </div>
       </div>
@@ -32,8 +32,8 @@ const TeamRecord = () => {
           <h3>득점</h3>
           <h3>실점</h3>
         </div>
-        <div>
-          <h3>순위: </h3>
+        <div className="text-sm text-gray-400 leading-6">
+          <h3>순위</h3>
           <h3>1위</h3>
           <h3>승률</h3>
           <h3>타율</h3>

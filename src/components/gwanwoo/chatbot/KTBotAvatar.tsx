@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const KTBotAvatar = () => {
   return (
-    <div className="">
+    <div className="pr-2">
       <Image
         src="images/chatbot/wizbot.svg"
         alt="Wizbot"
