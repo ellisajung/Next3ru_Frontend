@@ -155,11 +155,11 @@
 }
 
 /* Swiper css 수정 */
-
+/* 
 .swiper .swiper-slide {
   display: flex;
-  justify-items: center;
-}
+  justify-items: flex-center;
+} */
 
 .swiper-button-prev,
 .swiper-button-next {
@@ -171,12 +171,17 @@
   color: black !important;
 }
 
+.sample-slider [class^="swiper-button-"] {
+  display: flex;
+  justify-content: flex-start;
+  width: 100px !important;
+}
 .swiper-button-prev {
-  margin-left: 40px;
+  margin-right: 40px !important;
 }
 
 .swiper-button-next {
-  margin-left: 50px;
+  margin-right: 60px !important;
 }
 
 .swiper-button-prev:after,

@@ -11,6 +11,7 @@ import MyCustomAvatar from "../MyCustomAvatar";
 import DailySchedule from "./widgets/DailySchedule";
 import TeamRecord from "./widgets/TeamRecord";
 import ChatMessage from "../ChatMessage";
+import TodayLineUp from "./widgets/TodayLineUp";
 // import FavoritePlayer from "./widgets/FavoritePlayer/PitcherFavoritePlayer";
 // import DailyBriefing from "./widgets/DailyBriefing";
 // import ResultPrediction from "./widgets/ResultPrediction";
@@ -65,8 +66,8 @@ const config = {
       widgetFunc: (props: any) => <TeamRecord />,
     },
     {
-      widgetName: "playerRanking", //관심선수
-      widgetFunc: (props: any) => <FavoritePlayer />,
+      widgetName: "todayLineUp", //금일 경기 라인업
+      widgetFunc: (props: any) => <TodayLineUp />,
     },
   ],
 };

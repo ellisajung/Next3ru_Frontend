@@ -3,7 +3,7 @@ import Options from "./Options";
 
 import { AiTwotoneClockCircle } from "react-icons/ai";
 import { BsClipboard2Fill } from "react-icons/bs";
-import { FaRegStar } from "react-icons/fa";
+import { FaBaseballBatBall } from "react-icons/fa6";
 
 const GeneralOptions = (props: any) => {
   const options = [
@@ -20,10 +20,10 @@ const GeneralOptions = (props: any) => {
       icon: <BsClipboard2Fill />,
     },
     {
-      name: "관심선수",
+      name: "선수 라인업",
       handler: props.actionProvider.handlePlayerRanking,
       id: 3,
-      icon: <FaRegStar />,
+      icon: <FaBaseballBatBall />,
     },
   ];
 
