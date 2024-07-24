@@ -5,7 +5,7 @@ import React from "react";
 const page = () => {
   return (
     <div className="flex justify-around p-8">
-      <div className="flex justify-center border-8">
+      <div className="flex justify-center border-8 border-white">
         <PitcherDashBoard />
         <PlayerPitcher />
       </div>

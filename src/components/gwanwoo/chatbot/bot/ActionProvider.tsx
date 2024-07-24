@@ -8,11 +8,7 @@ type ActionProviderProps = {
   children: ReactNode;
 };
 
-const ActionProvider = ({
-  createChatBotMessage,
-  setState,
-  children,
-}: ActionProviderProps) => {
+const ActionProvider = ({ createChatBotMessage, setState, children }: ActionProviderProps) => {
   const handleOptions = (options: any) => {
     const botMessage = createChatBotMessage("원하시는 항목을 선택해 주세요.", {
       widget: "overview",
@@ -34,7 +30,7 @@ const ActionProvider = ({
   };
 
   const handleTeamRecord = () => {
-    const botMessage = createChatBotMessage("현재까지의 팀 성적입니다.", {
+    const botMessage = createChatBotMessage("KBO 리그 기록입니다.", {
       widget: "teamRecord",
     });
 
