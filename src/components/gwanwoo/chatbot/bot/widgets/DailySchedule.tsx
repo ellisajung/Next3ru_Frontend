@@ -10,12 +10,14 @@ import "swiper/css/pagination";
 import "@/styles/gwanwoo.css";
 
 export default function DailySchedule() {
-  const { schedule, fetchSchedule, weatherData, fetchWeatherData } = useStore((state) => ({
-    schedule: state.schedule,
-    fetchSchedule: state.fetchSchedule,
-    weatherData: state.weatherData,
-    fetchWeatherData: state.fetchWeatherData,
-  }));
+  const { schedule, fetchSchedule, weatherData, fetchWeatherData } = useStore(
+    (state) => ({
+      schedule: state.schedule,
+      fetchSchedule: state.fetchSchedule,
+      weatherData: state.weatherData,
+      fetchWeatherData: state.fetchWeatherData,
+    })
+  );
 
   useEffect(() => {
     fetchSchedule("202407");
@@ -73,13 +75,15 @@ export default function DailySchedule() {
     >
       {isDataLoaded &&
         schedule.map((game, index) => (
-          <SwiperSlide key={index} className="flex flex-start">
-            <div className="w-max h-max rounded-xl border-2 p-3 border-black bg-slate-50 ml-12">
+          <SwiperSlide key={index} className="flex">
+            <div className="w-max h-max rounded-xl border-2 p-3 border-black bg-slate-50 ">
               <div>
                 <div className="w-max flex flex-col flex-start p-3">
                   <div className="flex space-x-2">
                     <div className="font-[KT]">{game.home}</div>
-                    <div className="font-[KT] text-sm text-gray-400 py-0">vs</div>
+                    <div className="font-[KT] text-sm text-gray-400 py-0">
+                      vs
+                    </div>
                     <div className="font-[KT]">{game.visit}</div>
                   </div>
                   <div className="font-[KT] text-sm text-gray-400">
@@ -90,17 +94,23 @@ export default function DailySchedule() {
               <hr />
               <div className="flex flex-col flex-start p-3 ">
                 <div className="flex">
-                  <div className="mr-1">구장 {formatStadiumName(game.stadium)}</div>
+                  <div className="mr-1 font-[KT]">구장</div>
+                  <div className="text-gray-400">
+                    {" "}
+                    {formatStadiumName(game.stadium)}
+                  </div>
                 </div>
                 <div className="flex">
-                  <div className="mr-1">날씨</div>
+                  <div className="mr-1 font-[KT]">날씨</div>
                   <img
                     src={`images/${game.weatherIcon}.svg`}
                     alt={game.weatherIcon}
                     className="w-6 h-6"
                   />
-                  <div>{game.temperature}°C</div>
-                  <div>(강수확률 {game.precipitationProbability}%)</div>
+                  <div className="text-gray-400">{game.temperature}°C</div>
+                  <div className="text-gray-400">
+                    (강수확률 {game.precipitationProbability}%)
+                  </div>
                 </div>
               </div>
             </div>
