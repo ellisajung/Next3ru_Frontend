@@ -16,10 +16,10 @@ const Options: React.FC<OptionsProps> = ({ title, options }) => {
   return (
     <div className="options">
       {/* <h1 className="options-header">{title}</h1> */}
-      <div className="flex justify-center border-collapse">
+      <div className="flex justify-center border-collapse border-l-2 border-black">
         {options.map((option) => (
           <div
-            className="flex flex-col w-72 h-16 basis-2/6 justify-center space-y-2 items-center rounded-md border-2  border-black cursor-pointer"
+            className="flex flex-col w-72 h-16 basis-2/6 justify-center space-y-2 items-center rounded-md border-r-2 border-t-2 border-b-2 border-black cursor-pointer"
             onClick={option.handler}
             key={option.id}
           >
