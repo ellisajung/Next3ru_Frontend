@@ -11,8 +11,6 @@
   "dependencies": {
     "@edgestore/react": "^0.2.0",
     "@edgestore/server": "^0.2.0",
-
->>>>>>> 23b1529af12bf2188ca4819807f74576f22e61f8
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.20",
@@ -31,7 +29,6 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "i": "^0.3.7",
-=======
     "@nextui-org/react": "^2.4.2",
     "@nextui-org/tooltip": "^2.0.36",
     "@radix-ui/react-slot": "^1.1.0",
@@ -40,7 +37,6 @@
     "chartjs-plugin-datalabels": "^2.2.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
->>>>>>> 23b1529af12bf2188ca4819807f74576f22e61f8
     "lucide-react": "^0.400.0",
     "next": "14.2.4",
     "npm": "^10.8.1",
@@ -64,7 +60,6 @@
     "swiper": "^11.1.5",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
->>>>>>> 23b1529af12bf2188ca4819807f74576f22e61f8
     "zustand": "^4.5.4"
   },
   "devDependencies": {
