@@ -41,7 +41,7 @@ const NavBar = () => {
   }, []);
 
   return (
-    <header className={`fixed w-full z-50 `}>
+    <header className={`block fixed top-0 w-full z-50 `}>
       <div
         className={`gnb_header ${
           isScrolled ? "slide-up" : "slide-down"
