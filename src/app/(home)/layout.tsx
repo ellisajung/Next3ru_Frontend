@@ -1,7 +1,15 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter as FontSans } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import "../../styles/globals.css";
+import { cn } from "@/lib/utils";
+import { EdgeStoreProvider } from "@/lib/edgestore";
+
+const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
 import "@/styles/globals.css";
 import NavBar from "@/components/NavBar";
 import MyChatbot from "../chatbot/page";
@@ -22,11 +30,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body
+        className={cn(
+          "h-screen bg-background font-sans antialiased",
+          fontSans.variable,
+        )}
+      >
         <NavBar />
-        <div className="pt-[58px]">{children}</div>
+          <EdgeStoreProvider><div className="pt-[58px]">{children}</div></EdgeStoreProvider>
         <MyChatbot />
-        {/* <Footer /> */}
+        <Footer />
       </body>
     </html>
   );
