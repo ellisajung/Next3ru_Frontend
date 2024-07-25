@@ -38,17 +38,12 @@ const MyChatbot = () => {
         className="w-[56px] h-[56px] rounded-full p-[10px] text-white bg-[#0d2d44] fixed bottom-[25px] right-[25px] z-[9999] flex items-center justify-center transition-transform ease-in-out duration-600"
         onClick={() => toggleBot((prev: boolean) => !prev)}
       >
-        <Image
-          src="/images/chatbot/wizbot.svg"
-          alt="Wizbot"
-          width={38}
-          height={36}
-        />
+        <Image src="/images/chatbot/wizbot.svg" alt="Wizbot" width={38} height={36} />
       </button>
 
-      <DailySchedule />
+      {/* <DailySchedule />
       <PitcherFavoritePlayer />
-      <BatterFavoritePlayer />
+      <BatterFavoritePlayer /> */}
       {/* <Swiper /> */}
     </>
   );
