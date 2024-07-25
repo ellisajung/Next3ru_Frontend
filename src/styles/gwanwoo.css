@@ -10,9 +10,7 @@
   right: 18px;
   bottom: 90px;
   width: 370px;
-  height: 80%;
-  min-height: 520px;
-  max-height: 680px;
+  height: 520px;
   overflow: hidden;
   border-radius: 25px;
   box-shadow: rgb(0 0 0 / 30%) 0px 12px 60px 5px;
@@ -26,7 +24,7 @@
 
 .react-chatbot-kit-chat-inner-container {
   height: 100%;
-  background-color: #f8f9fa;
+  background-color: #ffffff;
 }
 
 .react-chatbot-kit-chat-input-container {
@@ -35,9 +33,9 @@
 
 /* 아바타 및 메시지 포함된 컴포넌트 */
 .react-chatbot-kit-chat-message-container {
-  height: 560px;
-  padding: 0.5rem 1.1rem;
-  -ms-overflow-style: none;
+  overflow: scroll;
+  height: 400px;
+  padding: 10px 20px 30px 30px;
   scrollbar-width: none;
 }
 
@@ -62,8 +60,8 @@
   justify-content: center;
   background-color: #000000;
   border-radius: 20px 20px 20px 20px;
-  margin-left: 0.6rem;
   color: #fff;
+  margin-left: 0%;
   padding: 0.8rem 1.2rem;
   font-weight: 500;
   font-size: 0.97rem;
@@ -72,6 +70,7 @@
 }
 
 .react-chatbot-kit-chat-bot-message-arrow {
+  display: none;
   width: 0;
   height: 0;
   align-items: center;
@@ -95,6 +94,7 @@
   align-items: center;
   padding: 1.5rem 1.1rem;
   border-radius: 20px;
+  height: 90px;
   /* background-color: #f8f9fa; */
 }
 
@@ -113,6 +113,7 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  border-width: 0;
 }
 
 /* .react-chatbot-kit-chat-input:focus-visible {
@@ -126,11 +127,13 @@
   padding-right: 0.5rem;
   border: 1.4px solid #000000;
   border-radius: 20px;
+  background-color: #ffffff;
 }
 
 .react-chatbot-kit-chat-input::placeholder {
-  color: #d4d4d4;
+  color: #ffffff;
   font-weight: 300;
+  border-style: none;
 }
 
 .react-chatbot-kit-chat-btn-send {
@@ -143,8 +146,46 @@
   border-radius: 20px;
   /* padding: 0.8rem; */
   background-color: transparent;
+  background-color: #ffffff !important;
 }
 .react-chatbot-kit-chat-btn-send-icon {
-  width: 12px;
-  height: 12px;
+  width: 18px;
+  background-color: #ffffff;
+  height: 18px;
+}
+
+/* Swiper css 수정 */
+/* 
+.swiper .swiper-slide {
+  display: flex;
+  justify-items: flex-center;
+} */
+
+.swiper-button-prev,
+.swiper-button-next {
+  display: flex;
+  background-color: rgb(248 250 252);
+  opacity: 0.5;
+  /* padding: 15px 5px; */
+  border-radius: 20px;
+  color: black !important;
+}
+
+.sample-slider [class^="swiper-button-"] {
+  display: flex;
+  justify-content: flex-start;
+  width: 100px !important;
+}
+.swiper-button-prev {
+  margin-right: 40px !important;
+}
+
+.swiper-button-next {
+  margin-right: 30px !important;
+}
+
+.swiper-button-prev:after,
+.swiper-button-next:after {
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
 }

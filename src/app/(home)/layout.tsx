@@ -10,6 +10,10 @@ const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 });
+import "@/styles/globals.css";
+import NavBar from "@/components/NavBar";
+import MyChatbot from "../chatbot/page";
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "KT wiz | We Are Great Magic",
@@ -32,8 +36,9 @@ export default function RootLayout({
           fontSans.variable,
         )}
       >
-        <Header />
-        <EdgeStoreProvider>{children}</EdgeStoreProvider>
+        <NavBar />
+          <EdgeStoreProvider><div className="pt-[58px]">{children}</div></EdgeStoreProvider>
+        <MyChatbot />
         <Footer />
       </body>
     </html>

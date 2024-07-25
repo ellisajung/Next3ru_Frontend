@@ -52,10 +52,10 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
 }) => {
   const colorClass = getColorClass(rating);
   const imageSrc = getImageSrc(rating);
-
+  const displayRating = typeof rating === "number" && !isNaN(rating) ? rating.toFixed(2) : 0.0;
   return (
     <div
-      className={`relative p-1 rounded-[18px] border border-black bg-black ${
+      className={`relative p-1 rounded-[18px] border border-black bg-black font-['KT'] ${
         isMaxRating ? "animate-pulseBorder animate-burningImage" : ""
       }`}
     >
@@ -65,7 +65,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
           className={`absolute rounded-[9px] flex justify-center items-center p-1  font-bold text-lg  w-12 h-8 ${colorClass}`}
           style={{ top: "-15%", left: "-20%" }}
         >
-          {rating.toFixed(2)}
+          {displayRating}
         </div>
         <div className={`absolute w-20 h-20`} style={{ top: "-35%", left: "75%" }}>
           <Image src={imageSrc} alt="weather" layout="fill" />
@@ -84,7 +84,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
             width={51.37}
             height={54.17}
             className="absolute"
-            style={{ top: "50%", left: "75%" }}
+            style={{ top: "40%", left: "70%" }}
           />
         </div>
       </div>

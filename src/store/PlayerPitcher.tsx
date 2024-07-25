@@ -18,6 +18,7 @@ interface Player {
   teamName: string;
   era: number;
   whip: number;
+  salary: number;
 }
 export default Player;
 
@@ -51,6 +52,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 11.25,
       whip: 3.0,
+      salary: 3500,
     },
     {
       backnum: "1",
@@ -74,6 +76,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 5.54,
       whip: 1.72,
+      salary: 200000,
     },
     {
       backnum: "49",
@@ -97,6 +100,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 0.0,
       whip: 0.0,
+      salary: 0,
     },
     {
       backnum: "11",
@@ -120,6 +124,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 4.5,
       whip: 1.46,
+      salary: 5000,
     },
     {
       backnum: "94",
@@ -143,6 +148,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 0.0,
       whip: 0.0,
+      salary: 0,
     },
     {
       backnum: "26",
@@ -166,6 +172,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 5.3,
       whip: 1.48,
+      salary: 16000,
     },
     {
       backnum: "48",
@@ -189,6 +196,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 6.23,
       whip: 2.54,
+      salary: 4100,
     },
     {
       backnum: "13",
@@ -212,6 +220,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 14.21,
       whip: 3.0,
+      salary: 6300,
     },
     {
       backnum: "33",
@@ -235,6 +244,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 0.0,
       whip: 1.25,
+      salary: 3500,
     },
     {
       backnum: "46",
@@ -258,6 +268,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 4.63,
       whip: 1.37,
+      salary: 9000,
     },
     {
       backnum: "60",
@@ -281,6 +292,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 4.18,
       whip: 1.27,
+      salary: 16000,
     },
     {
       backnum: "43",
@@ -304,6 +316,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 3.99,
       whip: 1.1,
+      salary: 90000,
     },
     {
       backnum: "95",
@@ -327,6 +340,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 6.93,
       whip: 1.78,
+      salary: 3000,
     },
     {
       backnum: "30",
@@ -350,6 +364,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 0.0,
       whip: 0.0,
+      salary: 22000,
     },
     {
       backnum: "41",
@@ -373,6 +388,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 6.4,
       whip: 1.79,
+      salary: 12000,
     },
     {
       backnum: "15",
@@ -396,6 +412,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 7.01,
       whip: 1.64,
+      salary: 3100,
     },
     {
       backnum: "18",
@@ -419,6 +436,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 5.06,
       whip: 1.29,
+      salary: 25000,
     },
     {
       backnum: "21",
@@ -442,6 +460,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 3.13,
       whip: 1.17,
+      salary: 22000,
     },
     {
       backnum: "63",
@@ -465,6 +484,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 8.04,
       whip: 2.11,
+      salary: 3000,
     },
     {
       backnum: "64",
@@ -488,6 +508,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 5.44,
       whip: 1.61,
+      salary: 3000,
     },
     {
       backnum: "65",
@@ -511,6 +532,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 0.0,
       whip: 0.0,
+      salary: 3000,
     },
     {
       backnum: "37",
@@ -534,6 +556,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 6.86,
       whip: 2.03,
+      salary: 6000,
     },
     {
       backnum: "61",
@@ -557,6 +580,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 5.4,
       whip: 1.4,
+      salary: 4000,
     },
     {
       backnum: "51",
@@ -580,6 +604,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 0.0,
       whip: 0.0,
+      salary: 3500,
     },
     {
       backnum: "17",
@@ -603,6 +628,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 9.45,
       whip: 2.4,
+      salary: 5300,
     },
     {
       backnum: "45",
@@ -626,6 +652,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 0.0,
       whip: 0.0,
+      salary: 3000,
     },
     {
       backnum: "29",
@@ -649,6 +676,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 10.8,
       whip: 3.0,
+      salary: 3200,
     },
     {
       backnum: "54",
@@ -672,6 +700,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 9.49,
       whip: 1.95,
+      salary: 6000,
     },
     {
       backnum: "38",
@@ -695,6 +724,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 6.39,
       whip: 1.47,
+      salary: 20000,
     },
     {
       backnum: "32",
@@ -718,6 +748,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 4.09,
       whip: 1.22,
+      salary: 100000,
     },
     {
       backnum: "28",
@@ -741,6 +772,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 9.0,
       whip: 3.0,
+      salary: 4500,
     },
     {
       backnum: "59",
@@ -764,6 +796,7 @@ export const useStore = create<PlayerListProps>((set) => ({
       teamName: "KT",
       era: 9.95,
       whip: 2.47,
+      salary: 3100,
     },
   ],
 

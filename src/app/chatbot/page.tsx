@@ -2,14 +2,31 @@
 
 import { useState } from "react";
 
+import Chatbot from "react-chatbot-kit";
 import "react-chatbot-kit/build/main.css";
 import "@/styles/gwanwoo.css";
 import Chatting from "@/components/gwanwoo/chatbot/Chatting";
 import Image from "next/image";
 
+import config from "@/components/gwanwoo/chatbot/bot/config";
+import MessageParser from "@/components/gwanwoo/chatbot/bot/MessageParser";
+import ActionProvider from "@/components/gwanwoo/chatbot/bot/ActionProvider";
+
 import DailySchedule from "@/components/gwanwoo/chatbot/bot/widgets/DailySchedule";
 import TeamRecord from "@/components/gwanwoo/chatbot/bot/widgets/TeamRecord";
-import FavoritePlayer from "@/components/gwanwoo/chatbot/bot/widgets/FavoritePlayer";
+import BatterFavoritePlayer from "@/components/gwanwoo/chatbot/bot/widgets/FavoritePlayer/BatterFavoritePlayer";
+import PitcherFavoritePlayer from "@/components/gwanwoo/chatbot/bot/widgets/FavoritePlayer/PitcherFavoritePlayer";
+import Swiper from "@/components/gwanwoo/chatbot/bot/widgets/Swiper";
+
+// const MyChatbot = () => {
+//   const open = true;
+//   return (
+//     <div className="w-full h-full flex justify-end items-end">
+//       {open ? <MyModalComponent /> : null}
+//       <MySpeedDial />
+//     </div>
+//   );
+// };
 
 const MyChatbot = () => {
   const [showBot, toggleBot] = useState(false);
@@ -24,9 +41,10 @@ const MyChatbot = () => {
         <Image src="/images/chatbot/wizbot.svg" alt="Wizbot" width={38} height={36} />
       </button>
 
-      <DailySchedule />
-      <TeamRecord />
-      <FavoritePlayer />
+      {/* <DailySchedule />
+      <PitcherFavoritePlayer />
+      <BatterFavoritePlayer /> */}
+      {/* <Swiper /> */}
     </>
   );
 };
