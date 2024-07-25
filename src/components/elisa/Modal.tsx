@@ -1,5 +1,6 @@
 import { Button } from "@/components/shadcn-ui/button";
-import SwiperComponent from "@/components/elisa/Swiper";
+import ViewPicSwiper from "./ViewPicSwiper";
+// import SwiperComponent from "@/components/elisa/Swiper";
 
 interface IModalProps {
   setShowModal: (show: boolean) => void;
@@ -14,7 +15,7 @@ const Modal: React.FC<IModalProps> = ({ setShowModal, info }) => {
           {info?.name} 의 {info?.text} 구역입니다.
         </p>
         {/* 사진뷰 구역 시작 */}
-        <SwiperComponent zone="z-113" />
+        <ViewPicSwiper zone="z-113" />
         {/* 사진뷰 구역 끝 */}
         {/* 평점 구역 시작 */}
         {/* 평점 구역 끝 */}
@@ -26,7 +27,7 @@ const Modal: React.FC<IModalProps> = ({ setShowModal, info }) => {
           onClick={() => setShowModal(false)}
           className="text-gray-700"
         >
-          ❌
+          닫기
         </Button>
       </div>
     </div>

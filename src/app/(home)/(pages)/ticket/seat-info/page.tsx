@@ -44,7 +44,7 @@ const SeatInfoPage = () => {
         defaultValue="account"
         id="kkkkk"
         // className="w-full h-[75%] mb-[5%] gird grid-rows-2"
-        className="w-full h-[80%] mb-[5%]"
+        className="w-full h-[80%]"
       >
         <TabsList>
           <TabsTrigger

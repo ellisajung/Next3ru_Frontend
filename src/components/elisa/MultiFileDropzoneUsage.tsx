@@ -40,7 +40,7 @@ const MultiFileDropzoneUsage = () => {
                   options: {
                     temporary: true,
                   },
-                  onProgressChange: async (progress) => {
+                  onProgressChange: async (progress: any) => {
                     updateFileProgress(addedFileState.key, progress);
                     if (progress === 100) {
                       // wait 1 second to set it to complete
