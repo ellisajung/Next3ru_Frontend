@@ -16,8 +16,8 @@ const MessageParser = ({ children, actions }: MessageParserProps) => {
       actions.handleTeamRecord(); // actions 객체의 handleHello 함수 호출 ->  응답에 따른 답변 호출
     }
 
-    if (message.includes("playerRanking")) {
-      actions.handlePlayerRanking(); // actions 객체의 handleHello 함수 호출 ->  응답에 따른 답변 호출
+    if (message.includes("todayLineUp")) {
+      actions.todayLineUp(); // actions 객체의 handleHello 함수 호출 ->  응답에 따른 답변 호출
     }
   };
 

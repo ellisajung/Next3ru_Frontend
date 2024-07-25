@@ -82,7 +82,7 @@ const TodayPlayerHitterModal = () => {
   }
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center p-4 bg-gray-800 bg-opacity-75 pointer-events-none">
+    <div className="fixed inset-0 flex items-center justify-center p-4 bg-gray-800 bg-opacity-75 pointer-events-none font-['KT']">
       <div
         className="bg-white p-4 rounded-lg shadow-lg pointer-events-auto "
         style={{ width: "1500px", height: "220px" }}

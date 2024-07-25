@@ -8,11 +8,7 @@ type ActionProviderProps = {
   children: ReactNode;
 };
 
-const ActionProvider = ({
-  createChatBotMessage,
-  setState,
-  children,
-}: ActionProviderProps) => {
+const ActionProvider = ({ createChatBotMessage, setState, children }: ActionProviderProps) => {
   const handleOptions = (options: any) => {
     const botMessage = createChatBotMessage("원하시는 항목을 선택해 주세요.", {
       widget: "overview",
@@ -34,7 +30,7 @@ const ActionProvider = ({
   };
 
   const handleTeamRecord = () => {
-    const botMessage = createChatBotMessage("현재까지의 팀 성적입니다.", {
+    const botMessage = createChatBotMessage("KBO 리그 기록입니다.", {
       widget: "teamRecord",
     });
 
@@ -45,8 +41,8 @@ const ActionProvider = ({
   };
 
   const handlePlayerRanking = () => {
-    const botMessage = createChatBotMessage("각 항목 별 선수 성적입니다.", {
-      widget: "playerRanking",
+    const botMessage = createChatBotMessage("금일 경기의 선수 라인업입니다.", {
+      widget: "todayLineUp",
     });
 
     setState((prev: any) => ({
@@ -54,6 +50,39 @@ const ActionProvider = ({
       messages: [...prev.messages, botMessage],
     }));
   };
+
+  // const handlePlayerConditionScore = () => {
+  //   const botMessage = createChatBotMessage("AI가 분석한 오늘경기의 선수들의 컨디션 점수입니다.", {
+  //     widget: "playerConditionScore",
+  //   });
+
+  //   setState((prev: any) => ({
+  //     ...prev,
+  //     messages: [...prev.messages, botMessage],
+  //   }));
+  // };
+
+  // const handleAISquad = () => {
+  //   const botMessage = createChatBotMessage("AI가 추천하는 오늘의 최적 스쿼드는 다음과 같습니다.", {
+  //     widget: "aiSquad",
+  //   });
+
+  //   setState((prev: any) => ({
+  //     ...prev,
+  //     messages: [...prev.messages, botMessage],
+  //   }));
+  // };
+
+  // const handle3DSeatingGuide = () => {
+  //   const botMessage = createChatBotMessage("경기장의 3D 좌석 안내를 확인해보세요.", {
+  //     widget: "seatingGuide3D",
+  //   });
+
+  //   setState((prev: any) => ({
+  //     ...prev,
+  //     messages: [...prev.messages, botMessage],
+  //   }));
+  // };
 
   return (
     <div>
@@ -64,6 +93,9 @@ const ActionProvider = ({
             handleDailySchedule: handleDailySchedule,
             handleTeamRecord: handleTeamRecord,
             handlePlayerRanking: handlePlayerRanking,
+            // handlePlayerConditionScore: handlePlayerConditionScore,
+            // handleAISquad: handleAISquad,
+            // handle3DSeatingGuide: handle3DSeatingGuide,
           },
         })
       )}

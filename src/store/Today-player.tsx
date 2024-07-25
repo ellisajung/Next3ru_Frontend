@@ -101,6 +101,8 @@ interface Store {
   getPositionStyle: (role: string) => void;
   fetchPlayers: (date: string) => Promise<void>;
   loading: boolean; // 로딩 상태 추가
+
+  removePlayer: (pcode: string) => void; //위치변경 상태 추가
 }
 
 export const getColorClass = (rating: number) => {
@@ -120,6 +122,8 @@ const translatePosition = (position: string): string => {
     return "LF";
   } else if (position === "타좌") {
     return "H";
+  } else if (position === "타一") {
+    return "H";
   } else if (position === "우좌") {
     return "RF";
   }
@@ -131,6 +135,11 @@ export const useStore = create<Store>((set) => ({
   selectedPlayerPcode: null,
   loading: false, // 로딩 상태 추가
   setSelectedPlayerPcode: (pcode) => set({ selectedPlayerPcode: pcode }),
+  removePlayer: (pcode: string) => {
+    set((state) => ({
+      players: state.players.filter((player) => player.pcode !== pcode),
+    }));
+  },
   getPositionStyle: (role) => {
     switch (role) {
       case "SP":

@@ -24,6 +24,10 @@ const config = {
       backgroundImage: {
         "custom-gradient":
           "linear-gradient(145deg,#000000,#1C1C1C, #2E2E2E, #151515,#000000,#000000,#000000,#EC1C23)",
+        "card-gradient":
+          "linear-gradient(157deg, #ffffff ,#ffffff, #ffffff,#000 ,#000000 ,#000000 )",
+        "mvp-gradient":
+          "linear-gradient(327deg, #9ad4e1 , #aac7e6 , #e7a9dc, #f69bab )",
       },
       colors: {
         border: "hsl(var(--border))",

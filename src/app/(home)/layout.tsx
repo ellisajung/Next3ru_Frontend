@@ -5,7 +5,8 @@ import Footer from "@/components/Footer";
 import "../../styles/globals.css";
 import { cn } from "@/lib/utils";
 import { EdgeStoreProvider } from "@/lib/edgestore";
-
+import NavBar from "@/components/NavBar";
+import MyChatbot from "../chatbot/page";
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -32,8 +33,11 @@ export default function RootLayout({
           fontSans.variable,
         )}
       >
-        <Header />
-        <EdgeStoreProvider>{children}</EdgeStoreProvider>
+        <NavBar />
+        <EdgeStoreProvider>
+          <div className="pt-[58px]">{children}</div>
+        </EdgeStoreProvider>
+        <MyChatbot />
         <Footer />
       </body>
     </html>

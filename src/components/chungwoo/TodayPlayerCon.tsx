@@ -19,8 +19,7 @@ const TodayPlayerCon = () => {
   );
 
   useEffect(() => {
-    // 예시로 특정 날짜 데이터 가져오기 (2024년 7월 4일)
-    fetchPlayers("20240713");
+    fetchPlayers("20240702");
   }, []);
 
   const startingMember = players
@@ -45,16 +44,16 @@ const TodayPlayerCon = () => {
   };
 
   return (
-    <div id="today-player" onClick={handleParentClick} className="h-full ">
+    <div id="today-player" onClick={handleParentClick} className="h-full font-['KT']">
       {loading ? (
         <div className="flex flex-col justify-center items-center text-center h-full">
           <h1 className="p-12 text-2xl">AI 컨디션 평점 분석 중...</h1>
-          <BeatLoader color={"#FE642E"} loading={loading} cssOverride={override} size={150} />
+          <BeatLoader color={"#151515"} loading={loading} cssOverride={override} size={150} />
         </div>
       ) : (
-        <div id="today-player-wrap" className="relative flex-col">
+        <div id="today-player-wrap" className="relative flex-col ">
           {players.length > 0 && (
-            <h1 className="p-6 text-2xl text-center font-bold text-gray-800 bg-gray-200 rounded-lg shadow-md hover:bg-gray-300 transition duration-300">
+            <h1 className="p-14 text-2xl text-center font-bold text-gray-800 bg-white ">
               <button className="mr-12">{"<"}</button>
               {`${players[0].gday.slice(0, 4)}-${players[0].gday.slice(
                 4,
@@ -95,7 +94,7 @@ const TodayPlayerCon = () => {
           {/* 교체 선수 영역 시작 */}
           <div id="change-members">
             <div id="change-members-wrap" className="flex-col">
-              <div className="p-6 text-2xl text-center font-bold text-gray-800 bg-gray-200 rounded-lg shadow-md hover:bg-gray-300 transition duration-300">
+              <div className="p-6 text-2xl text-center font-bold text-gray-800 bg-gray-300 rounded-lg shadow-md hover:bg-gray-300 transition duration-300">
                 교체선수
               </div>
               <div className="flex flew-row items-center justify-center">
