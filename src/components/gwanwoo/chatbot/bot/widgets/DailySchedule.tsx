@@ -66,7 +66,7 @@ export default function DailySchedule() {
     >
       {isDataLoaded &&
         schedule.map((game, index) => (
-          <SwiperSlide key={index} className="flex">
+          <SwiperSlide key={index} className="flex font-[KT] ">
             <div className="w-max h-max rounded-xl border-2 p-3 border-black bg-slate-50">
               <div>
                 <div className="w-max flex flex-col flex-start p-3">
@@ -103,21 +103,20 @@ export default function DailySchedule() {
                 </div> */}
               </div>
               <hr />
-              <div className="flex flex-col flex-start p-3 ">
+              <div className="flex flex-col flex-start p-3">
                 <div className="flex">
-                  <div className="mr-1 font-[KT]">구장</div>
+                  <div className="mr-2font-[KT] w-[32px] ">구장</div>
                   <div className="text-gray-400"> {formatStadiumName(game.stadium)}</div>
                 </div>
-                <div className="flex">
-                  <div className="mr-1 font-[KT]">날씨</div>
-                  <div className="mr-1 font-[KT]">날씨</div>
+                <div className="flex ">
+                  <div className="mr-2 font-[KT] w-[32px]">날씨</div>
+                  <div className="text-gray-400">기온 {game.temperature}°C </div>
+                  <div className="text-gray-400"> (강수확률 {game.precipitationProbability}%)</div>
                   <img
                     src={`images/${game.weatherIcon}.svg`}
                     alt={game.weatherIcon}
                     className="w-6 h-6"
                   />
-                  <div className="text-gray-400">{game.temperature}°C</div>
-                  <div className="text-gray-400">(강수확률 {game.precipitationProbability}%)</div>
                 </div>
               </div>
             </div>

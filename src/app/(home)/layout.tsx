@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import "@/styles/globals.css";
 import NavBar from "@/components/NavBar";
-
+import MyChatbot from "../chatbot/page";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -25,6 +25,7 @@ export default function RootLayout({
       <body>
         <NavBar />
         <div className="pt-[58px]">{children}</div>
+        <MyChatbot />
         {/* <Footer /> */}
       </body>
     </html>
