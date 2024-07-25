@@ -16,15 +16,15 @@ const Options: React.FC<OptionsProps> = ({ title, options }) => {
   return (
     <div className="options">
       {/* <h1 className="options-header">{title}</h1> */}
-      <div className="flex justify-center border-collapse border-l-2 border-black">
+      <div className="flex flex-wrap w-full">
         {options.map((option) => (
           <div
-            className="flex flex-col w-72 h-16 basis-2/6 justify-center space-y-2 items-center rounded-md border-r-2 border-t-2 border-b-2 border-black cursor-pointer"
+            className="flex flex-col w-1/3 p-1 box-border justify-center items-center rounded-md border-2 border-black cursor-pointer text-center"
             onClick={option.handler}
             key={option.id}
           >
-            <div>{option.icon}</div>
-            <h3>{option.name}</h3>
+            <div className="text-xl">{option.icon}</div>
+            <h3 className="text-sm">{option.name}</h3>
           </div>
         ))}
       </div>

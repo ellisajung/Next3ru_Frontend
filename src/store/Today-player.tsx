@@ -122,6 +122,8 @@ const translatePosition = (position: string): string => {
     return "LF";
   } else if (position === "타좌") {
     return "H";
+  } else if (position === "타一") {
+    return "H";
   } else if (position === "우좌") {
     return "RF";
   }
@@ -169,9 +171,7 @@ export const useStore = create<Store>((set) => ({
   fetchPlayers: async (date) => {
     try {
       set({ loading: true });
-      const response = await axios.get(
-        `http://43.203.217.238:5002/get_info?date=${date}`
-      );
+      const response = await axios.get(`http://43.203.217.238:5002/get_info?date=${date}`);
       const { KTbatters, KTpitchers } = response.data;
       const batters: Player[] = KTbatters.map((player: Player) => ({
         // Player 타입 명시
