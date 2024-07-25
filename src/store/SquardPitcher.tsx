@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import axios from "axios";
 
-interface Player {
+export interface Player {
   backnum: string;
   energybar: number;
   energybarName: string;
@@ -1307,7 +1307,7 @@ export const useStore = create<PlayerListProps>((set, get) => ({
       playerName: "안현민",
       playerPrvwImg:
         "https://wizzap.ktwiz.co.kr/files/playerImg/ktImg/52001_2022-02-23_160907.jpg",
-      position: "RF",
+      position: "C",
       rank: 24,
       rankName: "24 위",
       teamName: "KT",
