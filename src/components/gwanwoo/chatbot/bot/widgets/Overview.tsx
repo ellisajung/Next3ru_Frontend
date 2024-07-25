@@ -25,6 +25,24 @@ const GeneralOptions = (props: any) => {
       id: 3,
       icon: <FaBaseballBatBall />,
     },
+
+    // {
+    //   name: "AI 선수 컨디션점수",
+    //   handler: props.actionProvider.handlePlayerConditionScore,
+    //   id: 4,
+    // },
+
+    // {
+    //   name: "AI 스쿼드",
+    //   handler: props.actionProvider.handleAISquad,
+    //   id: 5,
+    // },
+
+    // {
+    //   name: "3D 좌석안내",
+    //   handler: props.actionProvider.handle3DSeatingGuide,
+    //   id: 6,
+    // },
   ];
 
   return <Options options={options} title="Options" {...props} />;

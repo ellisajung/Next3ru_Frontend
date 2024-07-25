@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useStore } from "@/store/PitcherDashBoard";
 import { useStore as useStore2 } from "@/store/PlayerPitcher";
 import Image from "next/image";
-import { Swiper, SwiperSlide } from "swiper/react";
 
 const PlayerPitcher = () => {
   const { pitcher, fetchPitcher } = useStore((state) => ({
@@ -20,6 +19,7 @@ const PlayerPitcher = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredPitchers, setFilteredPitchers] = useState(pitcherList);
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortCriteria, setSortCriteria] = useState<"name" | "backnum" | "era" | "salary">("name");
   const pitchersPerPage = 16;
 
   useEffect(() => {
@@ -28,16 +28,26 @@ const PlayerPitcher = () => {
       player.playerName.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    // backnum을 숫자로 변환하여 정렬
+    // 정렬 기준에 따라 정렬
     const sortedAndFiltered = filtered.sort((a, b) => {
-      const numA = Number(a.backnum);
-      const numB = Number(b.backnum);
-      return numA - numB;
+      if (sortCriteria === "backnum") {
+        return Number(a.backnum) - Number(b.backnum);
+      } else if (sortCriteria === "era") {
+        if (a.era === 0) return 1;
+        if (b.era === 0) return -1;
+        return a.era - b.era;
+      } else if (sortCriteria === "salary") {
+        return Number(b.salary) - Number(a.salary);
+      } else if (sortCriteria === "name") {
+        return a.playerName.localeCompare(b.playerName);
+      } else {
+        return 0;
+      }
     });
 
     // 정렬된 리스트를 상태에 업데이트
     setFilteredPitchers(sortedAndFiltered);
-  }, [searchTerm, pitcherList]);
+  }, [searchTerm, pitcherList, sortCriteria]);
 
   const indexOfLastPitcher = currentPage * pitchersPerPage;
   const indexOfFirstPitcher = indexOfLastPitcher - pitchersPerPage;
@@ -46,7 +56,7 @@ const PlayerPitcher = () => {
   const paginate = (pageNumber: React.SetStateAction<number>) => setCurrentPage(pageNumber);
 
   return (
-    <div className="p-2">
+    <div className="p-2 font-['KT']">
       <input
         className="placeholder:italic placeholder:text-slate-400 block bg-white border border-slate-300 w-full"
         placeholder="선수명 검색"
@@ -55,6 +65,46 @@ const PlayerPitcher = () => {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
+      <div className="flex justify-center">
+        <div className="flex flex-col ">
+          <button
+            onClick={() => setSortCriteria("name")}
+            className={`m-2 px-3 py-1 ${
+              sortCriteria === "name" ? "bg-black text-white" : "bg-white text-black"
+            } border border-black rounded`}
+          >
+            이름순
+          </button>
+
+          <button
+            onClick={() => setSortCriteria("era")}
+            className={`m-2 px-3 py-1 ${
+              sortCriteria === "era" ? "bg-black text-white" : "bg-white text-black"
+            } border border-black rounded`}
+          >
+            ERA 낮은순
+          </button>
+        </div>
+        <div className="flex flex-col ">
+          <button
+            onClick={() => setSortCriteria("backnum")}
+            className={`m-2 px-3 py-1 ${
+              sortCriteria === "backnum" ? "bg-black text-white" : "bg-white text-black"
+            } border border-black rounded`}
+          >
+            등번호순
+          </button>
+
+          <button
+            onClick={() => setSortCriteria("salary")}
+            className={`m-2 px-3 py-1 ${
+              sortCriteria === "salary" ? "bg-black text-white" : "bg-white text-black"
+            } border border-black rounded`}
+          >
+            연봉 높은순
+          </button>
+        </div>
+      </div>
       <div>
         {currentPitchers.map((player) => (
           <div
@@ -97,8 +147,8 @@ const PlayerPitcher = () => {
               key={i + 1}
               onClick={() => paginate(i + 1)}
               className={`mx-1 px-3 py-1 ${
-                currentPage === i + 1 ? "bg-blue-500 text-white" : "bg-white text-blue-500"
-              } border border-blue-500 rounded`}
+                currentPage === i + 1 ? "bg-black text-white" : "bg-white text-black"
+              } border border-black rounded`}
             >
               {i + 1}
             </button>
