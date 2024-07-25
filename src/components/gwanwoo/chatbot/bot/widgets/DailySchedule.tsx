@@ -3,6 +3,7 @@ import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useStore } from "@/store/ChatBot";
 import { useEffect } from "react";
+import Image from "next/image";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
@@ -10,6 +11,14 @@ import "swiper/css/pagination";
 import "@/styles/gwanwoo.css";
 
 export default function DailySchedule() {
+  const { schedule, fetchSchedule, weatherData, fetchWeatherData } = useStore(
+    (state) => ({
+      schedule: state.schedule,
+      fetchSchedule: state.fetchSchedule,
+      weatherData: state.weatherData,
+      fetchWeatherData: state.fetchWeatherData,
+    })
+  );
   const { schedule, fetchSchedule, weatherData, fetchWeatherData } = useStore(
     (state) => ({
       schedule: state.schedule,
@@ -77,10 +86,13 @@ export default function DailySchedule() {
         schedule.map((game, index) => (
           <SwiperSlide key={index} className="flex">
             <div className="w-max h-max rounded-xl border-2 p-3 border-black bg-slate-50 ">
-              <div>
+              <div className="flex justify-around">
                 <div className="w-max flex flex-col flex-start p-3">
                   <div className="flex space-x-2">
                     <div className="font-[KT]">{game.home}</div>
+                    <div className="font-[KT] text-sm text-gray-400 py-0">
+                      vs
+                    </div>
                     <div className="font-[KT] text-sm text-gray-400 py-0">
                       vs
                     </div>
@@ -88,6 +100,28 @@ export default function DailySchedule() {
                   </div>
                   <div className="font-[KT] text-sm text-gray-400">
                     {formatDate(game.displayDate)}
+                  </div>
+                </div>
+                <div className="flex relative">
+                  <div className="relative w-0 h-0 border-t-[50px] border-r-[50px] border-r-transparent">
+                    <div className="absolute top-0 left-0"
+                    <Image
+                      className="top-1 left-1"
+                      src={`/images/chatbot/logos/emblem_KT.png`}
+                      alt="home team"
+                      width={24}
+                      height={24}
+                    />
+                    </div>
+                  </div>
+                  <div className="absolute right-0 w-0 h-0  border-b-[50px] border-b-red-500 border-l-[50px] border-l-transparent ">
+                    <Image
+                      className="absolute bottom-1 right-1"
+                      src={`/images/chatbot/logos/emblem_KT.png`}
+                      alt="away team"
+                      width={240}
+                      height={240}
+                    />
                   </div>
                 </div>
               </div>
@@ -99,14 +133,24 @@ export default function DailySchedule() {
                     {" "}
                     {formatStadiumName(game.stadium)}
                   </div>
+                  <div className="mr-1 font-[KT]">구장</div>
+                  <div className="text-gray-400">
+                    {" "}
+                    {formatStadiumName(game.stadium)}
+                  </div>
                 </div>
                 <div className="flex">
+                  <div className="mr-1 font-[KT]">날씨</div>
                   <div className="mr-1 font-[KT]">날씨</div>
                   <img
                     src={`images/${game.weatherIcon}.svg`}
                     alt={game.weatherIcon}
                     className="w-6 h-6"
                   />
+                  <div className="text-gray-400">{game.temperature}°C</div>
+                  <div className="text-gray-400">
+                    (강수확률 {game.precipitationProbability}%)
+                  </div>
                   <div className="text-gray-400">{game.temperature}°C</div>
                   <div className="text-gray-400">
                     (강수확률 {game.precipitationProbability}%)
