@@ -23,8 +23,9 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
     <div
       draggable
       onDragStart={handleDragStart}
-      className="relative rounded-3xl border border-black bg-black"
+      className="relative rounded-3xl bg-card-gradient  "
     >
+      {/* bg-gradient-to-br from-[#F69AA9] via-[#E1ADED] via-[#AAC6E5] to-[#97D5E0] */}
       <div className="relative w-[130px] h-[120px]">
         <Image
           draggable="false"
@@ -35,8 +36,8 @@ const PlayerCard: React.FC<PlayerCardProps> = ({
         />
       </div>
       <div
-        className="bg-transparent text-white text-xl absolute px-1 font-['KT'] opacity-40"
-        style={{ top: "2%", right: "72%" }}
+        className="bg-transparent text-red-500  text-[25px] absolute px-1 font-['KT']  opacity-50 "
+        style={{ top: "2%", right: "65%" }}
       >
         {position}
       </div>

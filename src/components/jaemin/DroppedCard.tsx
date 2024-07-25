@@ -42,6 +42,15 @@ const DroppablePlayerCard: React.FC<PlayerCardProps> = ({
     setDroppedPlayer(null);
   };
 
+  const getImageUrl = (player: any) => {
+    if (!player) return "";
+    if (["SP", "RP", "CP"].includes(player.position)) {
+      return `/images/pitcher/${player.playerName}.svg`;
+    } else {
+      return `/images/hitter/${player.playerName}.svg`;
+    }
+  };
+
   return (
     <div
       onDrop={handleDrop}
@@ -56,16 +65,14 @@ const DroppablePlayerCard: React.FC<PlayerCardProps> = ({
           ></button>
           <PlayerCard
             name={droppedPlayer.playerName}
-            imageUrl={droppedPlayer.mobilePlayerImg}
+            imageUrl={getImageUrl(droppedPlayer)} // imageUrl로 업데이트
             num={droppedPlayer.backnum}
-            position={
-              droppedPlayer.position
-            }
+            position={droppedPlayer.position}
           />
         </div>
       ) : (
         <div>
-          <Image src="/images/drag.svg" alt="빈 칸" width={150} height={190} />
+          <Image src="/images/drag.svg" alt="빈 칸" width={140} height={160} />
           <div
             className="bg-transparent text-red-700 text-[25px] font-extrabold absolute px-1 font-['KT']"
             style={{ top: "130%", left: "65%" }}
