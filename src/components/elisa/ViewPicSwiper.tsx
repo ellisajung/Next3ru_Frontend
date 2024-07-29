@@ -7,7 +7,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import Image from "next/image";
-import "@/styles/elisa.css";
+import "../../styles/elisa.css";
 
 interface IViewPics {
   [key: string]: string[];
@@ -183,10 +183,11 @@ const viewPics: IViewPics = {
 
 const ViewPicSwiper: React.FC<ISwiperProps> = ({ zone }) => {
   return (
-    <div id="view-pic-swiper">
+    <div>
       <Swiper
+        className="view-pic-swiper"
         slidesPerView={1}
-        spaceBetween={0}
+        spaceBetween={3}
         loop={true}
         // navigation={true}
         // pagination={{
@@ -195,10 +196,11 @@ const ViewPicSwiper: React.FC<ISwiperProps> = ({ zone }) => {
         scrollbar={{
           hide: false,
         }}
+        freeMode={true}
         modules={[Navigation, Pagination, Scrollbar]}
       >
-        {viewPics[zone].map((pic, i) => (
-          <SwiperSlide key={i}>
+        {viewPics[zone].map((pic) => (
+          <SwiperSlide key={zone}>
             <Image
               src={`${basePath}/${pic}`}
               alt={zone}

@@ -75,18 +75,18 @@ export default function Stadium() {
         <PerspectiveCamera
           ref={cameraRef}
           makeDefault={true}
-          far={1000}
-          near={0.2}
+          far={1000000}
+          near={0.5}
           fov={13}
-          position={[120, 40, -100]}
+          position={[120, 0, -100]}
         />
       </Canvas>
-      {showModal ? (
+      {/* {showModal ? (
         <Modal
           setShowModal={setShowModal}
           info={clickInfo}
         />
-      ) : null}
+      ) : null} */}
     </div>
   );
 }

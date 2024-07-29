@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import NavBarSub from "@/components/NavBarSub";
 import "@/styles/jaemin.css";
+import { ThemeToggle } from "./elisa/ThemeChanger";
 
 const NavBar = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -47,6 +48,9 @@ const NavBar = () => {
           isScrolled ? "slide-up" : "slide-down"
         } text-[#ffffff] gap-2 font-['KT'] xl:flex xl:justify-end xl:items-center xl:pr-3 xl:h-[39px] xl:bg-gradient-to-r xl:from-[#F69AA9] xl:via-[#E1ADED] xl:via-[#AAC6E5] xl:to-[#97D5E0] hidden`}
       >
+        <div className="mr-2">
+          <ThemeToggle />
+        </div>
         <a
           className="hover:text-black transition-color"
           href="/"
