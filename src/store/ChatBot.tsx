@@ -23,18 +23,6 @@ interface Game {
   temperature: number;
   precipitationProbability: number;
 }
-
-interface WeatherItem {
-  baseDate: string;
-  baseTime: string;
-  category: string;
-  fcstDate: string;
-  fcstTime: string;
-  fcstValue: string;
-  nx: number;
-  ny: number;
-}
-
 interface WeatherData {
   temperature: number | null;
   precipitationProbability: number | null;
@@ -158,19 +146,13 @@ const translatePosition = (position: string): string => {
 
 interface ChatBotStore {
   schedule: Game[] | null;
-  weatherData: WeatherData | null;
   teamRanks: TeamRank[] | null;
   fetchSchedule: (date: string) => Promise<void>;
-  fetchWeatherData: (nx: number, ny: number, date: string, time: string) => Promise<void>;
   fetchTeamRanks: () => Promise<void>;
   fetchStartMember: (date: string) => Promise<void>;
   loading: boolean; // 로딩 상태 추가
   startMember: StartMember[];
 }
-
-const API_URL = "https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst";
-const SERVICE_KEY =
-  "88VloqlHkAFjb0CilmLNobTkiDhXaChOr3VVpA9lTYTuVkbyTL/HGEoiDaM8R71Ormc8J8yH+/8stJJrzF95CA==";
 
 const getWeatherIconByPrecipitation = (precipitationProbability: number) => {
   if (precipitationProbability >= 70) {
@@ -191,17 +173,16 @@ const getRandomPrecipitationProbability = () => {
   // 강수 확률 범위: 0%에서 90% 사이
   return Math.floor(Math.random() * 91);
 };
-
+const apiUrl = process.env.NEXT_PUBLIC_KTWIZ_API_URL;
 export const useStore = create<ChatBotStore>((set) => ({
   schedule: null,
-  weatherData: null,
   teamRanks: null,
   loading: false,
   startMember: [],
 
   fetchSchedule: async (date: string) => {
     try {
-      const response = await axios.get(`http://43.203.217.238:5002/get_schedule?yearMonth=${date}`);
+      const response = await axios.get(`${apiUrl}/get_schedule?yearMonth=${date}`);
       const scheduleData = response.data;
       const gameList: Game[] = scheduleData.data.list;
 
@@ -241,39 +222,6 @@ export const useStore = create<ChatBotStore>((set) => ({
     }
   },
 
-  fetchWeatherData: async (nx: number, ny: number, date: string, time: string) => {
-    try {
-      const response = await axios.get(API_URL, {
-        params: {
-          serviceKey: SERVICE_KEY,
-          base_date: date,
-          base_time: time,
-          nx,
-          ny,
-          pageNo: 1,
-          numOfRows: 900,
-          dataType: "JSON",
-        },
-      });
-
-      console.log("Weather API response:", response.data);
-
-      const weatherItems: WeatherItem[] = response.data?.response?.body?.items?.item || [];
-      const temperatureItem = weatherItems.find((item) => item.category === "TMP");
-      const precipitationProbabilityItem = weatherItems.find((item) => item.category === "POP");
-
-      const filteredData: WeatherData = {
-        temperature: temperatureItem ? parseFloat(temperatureItem.fcstValue) : null,
-        precipitationProbability: precipitationProbabilityItem
-          ? parseInt(precipitationProbabilityItem.fcstValue, 10)
-          : null,
-      };
-
-      set({ weatherData: filteredData });
-    } catch (error) {
-      console.error("Failed to fetch weather data:", error);
-    }
-  },
   fetchTeamRanks: async () => {
     try {
       // 팀 순위 데이터를 가져올 API URL을 입력하세요

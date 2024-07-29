@@ -288,9 +288,9 @@ const PitcherDashBoard = () => {
 
   return (
     <div className="p-2 font-['KT']">
-      <div className="grid grid-cols-2 gap-4 w-[900px] ">
-        <div className={`relative p-4 col-span-2 bg-custom-gradient`}>
-          <div className="flex justify-center">
+      <div className="grid grid-cols-2 gap-4 w-[1400px] ">
+        <div className={`relative p-4 col-span-1 bg-custom-gradient`}>
+          <div>
             <Image
               src={`/images/pitcher/${pitcher?.playerName}.svg`}
               alt={pitcher?.playerName || "Default Alt Text"}
@@ -298,6 +298,8 @@ const PitcherDashBoard = () => {
               height={150}
               className="ml-4"
             />
+          </div>
+          <div className="flex justify-center">
             <div className="flex flex-col justify-center p-4 w-[150px] h-[350px] mx-4">
               <div className=" text-[#C00000] text-4xl mb-4">No. {pitcher?.backnum}</div>
               <div className=" text-white text-4xl font-bold">{pitcher?.playerName}</div>
