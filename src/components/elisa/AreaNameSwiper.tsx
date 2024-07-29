@@ -10,11 +10,9 @@ import { seatInfo } from "@/components/elisa/seatInfo";
 
 const AreaNameSwiper = () => {
   return (
-    <div
-      id="area-name-swiper"
-      className="w-2/3 h-full flex items-center"
-    >
+    <div className="w-full h-full px-4 flex items-center">
       <Swiper
+        className="area-name-swiper"
         direction={"vertical"}
         slidesPerView={"auto"}
         freeMode={true}

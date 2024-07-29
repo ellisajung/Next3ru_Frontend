@@ -33,6 +33,8 @@ import Stadium from "@/components/elisa/Stadium";
 import { useState } from "react";
 import StadiumModelTab from "@/components/elisa/StadiumModelTab";
 import ReviewTab from "@/components/elisa/ReviewTab";
+import EventTest from "@/components/elisa/EventTest";
+import AreaNameSwiper from "@/components/elisa/AreaNameSwiper";
 
 const SeatInfoPage = () => {
   return (
@@ -44,7 +46,7 @@ const SeatInfoPage = () => {
         defaultValue="account"
         id="kkkkk"
         // className="w-full h-[75%] mb-[5%] gird grid-rows-2"
-        className="w-full h-[80%]"
+        className="w-full h-full mt-[12%]"
       >
         <TabsList>
           <TabsTrigger

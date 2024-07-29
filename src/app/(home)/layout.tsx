@@ -5,15 +5,13 @@ import Footer from "@/components/Footer";
 import "../../styles/globals.css";
 import { cn } from "@/lib/utils";
 import { EdgeStoreProvider } from "@/lib/edgestore";
-
+import NavBar from "@/components/NavBar";
+import MyChatbot from "../chatbot/page";
+import { ThemeProvider } from "@/components/elisa/theme-provider";
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 });
-import "@/styles/globals.css";
-import NavBar from "@/components/NavBar";
-import MyChatbot from "../chatbot/page";
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "KT wiz | We Are Great Magic",
@@ -31,12 +29,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn("h-screen bg-background font-sans antialiased", fontSans.variable)}>
-        <NavBar />
-        <EdgeStoreProvider>
-          <div className="pt-[58px]">{children}</div>
-        </EdgeStoreProvider>
-        <MyChatbot />
-        <Footer />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <NavBar />
+          <EdgeStoreProvider>
+            <div className="pt-[58px] h-full">{children}</div>
+          </EdgeStoreProvider>
+          <MyChatbot />
+          {/* <Footer /> */}
+        </ThemeProvider>
       </body>
     </html>
   );
