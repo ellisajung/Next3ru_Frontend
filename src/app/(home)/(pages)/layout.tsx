@@ -8,7 +8,7 @@ const PagesLayout = ({
   return (
     <div
       id="body-wrap"
-      className="relative w-4/5 h-full mx-auto"
+      className="relative w-11/12 h-full mx-auto"
     >
       {children}
     </div>
