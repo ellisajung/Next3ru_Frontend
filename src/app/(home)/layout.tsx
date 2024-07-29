@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google";
+import { Inter as FontSans, Inter } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import "../../styles/globals.css";
@@ -30,14 +30,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={cn(
-          "h-screen bg-background font-sans antialiased",
-          fontSans.variable,
-        )}
-      >
+      <body className={cn("h-screen bg-background font-sans antialiased", fontSans.variable)}>
         <NavBar />
-          <EdgeStoreProvider><div className="pt-[58px]">{children}</div></EdgeStoreProvider>
+        <EdgeStoreProvider>
+          <div className="pt-[58px]">{children}</div>
+        </EdgeStoreProvider>
         <MyChatbot />
         <Footer />
       </body>
