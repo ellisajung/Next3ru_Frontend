@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { EdgeStoreProvider } from "@/lib/edgestore";
 import NavBar from "@/components/NavBar";
 import MyChatbot from "../chatbot/page";
-import { ThemeProvider } from "@/components/elisa/theme-provider";
+// import { ThemeProvider } from "@/components/elisa/theme-provider";
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
@@ -34,19 +34,19 @@ export default function RootLayout({
           fontSans.variable,
         )}
       >
-        <ThemeProvider
+        {/* <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
-        >
-          <NavBar />
-          <EdgeStoreProvider>
-            <div className="pt-[58px] h-full">{children}</div>
-          </EdgeStoreProvider>
-          <MyChatbot />
-          {/* <Footer /> */}
-        </ThemeProvider>
+        > */}
+        <NavBar />
+        <EdgeStoreProvider>
+          <div className="pt-[58px] h-full">{children}</div>
+        </EdgeStoreProvider>
+        <MyChatbot />
+        {/* <Footer /> */}
+        {/* </ThemeProvider> */}
       </body>
     </html>
   );
