@@ -17,7 +17,7 @@ export default function DailySchedule() {
   }));
 
   useEffect(() => {
-    fetchSchedule("202407");
+    fetchSchedule("202408");
   }, [fetchSchedule]);
 
   function formatDate(dateString: string) {
