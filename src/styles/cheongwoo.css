@@ -1,0 +1,60 @@
+/* Swiper 컨테이너의 위치와 여백 조정 */
+.swiper-container {
+  position: relative;
+  height: 100%; /* Swiper의 높이를 100%로 설정 */
+}
+
+/* 네비게이션 버튼의 위치 조정 */
+.swiper-button-next,
+.swiper-button-prev {
+  width: 30px;
+  height: 30px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  z-index: 10;
+  position: absolute; /* 위치를 절대적으로 설정 */
+}
+
+/* 다음 버튼을 화면 맨 아래로 위치시킴 */
+.swiper-button-next {
+  top: 690px; /* 화면 아래쪽 여백 */
+  left: 50%; /* 수평 가운데 정렬 */
+  transform: translateX(-50%); /* 가운데 정렬 */
+}
+
+/* 이전 버튼을 화면 맨 위로 위치시킴 */
+.swiper-button-prev {
+  top: 30px; /* 화면 위쪽 여백 */
+  left: 50%; /* 수평 가운데 정렬 */
+  transform: translateX(-50%); /* 가운데 정렬 */
+}
+
+/* 화살표의 스타일 설정 */
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 18px;
+  color: white;
+}
+
+/* 위쪽 화살표 */
+.swiper-button-next::after {
+  content: "▼"; /* 위쪽 화살표 */
+}
+
+/* 아래쪽 화살표 */
+.swiper-button-prev::after {
+  content: "▲"; /* 아래쪽 화살표 */
+}
+
+/* 스크롤바 스타일 */
+.swiper-scrollbar {
+  background: rgba(0, 0, 0, 0.5);
+  height: 8px; /* 스크롤바의 높이 */
+}
+
+.swiper-scrollbar-drag {
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 4px; /* 스크롤바 드래그의 둥근 모서리 */
+}
