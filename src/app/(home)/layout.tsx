@@ -28,7 +28,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn("h-screen bg-background font-sans antialiased", fontSans.variable)}>
+      <body
+        className={cn(
+          "h-screen bg-background font-sans antialiased",
+          fontSans.variable
+        )}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -37,7 +42,7 @@ export default function RootLayout({
         >
           <NavBar />
           <EdgeStoreProvider>
-            <div className="pt-[58px] h-full">{children}</div>
+            <div className="h-screen pt-[110px]">{children}</div>
           </EdgeStoreProvider>
           <MyChatbot />
           {/* <Footer /> */}

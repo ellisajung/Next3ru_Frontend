@@ -70,8 +70,6 @@ const getTopHittersByPosition = (players: Player[]): Player[] => {
 };
 
 const AiModal: React.FC<ModalProps> = ({ isOpen, onClose, onLineupSelect }) => {
-  if (!isOpen) return null;
-
   const { squardpitcherList } = useStore((state) => ({
     squardpitcherList: state.squardpitcherList,
   }));
@@ -82,6 +80,8 @@ const AiModal: React.FC<ModalProps> = ({ isOpen, onClose, onLineupSelect }) => {
     const topHitters = getTopHittersByPosition(squardpitcherList);
     setSquard(topHitters);
   }, [squardpitcherList]);
+
+  if (!isOpen) return null;
 
   const handleSelect = () => {
     onLineupSelect(squard); // 추천 라인업 선택 시 콜백 호출
