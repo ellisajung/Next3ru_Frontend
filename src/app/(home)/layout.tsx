@@ -28,7 +28,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn("h-screen bg-background font-sans antialiased", fontSans.variable)}>
+      <body
+        className={cn(
+          "h-screen bg-background font-sans antialiased",
+          fontSans.variable
+        )}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
