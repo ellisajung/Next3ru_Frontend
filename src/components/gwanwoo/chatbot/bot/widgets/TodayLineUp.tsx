@@ -12,7 +12,9 @@ const TodayLineUp = () => {
   }, [fetchStartMember]);
 
   const getFirstPlayerByPosition = (position: string) => {
-    const players = startMember.filter((player) => player.position_translated === position);
+    const players = startMember.filter(
+      (player) => player.position_translated === position
+    );
     return players.length > 0 ? players[0] : null; // Return the first player or null if none found
   };
 
@@ -28,7 +30,7 @@ const TodayLineUp = () => {
   };
 
   return (
-    <div className="w-max h-max rounded-xl p-3 border-2 border-black bg-slate-50">
+    <div className="w-max h-max rounded-xl p-3 border-2 border-black bg-slate-50 ml-[46px]">
       <div className="flex flex-col flex-start p-3">
         <div className="flex items-center">
           <h2 className="font-[KT] font-bold pr-1">SSG</h2>
@@ -42,11 +44,13 @@ const TodayLineUp = () => {
         </div>
       </div>
       <hr />
-      <div className="flex flex-col p-3">
+      <div className="flex flex-col p-3 w-full whitespace-nowrap">
         {/* 좌익수 */}
         {getFirstPlayerByPosition("LF") && (
           <div className="flex justify-start items-center">
-            <div className="text-sm text-gray-400 font-[KT] pr-1 w-[55px]">1. 좌익수</div>
+            <div className="text-sm text-gray-400 font-[KT] pr-1 w-[55px]">
+              1. 좌익수
+            </div>
             <div className="text-sm font-[KT]">
               {getFirstPlayerByPosition("LF")?.name} (
               {getPlayerAverage(getFirstPlayerByPosition("LF")!)})
@@ -57,7 +61,9 @@ const TodayLineUp = () => {
         {/* 중견수 */}
         {getFirstPlayerByPosition("CF") && (
           <div className="flex justify-start items-center">
-            <div className="text-sm text-gray-400 font-[KT] pr-1 w-[55px]">2. 중견수</div>
+            <div className="text-sm text-gray-400 font-[KT] pr-1 w-[55px]">
+              2. 중견수
+            </div>
             <div className="text-sm font-[KT]">
               {getFirstPlayerByPosition("CF")?.name} (
               {getPlayerAverage(getFirstPlayerByPosition("CF")!)})
@@ -68,7 +74,9 @@ const TodayLineUp = () => {
         {/* 우익수 */}
         {getFirstPlayerByPosition("RF") && (
           <div className="flex justify-start items-center">
-            <div className="text-sm text-gray-400 font-[KT] pr-1 w-[55px]">3. 우익수</div>
+            <div className="text-sm text-gray-400 font-[KT] pr-1 w-[55px]">
+              3. 우익수
+            </div>
             <div className="text-sm font-[KT]">
               {getFirstPlayerByPosition("RF")?.name} (
               {getPlayerAverage(getFirstPlayerByPosition("RF")!)})
@@ -79,7 +87,9 @@ const TodayLineUp = () => {
         {/* 1루수 */}
         {getFirstPlayerByPosition("1B") && (
           <div className="flex justify-start items-center">
-            <div className="text-sm text-gray-400 font-[KT] pr-1 w-[55px]">4. 1루수</div>
+            <div className="text-sm text-gray-400 font-[KT] pr-1 w-[55px]">
+              4. 1루수
+            </div>
             <div className="text-sm font-[KT]">
               {getFirstPlayerByPosition("1B")?.name} (
               {getPlayerAverage(getFirstPlayerByPosition("1B")!)})
@@ -90,7 +100,9 @@ const TodayLineUp = () => {
         {/* 2루수 */}
         {getFirstPlayerByPosition("2B") && (
           <div className="flex justify-start items-center">
-            <div className="text-sm text-gray-400 font-[KT] pr-1 w-[55px]">5. 2루수</div>
+            <div className="text-sm text-gray-400 font-[KT] pr-1 w-[55px]">
+              5. 2루수
+            </div>
             <div className="text-sm font-[KT]">
               {getFirstPlayerByPosition("2B")?.name} (
               {getPlayerAverage(getFirstPlayerByPosition("2B")!)})
@@ -101,7 +113,9 @@ const TodayLineUp = () => {
         {/* 3루수 */}
         {getFirstPlayerByPosition("3B") && (
           <div className="flex justify-start items-center">
-            <div className="text-sm text-gray-400 font-[KT] pr-1 w-[55px]">6. 3루수</div>
+            <div className="text-sm text-gray-400 font-[KT] pr-1 w-[55px]">
+              6. 3루수
+            </div>
             <div className="text-sm font-[KT]">
               {getFirstPlayerByPosition("3B")?.name} (
               {getPlayerAverage(getFirstPlayerByPosition("3B")!)})
@@ -112,7 +126,9 @@ const TodayLineUp = () => {
         {/* 유격수 */}
         {getFirstPlayerByPosition("SS") && (
           <div className="flex justify-start items-center">
-            <div className="text-sm text-gray-400 font-[KT] pr-1 w-[55px]">7. 유격수</div>
+            <div className="text-sm text-gray-400 font-[KT] pr-1 w-[55px]">
+              7. 유격수
+            </div>
             <div className="text-sm font-[KT]">
               {getFirstPlayerByPosition("SS")?.name} (
               {getPlayerAverage(getFirstPlayerByPosition("SS")!)})
@@ -123,7 +139,9 @@ const TodayLineUp = () => {
         {/* 포수 */}
         {getFirstPlayerByPosition("C") && (
           <div className="flex justify-start items-center">
-            <div className="text-sm text-gray-400 font-[KT] pr-1 w-[55px]">8. 포수</div>
+            <div className="text-sm text-gray-400 font-[KT] pr-1 w-[55px]">
+              8. 포수
+            </div>
             <div className="text-sm font-[KT]">
               {getFirstPlayerByPosition("C")?.name} (
               {getPlayerAverage(getFirstPlayerByPosition("C")!)})
@@ -134,7 +152,9 @@ const TodayLineUp = () => {
         {/* 지명타자 */}
         {getFirstPlayerByPosition("H") && (
           <div className="flex justify-start items-center">
-            <div className="text-sm text-gray-400 font-[KT] pr-1 w-[55px]">지명타자</div>
+            <div className="text-sm text-gray-400 font-[KT] pr-1 w-[55px]">
+              지명타자
+            </div>
             <div className="text-sm font-[KT]">
               {getFirstPlayerByPosition("H")?.name} (
               {getPlayerAverage(getFirstPlayerByPosition("H")!)})
@@ -145,9 +165,12 @@ const TodayLineUp = () => {
         {/* 선발투수 */}
         {getStartingPitcher() && (
           <div className="flex justify-start items-center">
-            <div className="text-sm text-gray-400 font-[KT] pr-1 w-[55px]">선발투수</div>
+            <div className="text-sm text-gray-400 font-[KT] pr-1 w-[55px]">
+              선발투수
+            </div>
             <div className="text-sm font-[KT]">
-              {getStartingPitcher()?.name} ({getStartingPitcher()?.ERA || "0승 0패, 0.00"})
+              {getStartingPitcher()?.name} (
+              {getStartingPitcher()?.ERA || "0승 0패, 0.00"})
             </div>
           </div>
         )}
