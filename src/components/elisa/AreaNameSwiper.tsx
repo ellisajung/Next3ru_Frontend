@@ -1,5 +1,3 @@
-"use client";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Scrollbar, Mousewheel } from "swiper/modules";
 import "swiper/css";
@@ -11,6 +9,7 @@ import { seatInfo } from "@/components/elisa/seatInfo";
 const AreaNameSwiper = () => {
   return (
     <div className="w-full h-full px-4 flex items-center">
+      {console.log("area name swiper component loaded!") as any}
       <Swiper
         className="area-name-swiper"
         direction={"vertical"}

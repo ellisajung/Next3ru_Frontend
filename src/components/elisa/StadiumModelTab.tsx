@@ -11,7 +11,7 @@ import AreaNameSwiper from "./AreaNameSwiper";
 import Stadium from "./Stadium";
 import { Button } from "../shadcn-ui/button";
 import { useState } from "react";
-import Modal from "./Modal";
+import SeatInfoModal from "./SeatInfoModal";
 
 const StadiumModelTab = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -47,16 +47,17 @@ const StadiumModelTab = () => {
             <span className="grow-0 text-lg font-semibold p-1 mt-4">
               구역 선택
             </span>
-            <Card className="grow flex justify-center  bg-gray-500 bg-opacity-20">
+            <Card className="grow flex justify-center bg-gray-500 bg-opacity-20">
               <AreaNameSwiper />
             </Card>
           </div>
         </div>
+        {console.log("loaded!") as any}
       </CardContent>
       {showModal && (
-        <Modal
+        <SeatInfoModal
           setShowModal={setShowModal}
-          info={{ name: "지니존", text: "좌" }}
+          info={{ area_name: "중앙지정석", zone: "113" }}
         />
       )}
     </Card>

@@ -31,10 +31,11 @@ import ReviewEditModal from "@/components/elisa/ReviewEditModal";
 import SeatInfoModal from "@/components/elisa/SeatInfoModal";
 import Stadium from "@/components/elisa/Stadium";
 import { useState } from "react";
-import StadiumModelTab from "@/components/elisa/StadiumModelTab";
+// import StadiumModelTab from "@/components/elisa/StadiumModelTab";
 import ReviewTab from "@/components/elisa/ReviewTab";
 import EventTest from "@/components/elisa/EventTest";
 import AreaNameSwiper from "@/components/elisa/AreaNameSwiper";
+import StadiumModelTab from "@/components/elisa/StadiumModelTab";
 
 const SeatInfoPage = () => {
   return (
@@ -74,7 +75,7 @@ const SeatInfoPage = () => {
           id="123454"
           // className="break-after-auto"
           // className="data-[state=active]:h-full"
-          // className="grow"
+          className="relative"
         >
           <StadiumModelTab />
         </TabsContent>
