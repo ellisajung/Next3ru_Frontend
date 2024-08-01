@@ -1,5 +1,3 @@
-"use client";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar } from "swiper/modules";
 import "swiper/css";
@@ -7,7 +5,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import Image from "next/image";
-import "../../styles/elisa.css";
+import "@/styles/elisa.css";
 
 interface IViewPics {
   [key: string]: string[];
@@ -184,23 +182,19 @@ const viewPics: IViewPics = {
 const ViewPicSwiper: React.FC<ISwiperProps> = ({ zone }) => {
   return (
     <div>
+      {console.log("swiper component loaded!") as any}
       <Swiper
         className="view-pic-swiper"
         slidesPerView={1}
         spaceBetween={3}
         loop={true}
-        // navigation={true}
-        // pagination={{
-        //   dynamicBullets: true,
-        // }}
         scrollbar={{
           hide: false,
         }}
-        freeMode={true}
-        modules={[Navigation, Pagination, Scrollbar]}
+        modules={[Scrollbar]}
       >
-        {viewPics[zone].map((pic) => (
-          <SwiperSlide key={zone}>
+        {viewPics[zone].map((pic, i) => (
+          <SwiperSlide key={i}>
             <Image
               src={`${basePath}/${pic}`}
               alt={zone}
@@ -209,6 +203,7 @@ const ViewPicSwiper: React.FC<ISwiperProps> = ({ zone }) => {
             />
           </SwiperSlide>
         ))}
+        {console.log("swiper loaded!") as any}
       </Swiper>
     </div>
   );

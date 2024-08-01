@@ -8,6 +8,7 @@ import { EdgeStoreProvider } from "@/lib/edgestore";
 import NavBar from "@/components/NavBar";
 import MyChatbot from "../chatbot/page";
 import { ThemeProvider } from "@/components/elisa/theme-provider";
+
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",

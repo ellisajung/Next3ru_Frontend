@@ -52,9 +52,10 @@
     "react-tooltip": "^5.27.1",
     "slider": "^1.0.4",
     "styled-components": "^6.1.12",
-    "swiper": "^11.1.5",
+    "swiper": "^11.1.9",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
+    "three": "^0.167.0",
     "uuid": "^10.0.0",
     "zod": "^3.23.8",
     "zustand": "^4.5.4"

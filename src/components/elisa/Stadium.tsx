@@ -1,3 +1,5 @@
+"use client";
+
 import { useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
@@ -7,34 +9,52 @@ import {
   Center,
 } from "@react-three/drei";
 import Floor from "./Floor";
-import Modal from "./Modal";
-import { FirstBaseModel } from "./FirstBaseModel";
-import { ThirdBaseModel } from "./ThirdBaseModel";
 import { SkeletonModel } from "./SkeletonModel";
 import { CenterModel } from "./CenterModel";
-import { SkyModel } from "./SkyModel";
-import { GrassModel } from "./GrassModel";
+import { Cheering1RuModel } from "./Cheering1RuModel";
+import { Cheering3RuModel } from "./Cheering3RuModel";
+import { Exiting1RuModel } from "./Exiting1RuModel";
+import { Exiting3RuModel } from "./Exiting3RuModel";
+import { GiniTvModel } from "./GiniTvModel";
+import { GiniModel } from "./GiniModel";
+import { Grass1RuModel } from "./Grass1RuModel";
+import { Grass3RuModel } from "./Grass3RuModel";
+import { Kidsland4thModel } from "./Kidsland4thModel";
+import { Kidsland5thModel } from "./Kidsland5thModel";
+import { KtAlphaModel } from "./KtAlphaModel";
+import { Sky1RuModel } from "./Sky1RuModel";
+import { Sky3RuModel } from "./Sky3RuModel";
+import { TvingTableModel } from "./TvingTableModel";
+import { YBoxModel } from "./YBoxModel";
+import SeatInfoModal from "./SeatInfoModal";
 
-interface ClickInfo {
-  id: string;
-  name: string;
-  position: [number, number, number];
-}
+export type TClickedMeshInfo = {
+  area_name: string;
+  zone: string;
+};
 
 export default function Stadium() {
-  const cameraRef = useRef<any>(null);
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const [clickInfo, setClickInfo] = useState<ClickInfo | null>(null);
+  const cameraRef = useRef(null);
+  const [showModal, setShowModal] = useState(false);
+  const [clickedMeshInfo, setClickedMeshInfo] = useState<
+    TClickedMeshInfo | undefined
+  >();
 
-  const handleMeshClick = (info: ClickInfo) => {
+  const handleMeshClick = (info: TClickedMeshInfo) => {
     setShowModal(true);
-    setClickInfo(info); // 클릭된 메쉬의 정보를 상태에 저장
+    console.log("setting modal to true!");
+    // console.log(showModal); // false
+    setClickedMeshInfo(info); // 클릭된 메쉬의 정보를 상태에 저장
+    console.log(info);
   };
+
+  console.log(showModal); // true
 
   return (
     <div
       id="stadium"
-      className="h-full"
+      className="relative h-full"
+      // className="h-full" // 아니 이거 때문이라니...
     >
       <Canvas>
         <Center>
@@ -42,27 +62,71 @@ export default function Stadium() {
             showModal={showModal}
             handleMeshClick={handleMeshClick}
           />
-          <FirstBaseModel
-            showModal={showModal}
-            handleMeshClick={handleMeshClick}
-          />
-          <ThirdBaseModel
-            showModal={showModal}
-            handleMeshClick={handleMeshClick}
-          />
           <CenterModel
             showModal={showModal}
             handleMeshClick={handleMeshClick}
           />
-          <SkyModel
+          <Cheering1RuModel
             showModal={showModal}
             handleMeshClick={handleMeshClick}
           />
-          <GrassModel
+          <Cheering3RuModel
             showModal={showModal}
             handleMeshClick={handleMeshClick}
           />
-          <Floor />
+          <Exiting1RuModel
+            showModal={showModal}
+            handleMeshClick={handleMeshClick}
+          />
+          <Exiting3RuModel
+            showModal={showModal}
+            handleMeshClick={handleMeshClick}
+          />
+          <GiniTvModel
+            showModal={showModal}
+            handleMeshClick={handleMeshClick}
+          />
+          <GiniModel
+            showModal={showModal}
+            handleMeshClick={handleMeshClick}
+          />
+          <Grass1RuModel
+            showModal={showModal}
+            handleMeshClick={handleMeshClick}
+          />
+          <Grass3RuModel
+            showModal={showModal}
+            handleMeshClick={handleMeshClick}
+          />
+          <Kidsland4thModel
+            showModal={showModal}
+            handleMeshClick={handleMeshClick}
+          />
+          <Kidsland5thModel
+            showModal={showModal}
+            handleMeshClick={handleMeshClick}
+          />
+          <KtAlphaModel
+            showModal={showModal}
+            handleMeshClick={handleMeshClick}
+          />
+          <Sky1RuModel
+            showModal={showModal}
+            handleMeshClick={handleMeshClick}
+          />
+          <Sky3RuModel
+            showModal={showModal}
+            handleMeshClick={handleMeshClick}
+          />
+          <TvingTableModel
+            showModal={showModal}
+            handleMeshClick={handleMeshClick}
+          />
+          <YBoxModel
+            showModal={showModal}
+            handleMeshClick={handleMeshClick}
+          />
+          {/* <Floor /> */}
         </Center>
         <Environment
           background={false}
@@ -81,12 +145,12 @@ export default function Stadium() {
           position={[120, 0, -100]}
         />
       </Canvas>
-      {/* {showModal ? (
-        <Modal
-          setShowModal={setShowModal}
-          info={clickInfo}
+      {showModal && (
+        <SeatInfoModal
+          setShowModal={setShowModal} // 에러 해결: https://velog.io/@keynene/ErrorTypeScript-TS2322-Type-DispatchSetStateActionboolean-is-not-assignable-to-type-boolean.-setState%EB%8A%94-boolean%ED%83%80%EC%9E%85%EC%9D%B4-%EC%95%84%EB%8B%98-ReactTypeScript%EC%97%90%EC%84%9C-setState-props-%EC%A0%84%EB%8B%AC%ED%95%98%EA%B8%B0
+          info={clickedMeshInfo}
         />
-      ) : null} */}
+      )}
     </div>
   );
 }
