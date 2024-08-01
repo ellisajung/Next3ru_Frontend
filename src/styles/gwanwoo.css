@@ -9,7 +9,7 @@
   position: fixed;
   right: 18px;
   bottom: 90px;
-  width: 370px;
+  width: 520px;
   height: 520px;
   overflow: hidden;
   border-radius: 25px;
@@ -177,11 +177,11 @@
   width: 100px !important;
 }
 .swiper-button-prev {
-  margin-right: 40px !important;
+  margin-left: 35px !important;
 }
 
 .swiper-button-next {
-  margin-right: 30px !important;
+  margin-right: 165px !important;
 }
 
 .swiper-button-prev:after,

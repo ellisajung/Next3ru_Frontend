@@ -79,7 +79,8 @@ export const useStore = create<PlayerListProps>((set) => ({
 
   fetchPitcher: async (pcode) => {
     try {
-      const response = await axios.get(`http://43.203.217.238:5002/player/${pcode}`);
+      const apiUrl = process.env.NEXT_PUBLIC_KTWIZ_API_URL;
+      const response = await axios.get(`${apiUrl}/player/${pcode}`);
       const pitcherData: Player = response.data; // 단일 객체로 받아옴
       set({ pitcher: pitcherData }); // 객체를 설정
     } catch (error) {
