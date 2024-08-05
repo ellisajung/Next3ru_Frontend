@@ -37,14 +37,14 @@ const MessageSendButton: React.FC = () => {
 
 const Chatting = () => {
   return (
-    <>
+    <div className="fixed z-50">
       <MessageSendButton />
       <Chatbot
         config={config as any}
         messageParser={MessageParser}
         actionProvider={ActionProvider}
       />
-    </>
+    </div>
   );
 };
 
