@@ -32,12 +32,7 @@ const ChatHeader = () => {
           mx-2
           "
           />
-          <Image
-            src="images/chatbot/wizbot.svg"
-            alt="Wizbot"
-            width={38}
-            height={36}
-          />
+          <Image src="/images/chatbot/wizbot.svg" alt="Wizbot" width={38} height={36} />
           <h2
             className=" text-white
           font-semibold

@@ -4,12 +4,13 @@ import { useStore } from "@/store/PitcherDashBoard";
 import { useStore as useStore2 } from "@/store/PlayerPitcher";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Scrollbar } from "swiper/modules";
+import { Navigation, Pagination, Scrollbar, Mousewheel } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import "../../styles/cheongwoo.css"; // CSS 파일 경로 확인
+import "../../styles/cheongwoo.css";
+import { Swiper as SwiperType } from "swiper/types";
 
 const PlayerPitcher = () => {
   const { pitcher, fetchPitcher } = useStore((state) => ({
@@ -104,14 +105,14 @@ const PlayerPitcher = () => {
       </div>
       <div>
         <Swiper
+          id="player-pitcher-swiper"
           direction="vertical" // 방향을 세로로 설정
           spaceBetween={0} // 슬라이드 간의 거리
           slidesPerView={9} // 한번에 보여줄 슬라이드 개수
-          pagination={{ clickable: true }} // 페이지네이션 클릭 가능
-          scrollbar={{ draggable: true }}
-          navigation // 네비게이션 화살표
-          modules={[Navigation, Pagination, Scrollbar]} // 사용할 모듈
+          modules={[Navigation, Mousewheel, Pagination]} // 사용할 모듈
           style={{ height: "710px" }} // Swiper의 높이를 설정
+          mousewheel={true}
+          pagination={{ type: "progressbar" }} // 프로그래스 바 설정
         >
           {filteredPitchers.map((player) => (
             <SwiperSlide key={player.pcode}>

@@ -1,60 +1,42 @@
 /* Swiper 컨테이너의 위치와 여백 조정 */
-.swiper-container {
+#player-pitcher-swiper .swiper-container {
   position: relative;
   height: 100%; /* Swiper의 높이를 100%로 설정 */
 }
 
-/* 네비게이션 버튼의 위치 조정 */
-.swiper-button-next,
-.swiper-button-prev {
-  width: 30px;
-  height: 30px;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 50%;
-  color: white;
-  display: flex;
-  z-index: 10;
-  position: absolute; /* 위치를 절대적으로 설정 */
+#player-pitcher-swiper .swiper-button-next {
+  display: none;
 }
 
-/* 다음 버튼을 화면 맨 아래로 위치시킴 */
-.swiper-button-next {
-  top: 690px; /* 화면 아래쪽 여백 */
-  left: 50%; /* 수평 가운데 정렬 */
-  transform: translateX(-50%); /* 가운데 정렬 */
+#player-pitcher-swiper .swiper-button-prev {
+  display: none;
 }
 
-/* 이전 버튼을 화면 맨 위로 위치시킴 */
-.swiper-button-prev {
-  top: 30px; /* 화면 위쪽 여백 */
-  left: 50%; /* 수평 가운데 정렬 */
-  transform: translateX(-50%); /* 가운데 정렬 */
+/* 페이지네이션 컨테이너 */
+#player-pitcher-swiper .swiper-pagination {
+  position: absolute;
+  left: 260px; /* 페이지네이션을 오른쪽에 배치 */
+  top: 50%; /* 페이지네이션을 세로 중앙에 배치 */
+  transform: translateY(-50%); /* 세로 중앙 정렬을 위한 변환 */
+  width: 8px; /* 페이지네이션의 너비 설정 */
+  height: 100%; /* 페이지네이션의 높이를 부모 요소에 맞춤 */
+  background: rgba(0, 0, 0, 0.3); /* 페이지네이션 배경 색상 */
+  border-radius: 4px; /* 페이지네이션의 둥근 모서리 */
 }
 
-/* 화살표의 스타일 설정 */
-.swiper-button-next::after,
-.swiper-button-prev::after {
-  font-size: 18px;
-  color: white;
+/* 프로그래스 바의 기본 스타일 */
+.swiper-pagination-progressbar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%; /* 페이지네이션 컨테이너의 너비에 맞춤 */
+  height: 100%; /* 페이지네이션 컨테이너의 높이에 맞춤 */
+  background: transparent; /* 배경을 투명하게 설정 */
 }
 
-/* 위쪽 화살표 */
-.swiper-button-next::after {
-  content: "▼"; /* 위쪽 화살표 */
-}
-
-/* 아래쪽 화살표 */
-.swiper-button-prev::after {
-  content: "▲"; /* 아래쪽 화살표 */
-}
-
-/* 스크롤바 스타일 */
-.swiper-scrollbar {
-  background: rgba(0, 0, 0, 0.5);
-  height: 8px; /* 스크롤바의 높이 */
-}
-
-.swiper-scrollbar-drag {
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 4px; /* 스크롤바 드래그의 둥근 모서리 */
+/* 프로그래스 바 채우기 */
+.swiper-pagination-progressbar-fill {
+  height: 100%; /* 프로그래스 바의 높이 설정 */
+  background: green; /* 프로그래스 바 채우기 색상 설정 */
+  border-radius: 4px; /* 프로그래스 바의 둥근 모서리 설정 */
 }
