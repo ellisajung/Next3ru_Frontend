@@ -30,10 +30,10 @@ import SeatInfoModal from "./SeatInfoModal";
 
 export type TClickedMeshInfo = {
   area_name: string;
-  zone: string;
+  zone: string | null;
 };
 
-export default function Stadium() {
+export default function StadiumModel() {
   const cameraRef = useRef(null);
   const [showModal, setShowModal] = useState(false);
   const [clickedMeshInfo, setClickedMeshInfo] = useState<
@@ -53,10 +53,10 @@ export default function Stadium() {
   return (
     <div
       id="stadium"
-      className="relative h-full"
+      className="h-full"
       // className="h-full" // 아니 이거 때문이라니...
     >
-      <Canvas>
+      <Canvas className="rounded-lg">
         <Center>
           <SkeletonModel
             showModal={showModal}

@@ -3,17 +3,19 @@
 @tailwind utilities;
 
 /* AreaNameSwiper 컴포넌트 */
-:root {
-  /* 스크롤바 프로퍼티 */
-  --swiper-scrollbar-border-radius: 20px;
+.swiper-scrollbar {
+  display: block !important;
+  /* position: absolute;
+  z-index: 50 !important; */
+  --swiper-scrollbar-border-radius: 15px;
   --swiper-scrollbar-top: auto;
-  --swiper-scrollbar-bottom: 0px;
+  --swiper-scrollbar-bottom: 4px;
   --swiper-scrollbar-left: auto;
-  --swiper-scrollbar-right: 4px;
-  --swiper-scrollbar-sides-offset: 2%;
-  --swiper-scrollbar-bg-color: rgba(0, 0, 0, 0.1);
-  --swiper-scrollbar-drag-bg-color: rgba(0, 0, 0, 0.5);
-  --swiper-scrollbar-size: 5px;
+  --swiper-scrollbar-right: 0px;
+  --swiper-scrollbar-sides-offset: 1%;
+  --swiper-scrollbar-bg-color: rgba(0, 0, 0, 0.2);
+  --swiper-scrollbar-drag-bg-color: rgb(0, 0, 0.5);
+  --swiper-scrollbar-size: 7px;
 }
 
 .swiper {

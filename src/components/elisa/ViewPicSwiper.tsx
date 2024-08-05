@@ -181,31 +181,28 @@ const viewPics: IViewPics = {
 
 const ViewPicSwiper: React.FC<ISwiperProps> = ({ zone }) => {
   return (
-    <div>
-      {console.log("swiper component loaded!") as any}
-      <Swiper
-        className="view-pic-swiper"
-        slidesPerView={1}
-        spaceBetween={3}
-        loop={true}
-        scrollbar={{
-          hide: false,
-        }}
-        modules={[Scrollbar]}
-      >
-        {viewPics[zone].map((pic, i) => (
-          <SwiperSlide key={i}>
-            <Image
-              src={`${basePath}/${pic}`}
-              alt={zone}
-              width={300}
-              height={300}
-            />
-          </SwiperSlide>
-        ))}
-        {console.log("swiper loaded!") as any}
-      </Swiper>
-    </div>
+    <Swiper
+      className="view-pic-swiper"
+      slidesPerView={1}
+      spaceBetween={3}
+      loop={true}
+      scrollbar={{
+        hide: false,
+      }}
+      modules={[Scrollbar]}
+    >
+      {viewPics[zone].map((pic, i) => (
+        <SwiperSlide key={i}>
+          <Image
+            src={`${basePath}/${pic}`}
+            alt={zone}
+            width={300}
+            height={300}
+          />
+        </SwiperSlide>
+      ))}
+      {console.log("swiper loaded!") as any}
+    </Swiper>
   );
 };
 

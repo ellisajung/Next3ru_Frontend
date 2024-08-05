@@ -2,7 +2,7 @@ import { Button } from "@/components/shadcn-ui/button";
 import ViewPicSwiper from "./ViewPicSwiper";
 import { Card } from "../shadcn-ui/card";
 import "../../styles/elisa.css";
-import { TClickedMeshInfo } from "./Stadium";
+import { TClickedMeshInfo } from "./StadiumModel";
 
 type SeatInfoModalProps = {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,13 +15,12 @@ const SeatInfoModal: React.FC<SeatInfoModalProps> = ({
 }) => {
   return (
     <>
-      {console.log("modal loaded!") as any}
-      <div onClick={() => setShowModal(false)}></div>
       <div
-        id="modal"
-        className="absolute w-96 top-[30%] left-[50%] translate-x-[-50%] z-50"
-      >
-        <Card>
+        onClick={() => setShowModal(false)}
+        className="fixed inset-0 z-40"
+      ></div>
+      <div id="modal">
+        <Card className="border-none w-[600px] h-[500px] absolute top-[25%] left-[50%] translate-x-[-50%] z-50 bg-white bg-opacity-65 dark:bg-black dark:bg-opacity-55">
           <div>
             <p>
               {info?.area_name}의 {info?.zone}번 구역입니다.
