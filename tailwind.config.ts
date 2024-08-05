@@ -14,6 +14,11 @@ const config = {
       },
     },
     extend: {
+      filter: {
+        "invert-0": "invert(0)",
+        "brightness-0": "brightness(0)",
+        "contrast-100": "contrast(100%)",
+      },
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },
@@ -102,7 +107,7 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("tailwindcss-filters")],
 } satisfies Config;
 
 export default config;
