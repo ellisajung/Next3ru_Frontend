@@ -3,6 +3,13 @@ import React, { useEffect, useState } from "react";
 import { useStore } from "@/store/PitcherDashBoard";
 import { useStore as useStore2 } from "@/store/PlayerPitcher";
 import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Scrollbar } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+import "../../styles/cheongwoo.css"; // CSS 파일 경로 확인
 
 const PlayerPitcher = () => {
   const { pitcher, fetchPitcher } = useStore((state) => ({
@@ -18,17 +25,13 @@ const PlayerPitcher = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredPitchers, setFilteredPitchers] = useState(pitcherList);
-  const [currentPage, setCurrentPage] = useState(1);
   const [sortCriteria, setSortCriteria] = useState<"name" | "backnum" | "era" | "salary">("name");
-  const pitchersPerPage = 16;
 
   useEffect(() => {
-    // 검색어로 필터링
     const filtered = pitcherList.filter((player) =>
       player.playerName.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    // 정렬 기준에 따라 정렬
     const sortedAndFiltered = filtered.sort((a, b) => {
       if (sortCriteria === "backnum") {
         return Number(a.backnum) - Number(b.backnum);
@@ -45,31 +48,25 @@ const PlayerPitcher = () => {
       }
     });
 
-    // 정렬된 리스트를 상태에 업데이트
     setFilteredPitchers(sortedAndFiltered);
   }, [searchTerm, pitcherList, sortCriteria]);
 
-  const indexOfLastPitcher = currentPage * pitchersPerPage;
-  const indexOfFirstPitcher = indexOfLastPitcher - pitchersPerPage;
-  const currentPitchers = filteredPitchers.slice(indexOfFirstPitcher, indexOfLastPitcher);
-
-  const paginate = (pageNumber: React.SetStateAction<number>) => setCurrentPage(pageNumber);
-
   return (
-    <div className="p-2 font-['KT']">
+    <div className="p-2 font-['KT'] mt-8">
       <input
-        className="placeholder:italic placeholder:text-slate-400 block bg-white border border-slate-300 w-full"
+        className="placeholder:italic placeholder:text-gray-500 block bg-gray-100 border border-gray-300 rounded-lg  py-2 pl-3  shadow-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 w-full transition duration-150 ease-in-out"
         placeholder="선수명 검색"
         type="text"
         name="search"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
+
       <div className="flex justify-center">
-        <div className="flex flex-col ">
+        <div className="flex flex-col w-[135px] ">
           <button
             onClick={() => setSortCriteria("name")}
-            className={`m-2 px-3 py-1 ${
+            className={`m-2 px-3 py-1  ${
               sortCriteria === "name" ? "bg-black text-white" : "bg-white text-black"
             } border border-black rounded`}
           >
@@ -85,7 +82,7 @@ const PlayerPitcher = () => {
             ERA 낮은순
           </button>
         </div>
-        <div className="flex flex-col ">
+        <div className="flex flex-col w-[135px]">
           <button
             onClick={() => setSortCriteria("backnum")}
             className={`m-2 px-3 py-1 ${
@@ -106,54 +103,53 @@ const PlayerPitcher = () => {
         </div>
       </div>
       <div>
-        {currentPitchers.map((player) => (
-          <div
-            key={player.pcode}
-            className="bg-black p-2 opacity-95 my-2 w-[258.9px]"
-            onClick={() => {
-              setSelectedPitcherPcode(player.pcode);
-              fetchPitcher(player.pcode);
-            }}
-          >
-            <div className="flex items-center opacity-100 ">
-              <div className="relative w-[45px] h-[45px] bg-white rounded-full overflow-hidden">
-                <Image
-                  src={`${player?.playerPrvwImg}`}
-                  alt={player?.playerName || "Default Alt Text"}
-                  layout="fill"
-                />
+        <Swiper
+          direction="vertical" // 방향을 세로로 설정
+          spaceBetween={0} // 슬라이드 간의 거리
+          slidesPerView={9} // 한번에 보여줄 슬라이드 개수
+          pagination={{ clickable: true }} // 페이지네이션 클릭 가능
+          scrollbar={{ draggable: true }}
+          navigation // 네비게이션 화살표
+          modules={[Navigation, Pagination, Scrollbar]} // 사용할 모듈
+          style={{ height: "710px" }} // Swiper의 높이를 설정
+        >
+          {filteredPitchers.map((player) => (
+            <SwiperSlide key={player.pcode}>
+              <div
+                className="bg-black p-2 opacity-95 my-2 w-[258.9px]"
+                onClick={() => {
+                  setSelectedPitcherPcode(player.pcode);
+                  fetchPitcher(player.pcode);
+                }}
+              >
+                <div className="flex items-center opacity-100 ">
+                  <div className="relative w-[45px] h-[45px] bg-white rounded-full overflow-hidden">
+                    <Image
+                      src={`${player?.playerPrvwImg}`}
+                      alt={player?.playerName || "Default Alt Text"}
+                      layout="fill"
+                    />
+                  </div>
+                  <div className="ml-4 w-[44.43px] text-gray-300 text-white text-sm">
+                    No. {player.backnum}
+                  </div>
+                  <div className="ml-12 mr-6 w-[48.67px] text-white font-bold">
+                    {player.playerName}
+                  </div>
+                </div>
+                <div className="relative">
+                  <Image
+                    src="/images/logo.svg"
+                    alt="로고다"
+                    width={39.37}
+                    height={42.17}
+                    className="absolute top-[-43px] left-[175px] z-[-1] opacity-25"
+                  />
+                </div>
               </div>
-              <div className="ml-4 w-[44.43px] text-gray-300 text-white text-sm">
-                No. {player.backnum}{" "}
-              </div>
-              <div className="ml-12 mr-6 w-[48.67px] text-white font-bold ">
-                {player.playerName}
-              </div>
-            </div>
-            <div className="relative">
-              <Image
-                src="/images/logo.svg"
-                alt="로고다"
-                width={39.37}
-                height={42.17}
-                className="absolute top-[-43px] left-[175px] z-[-1] opacity-25"
-              />
-            </div>
-          </div>
-        ))}
-        <div className="flex justify-center mt-4">
-          {Array.from({ length: Math.ceil(filteredPitchers.length / pitchersPerPage) }, (_, i) => (
-            <button
-              key={i + 1}
-              onClick={() => paginate(i + 1)}
-              className={`mx-1 px-3 py-1 ${
-                currentPage === i + 1 ? "bg-black text-white" : "bg-white text-black"
-              } border border-black rounded`}
-            >
-              {i + 1}
-            </button>
+            </SwiperSlide>
           ))}
-        </div>
+        </Swiper>
       </div>
     </div>
   );

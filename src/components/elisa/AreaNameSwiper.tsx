@@ -1,33 +1,57 @@
-"use client";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Scrollbar, Mousewheel } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/scrollbar";
-import "@/styles/elisa-copy.css";
+import { IoEyeOffOutline } from "react-icons/io5";
+import { IoEyeOutline } from "react-icons/io5";
+import "../../styles/elisa-copy.css";
 import { seatInfo } from "@/components/elisa/seatInfo";
+import { useState } from "react";
 
 const AreaNameSwiper = () => {
+  // const [hide, setHide] = useState(true);
+  const [hides, setHides] = useState<{ [key: number]: boolean }>(
+    seatInfo.areas.reduce((acc, _, i) => ({ ...acc, [i]: true }), {}),
+  ); // 동적 상태관리
+
+  const toggleHide = (i: number) => {
+    setHides((prevHides) => ({
+      ...prevHides,
+      [i]: !prevHides[i],
+    }));
+  };
+
   return (
-    <div className="w-full h-full px-4 flex items-center">
+    <div
+      id="area-name-swiper"
+      className="w-full h-full py-4 px-6 flex items-center"
+    >
       <Swiper
         className="area-name-swiper"
         direction={"vertical"}
         slidesPerView={"auto"}
         freeMode={true}
-        scrollbar={true}
         mousewheel={true}
+        scrollbar={true}
         modules={[FreeMode, Scrollbar, Mousewheel]}
       >
-        {seatInfo.areas.map(({ area_name, area_color }) => (
-          <SwiperSlide>
-            <div className="w-full flex justify-start items-center p-1">
-              <div
-                className="w-5 h-5 rounded border-solid border-2 hover:outline hover:outline-2 hover:outline-black dark:hover:outline-white mr-2"
-                style={{ backgroundColor: area_color }}
-              ></div>
-              <p>{area_name}</p>
+        {seatInfo.areas.map(({ area_name, area_color }, i) => (
+          <SwiperSlide key={i}>
+            <div className="relative flex justify-between items-center p-1">
+              <div className="flex items-center gap-4">
+                <div
+                  className="w-5 h-5 rounded border-solid border-2 hover:outline hover:outline-2 hover:outline-black dark:hover:outline-white"
+                  style={{ backgroundColor: area_color }}
+                ></div>
+                <p className="font-semibold">{area_name}</p>
+              </div>
+              <button
+                onClick={() => toggleHide(i)}
+                className="flex text-lg px-5"
+              >
+                {hides[i] ? <IoEyeOffOutline /> : <IoEyeOutline />}
+              </button>
             </div>
           </SwiperSlide>
         ))}

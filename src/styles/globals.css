@@ -63,7 +63,6 @@
 .filter-invert-dark {
   @apply filter invert brightness-0 contrast-100;
 }
-
 @font-face {
   font-family: "KT";
   src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/GyeonggiTitleM.woff")

@@ -222,7 +222,7 @@ const ReviewTab = () => {
   });
 
   return (
-    <Card>
+    <Card className="border-none">
       <div className="mb-10">
         <CardHeader>
           <CardTitle>좌석리뷰</CardTitle>

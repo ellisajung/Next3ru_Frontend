@@ -1,64 +1,36 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/shadcn-ui/card";
+import { Card } from "@/components/shadcn-ui/card";
 import Image from "next/image";
 import AreaNameSwiper from "./AreaNameSwiper";
-import Stadium from "./Stadium";
-import { Button } from "../shadcn-ui/button";
-import { useState } from "react";
-import Modal from "./Modal";
+import StadiumModel from "./StadiumModel";
 
 const StadiumModelTab = () => {
-  const [showModal, setShowModal] = useState<boolean>(false);
-
   return (
-    <Card
-      id="elisa"
-      className="h-[900px] flex flex-col bg-gray-500 bg-opacity-15"
-    >
-      <CardHeader className="mb-4">
-        <CardTitle>3D 좌석안내도</CardTitle>
-        <CardDescription className="text-md">
-          구역을 선택하여 좌석 정보를 확인해 보세요.
-          <Button onClick={() => setShowModal(!showModal)}>
-            좌석정보 모달창
-          </Button>
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="grow">
-        <div className="h-full grid grid-cols-5 gap-2">
-          <div className="col-span-4">
-            <Stadium />
-          </div>
-          <div className="col-span-1 flex flex-col ml-4">
-            <Card className="grow flex justify-center items-center bg-gray-500 bg-opacity-20">
-              <Image
-                src="/images/elisa/seatmap.png"
-                alt="baseball-field-icon"
-                width={500}
-                height={500}
-              />
-            </Card>
-            <span className="grow-0 text-lg font-semibold p-1 mt-4">
-              구역 선택
-            </span>
-            <Card className="grow flex justify-center  bg-gray-500 bg-opacity-20">
-              <AreaNameSwiper />
-            </Card>
-          </div>
+    <Card className="relative border-none h-full flex flex-col dark:bg-black">
+      <StadiumModel />
+      <Card className="absolute border-none left-4 top-4 bg-white bg-opacity-65 dark:bg-black dark:bg-opacity-55">
+        <div className="flex flex-row items-center p-6 gap-16">
+          <p className="text-2xl font-bold">3D 좌석안내도</p>
+          <p className="text-lg font-semibold">
+            |&nbsp;&nbsp;&nbsp;구역을 선택하여 좌석 정보와 리뷰를 확인해 보세요.
+          </p>
         </div>
-      </CardContent>
-      {showModal && (
-        <Modal
-          setShowModal={setShowModal}
-          info={{ name: "지니존", text: "좌" }}
-        />
-      )}
+      </Card>
+      <div className="absolute inset-y-0 top-4 bottom-4 right-4 flex flex-col justify-between">
+        <Card className="border-none flex justify-center items-center bg-white bg-opacity-65 dark:bg-black dark:bg-opacity-55">
+          <Image
+            src="/images/elisa/seatmap.png"
+            alt="baseball-field-icon"
+            width={300}
+            height={300}
+          />
+        </Card>
+        <div>
+          <span className="text-lg font-semibold p-1">구역 선택</span>
+          <Card className="border-none h-96 flex justify-center items-center bg-white bg-opacity-65 dark:bg-black dark:bg-opacity-55">
+            <AreaNameSwiper />
+          </Card>
+        </div>
+      </div>
     </Card>
   );
 };

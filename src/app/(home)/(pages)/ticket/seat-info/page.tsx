@@ -29,60 +29,57 @@ import {
 import { FaPen } from "react-icons/fa";
 import ReviewEditModal from "@/components/elisa/ReviewEditModal";
 import SeatInfoModal from "@/components/elisa/SeatInfoModal";
-import Stadium from "@/components/elisa/Stadium";
 import { useState } from "react";
-import StadiumModelTab from "@/components/elisa/StadiumModelTab";
+// import StadiumModelTab from "@/components/elisa/StadiumModelTab";
 import ReviewTab from "@/components/elisa/ReviewTab";
 import EventTest from "@/components/elisa/EventTest";
 import AreaNameSwiper from "@/components/elisa/AreaNameSwiper";
+import StadiumModelTab from "@/components/elisa/StadiumModelTab";
 
 const SeatInfoPage = () => {
   return (
     <div
       id="seat-info"
-      className="h-full flex justify-center items-center"
+      className="h-full pt-[6%]"
     >
       <Tabs
         defaultValue="account"
         id="kkkkk"
-        // className="w-full h-[75%] mb-[5%] gird grid-rows-2"
-        className="w-full h-full mt-[12%]"
+        className="h-full flex flex-col"
       >
-        <TabsList>
-          <TabsTrigger
-            value="account"
-            className="pl-5 pr-6"
-          >
-            <Image
-              src="/images/elisa/baseball-field-icon.svg"
-              alt="baseball-field-icon"
-              width={20}
-              height={20}
-              className="mr-1"
-            />
-            3D 좌석안내도
-          </TabsTrigger>
-          <TabsTrigger
-            value="password"
-            className="px-11"
-          >
-            좌석리뷰
-          </TabsTrigger>
-        </TabsList>
+        <div className="flex items-center mb-3">
+          <TabsList>
+            <TabsTrigger
+              value="account"
+              className="pl-5 pr-6"
+            >
+              <div className="filter-invert-dark dark:filter-invert-dark">
+                <Image
+                  src="/images/elisa/baseball-field-icon.svg"
+                  alt="baseball-field-icon"
+                  width={20}
+                  height={20}
+                  className="mr-1"
+                />
+              </div>
+              3D 좌석안내도
+            </TabsTrigger>
+            <TabsTrigger
+              value="password"
+              className="px-11"
+            >
+              좌석리뷰
+            </TabsTrigger>
+          </TabsList>
+        </div>
         <TabsContent
           value="account"
           id="123454"
-          // className="break-after-auto"
-          // className="data-[state=active]:h-full"
-          // className="grow"
+          className="grow"
         >
           <StadiumModelTab />
         </TabsContent>
-        <TabsContent
-          value="password"
-          // className="after:place-self-stretch"
-          // className="data-[state=active]:h-full"
-        >
+        <TabsContent value="password">
           <ReviewTab />
         </TabsContent>
       </Tabs>

@@ -1,56 +1,72 @@
+"use client";
+
 import * as THREE from "three";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
+import { type TClickedMeshInfo } from "@/components/elisa/StadiumModel";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/shadcn-ui/tooltip";
+import { Button } from "../shadcn-ui/button";
+
+type NodeKeys =
+  | "Mesh6271_Center_zone-218"
+  | "Mesh6375_Center_zone-315"
+  | "Mesh6693_Center_zone-316"
+  | "Mesh6925_Center_zone-219"
+  | "Mesh26589_Center_zone-223"
+  | "Mesh26751_Center_zone-320"
+  | "Mesh26954_Center_zone-221"
+  | "Mesh27107_Center_zone-222"
+  | "Mesh27135_Center_zone-318"
+  | "Mesh27152_Center_zone-319"
+  | "Mesh27367_Center_zone-220"
+  | "Mesh27602_Center_zone-317"
+  | "Mesh29412_Center_zone-313"
+  | "Mesh29416_Center_zone-314"
+  | "Mesh29567_Center_zone-216"
+  | "Mesh29609_Center_zone-217";
 
 type GLTFResult = GLTF & {
   nodes: {
-    Mesh6271_chair3_1_583_Component_253_1_Group77_allseats1_Model: THREE.Mesh;
-    Mesh6375_chair3_1_687_Component_253_1_Group77_allseats1_Model: THREE.Mesh;
-    Mesh6693_chair3_1_1005_Component_254_1_Group77_allseats1_Model: THREE.Mesh;
-    Mesh6925_chair3_1_1237_Component_254_1_Group77_allseats1_Model: THREE.Mesh;
-    Mesh7189_chair3_1_1501_Component_158_14_Component_249_1_Group77: THREE.Mesh;
-    Mesh7827_chair3_1_2139_Group77_allseats1_Model: THREE.Mesh;
-    Mesh8072_chair3_1_2384_Group77_allseats1_Model: THREE.Mesh;
-    Mesh8269_chair3_1_2581_Group77_allseats1_Model001: THREE.Mesh;
-    Mesh8401_chair3_1_2713_Component_265_1_Group77_allseats1_Model: THREE.Mesh;
-    Mesh19819_chair3_1_7033_Component_158_19_Component_249_2_Group7: THREE.Mesh;
-    Mesh26589_chair3_5_706_Group77_allseats1_Model: THREE.Mesh;
-    Mesh26751_chair3_5_868_Group77_allseats1_Model: THREE.Mesh;
-    Mesh26954_chair3_5_1071_Group77_allseats1_Model: THREE.Mesh;
-    Mesh27107_chair3_5_1224_Group77_allseats1_Model001: THREE.Mesh;
-    Mesh27135_chair3_5_1252_Group77_allseats1_Model001: THREE.Mesh;
-    Mesh27152_chair3_5_1269_Group77_allseats1_Model: THREE.Mesh;
-    Mesh27367_chair3_5_1484_Group77_allseats1_Model: THREE.Mesh;
-    Mesh27602_chair3_5_1719_Group77_allseats1_Model: THREE.Mesh;
-    Mesh29412_chair3_5_2047_Group77_allseats1_Model: THREE.Mesh;
-    Mesh29416_chair3_5_2051_Group77_allseats1_Model: THREE.Mesh;
-    Mesh29567_chair3_5_2202_Group77_allseats1_Model: THREE.Mesh;
-    Mesh29609_chair3_5_2244_Group77_allseats1_Model: THREE.Mesh;
+    [key in NodeKeys]: THREE.Mesh;
   };
-  materials: {
-    lambert26SG: THREE.MeshStandardMaterial;
-  };
+  materials: { [key: string]: THREE.MeshStandardMaterial };
 };
 
 export function CenterModel({ showModal, handleMeshClick }: any) {
   const { nodes, materials } = useGLTF("/models/center.glb") as GLTFResult;
 
-  const [hoveredMesh, setHoveredMesh] = useState<THREE.Mesh | null>(null);
-  const [clickedMesh, setClickedMesh] = useState<THREE.Mesh | null>(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const [hoveredMesh, setHoveredMesh] = useState<string | null>(null);
+  const [clickedMesh, setClickedMesh] = useState<TClickedMeshInfo | null>(null);
 
-  const defaultMaterial = materials.lambert26SG;
-  const hoverMaterial = defaultMaterial?.clone();
-  hoverMaterial?.color.set("#333");
+  const defaultColor = nodes["Mesh6271_Center_zone-218"]
+    .material as THREE.MeshStandardMaterial;
+  const hoverColor = defaultColor.clone();
+  hoverColor.color.set("#702CA4");
 
-  const onClickMesh = (info: any) => {
+  const onClickMesh = (info: TClickedMeshInfo): void => {
     handleMeshClick(info);
-    // setClickedMesh(mesh);
+    setClickedMesh(info);
   };
-  // const onClickMesh = (mesh: THREE.Mesh, info: any) => {
-  //   handleMeshClick(info);
-  //   setClickedMesh(mesh);
-  // };
+
+  const onMeshOver = (meshName: string): void => {
+    setHoveredMesh(meshName);
+  };
+
+  const onMeshOut = (): void => {
+    setHoveredMesh(null);
+  };
+
+  const getColor = (isHovered: boolean, meshName: string) =>
+    isHovered || clickedMesh?.area_name === meshName
+      ? hoverColor
+      : defaultColor;
 
   useEffect(() => {
     if (showModal == false) {
@@ -58,324 +74,269 @@ export function CenterModel({ showModal, handleMeshClick }: any) {
     }
   }, [showModal]);
 
-  const onMeshOver = (mesh: THREE.Mesh) => {
-    setHoveredMesh(mesh); // 현재 호버된 메쉬의 ID 저장
-  };
+  const meshes = (Object.keys(nodes) as NodeKeys[]).map((key) => {
+    const mesh = nodes[key];
+    const color = getColor(isHovered, mesh.name);
+    const zone = mesh.name.slice(-3);
+    console.log(mesh.name, zone); // 왜 11번이나 렌더링되는거지...?
+    // 고치기전 코드 (트러블슈팅!!!-렌더러 차이에서 오는 문제)
+    // https://chatgpt.com/c/aa2f604b-e552-409e-8e22-11ca135faf90
+    // 코드 1
+    //   return hoveredMesh === mesh.name ? (
+    //     <TooltipProvider key={key}>
+    //       <Tooltip>
+    //         <TooltipTrigger asChild>
+    //           <mesh
+    //             castShadow
+    //             receiveShadow
+    //             geometry={mesh.geometry}
+    //             material={getColor(isHovered, mesh.name)}
+    //             onClick={() => onClickMesh({ area_name: mesh.name, zone: "113" })}
+    //             onPointerOver={() => onMeshOver(mesh.name)}
+    //             onPointerOut={onMeshOut}
+    //             rotation={[-3.141, -1.305, -3.141]}
+    //             scale={0.292}
+    //           />
+    //         </TooltipTrigger>
+    //         <TooltipContent>
+    //           <p>Add to library</p>
+    //         </TooltipContent>
+    //       </Tooltip>
+    //     </TooltipProvider>
+    //   ) : (
+    //     <mesh
+    //       key={key}
+    //       castShadow
+    //       receiveShadow
+    //       geometry={mesh.geometry}
+    //       material={getColor(isHovered, mesh.name)}
+    //       onClick={() => onClickMesh({ area_name: mesh.name, zone: "113" })}
+    //       onPointerOver={() => onMeshOver(mesh.name)}
+    //       onPointerOut={onMeshOut}
+    //       rotation={[-3.141, -1.305, -3.141]}
+    //       scale={0.292}
+    //     />
+    //   );
+    // });
+    // 코드 2
+    //   return (
+    //     <Tooltip key={key}>
+    //       <TooltipTrigger asChild>
+    //         <mesh
+    //           castShadow
+    //           receiveShadow
+    //           geometry={mesh.geometry}
+    //           material={color}
+    //           onClick={() =>
+    //             onClickMesh({
+    //               area_name: mesh.name,
+    //               zone: zone ? zone[1] : null,
+    //             })
+    //           }
+    //           onPointerOver={() => onMeshOver(mesh.name)}
+    //           onPointerOut={onMeshOut}
+    //           rotation={[-3.141, -1.305, -3.141]}
+    //           scale={0.292}
+    //         />
+    //       </TooltipTrigger>
+    //       {hoveredMesh === mesh.name && (
+    //         <TooltipContent>
+    //           <p>중앙지정석</p>
+    //           <p>{zone}번 구역</p>
+    //         </TooltipContent>
+    //       )}
+    //     </Tooltip>
+    //   );
+    // });
 
-  const onMeshOut = () => {
-    setHoveredMesh(null); // 호버 상태 해제
-  };
-
-  // const getColor = (meshId: any) => {
-  //   if (clickMesh === meshId) return hoveredColor; // 클릭된 메쉬일 때
-  //   if (hoverColor === meshId) return hoveredColor; // 호버된 메쉬일 때
-  //   return defaultColor; // 기본 재질
-  // };
-
-  const getMaterial = (mesh: THREE.Mesh) => {
-    if (clickedMesh === mesh) return hoverMaterial; // 클릭된 메쉬일 때
-    if (hoveredMesh === mesh) return hoverMaterial; // 호버된 메쉬일 때
-    return defaultMaterial; // 기본 재질
-  };
-
-  // const meshes = Object.keys(nodes).map((key) => (
-  //   <mesh
-  //     key={key}
-  //     castShadow
-  //     receiveShadow
-  //     geometry={nodes[key].geometry}
-  //     material={getColor(nodes[key])}
-  //     rotation={[-3.141, -1.305, -3.141]}
-  //     scale={0.202}
-  //     onClick={() => onClickMesh(nodes[key])}
-  //     onPointerOver={() => onMeshOver(nodes[key])}
-  //     onPointerOut={onMeshOut}
-  //   />
-  // ));
-
-  // return <group dispose={null}>{meshes}</group>;
-
-  return (
-    <group dispose={null}>
+    // return (
+    //   <TooltipProvider>
+    //     <group
+    //       dispose={null}
+    //       onPointerOver={() => setIsHovered(true)}
+    //       onPointerOut={() => setIsHovered(false)}
+    //     >
+    //       {meshes}
+    //     </group>
+    //   </TooltipProvider>
+    // );
+    return (
       <mesh
+        key={key}
         castShadow
         receiveShadow
-        geometry={
-          nodes.Mesh6271_chair3_1_583_Component_253_1_Group77_allseats1_Model
-            .geometry
-        }
-        material={
-          nodes.Mesh6271_chair3_1_583_Component_253_1_Group77_allseats1_Model
-            .material
-        }
-        rotation={[-3.141, -1.305, -3.141]}
-        scale={0.202}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={
-          nodes.Mesh6375_chair3_1_687_Component_253_1_Group77_allseats1_Model
-            .geometry
-        }
-        material={
-          nodes.Mesh6375_chair3_1_687_Component_253_1_Group77_allseats1_Model
-            .material
-        }
-        rotation={[-3.141, -1.305, -3.141]}
-        scale={0.202}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={
-          nodes.Mesh6693_chair3_1_1005_Component_254_1_Group77_allseats1_Model
-            .geometry
-        }
-        material={
-          nodes.Mesh6693_chair3_1_1005_Component_254_1_Group77_allseats1_Model
-            .material
-        }
-        rotation={[-3.141, -1.305, -3.141]}
-        scale={0.202}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={
-          nodes.Mesh6925_chair3_1_1237_Component_254_1_Group77_allseats1_Model
-            .geometry
-        }
-        material={
-          nodes.Mesh6925_chair3_1_1237_Component_254_1_Group77_allseats1_Model
-            .material
-        }
-        rotation={[-3.141, -1.305, -3.141]}
-        scale={0.202}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={
-          nodes.Mesh7189_chair3_1_1501_Component_158_14_Component_249_1_Group77
-            .geometry
-        }
-        material={
-          nodes.Mesh7189_chair3_1_1501_Component_158_14_Component_249_1_Group77
-            .material
-        }
-        rotation={[-3.141, -1.305, -3.141]}
-        scale={0.202}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Mesh7827_chair3_1_2139_Group77_allseats1_Model.geometry}
-        material={nodes.Mesh7827_chair3_1_2139_Group77_allseats1_Model.material}
-        rotation={[-3.141, -1.305, -3.141]}
-        scale={0.202}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Mesh8072_chair3_1_2384_Group77_allseats1_Model.geometry}
-        material={nodes.Mesh8072_chair3_1_2384_Group77_allseats1_Model.material}
-        rotation={[-3.141, -1.305, -3.141]}
-        scale={0.202}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={
-          nodes.Mesh8269_chair3_1_2581_Group77_allseats1_Model001.geometry
-        }
-        material={
-          nodes.Mesh8269_chair3_1_2581_Group77_allseats1_Model001.material
-        }
-        rotation={[-3.141, -1.305, -3.141]}
-        scale={0.202}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={
-          nodes.Mesh8401_chair3_1_2713_Component_265_1_Group77_allseats1_Model
-            .geometry
-        }
-        material={
-          nodes.Mesh8401_chair3_1_2713_Component_265_1_Group77_allseats1_Model
-            .material
-        }
-        rotation={[-3.141, -1.305, -3.141]}
-        scale={0.202}
-      />
-      <mesh
+        geometry={mesh.geometry}
+        material={color}
         onClick={() =>
           onClickMesh({
-            name: "지니존",
-            text: "중앙",
+            area_name: mesh.name,
+            zone: zone ? zone[1] : null,
           })
         }
-        onPointerOver={() =>
-          onMeshOver(
-            nodes.Mesh19819_chair3_1_7033_Component_158_19_Component_249_2_Group7,
-          )
-        }
+        onPointerOver={() => onMeshOver(mesh.name)}
         onPointerOut={onMeshOut}
-        material={getMaterial(
-          nodes.Mesh19819_chair3_1_7033_Component_158_19_Component_249_2_Group7,
-        )}
-        // material={
-        //   nodes.Mesh19819_chair3_1_7033_Component_158_19_Component_249_2_Group7
-        //   .material
-        // }
-        castShadow
-        receiveShadow
-        geometry={
-          nodes.Mesh19819_chair3_1_7033_Component_158_19_Component_249_2_Group7
-            .geometry
-        }
         rotation={[-3.141, -1.305, -3.141]}
-        scale={0.202}
+        scale={0.292}
       />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Mesh26589_chair3_5_706_Group77_allseats1_Model.geometry}
-        material={nodes.Mesh26589_chair3_5_706_Group77_allseats1_Model.material}
-        rotation={[-3.141, -1.305, -3.141]}
-        scale={0.202}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Mesh26751_chair3_5_868_Group77_allseats1_Model.geometry}
-        material={nodes.Mesh26751_chair3_5_868_Group77_allseats1_Model.material}
-        rotation={[-3.141, -1.305, -3.141]}
-        scale={0.202}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={
-          nodes.Mesh26954_chair3_5_1071_Group77_allseats1_Model.geometry
-        }
-        material={
-          nodes.Mesh26954_chair3_5_1071_Group77_allseats1_Model.material
-        }
-        rotation={[-3.141, -1.305, -3.141]}
-        scale={0.202}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={
-          nodes.Mesh27107_chair3_5_1224_Group77_allseats1_Model001.geometry
-        }
-        material={
-          nodes.Mesh27107_chair3_5_1224_Group77_allseats1_Model001.material
-        }
-        rotation={[-3.141, -1.305, -3.141]}
-        scale={0.202}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={
-          nodes.Mesh27135_chair3_5_1252_Group77_allseats1_Model001.geometry
-        }
-        material={
-          nodes.Mesh27135_chair3_5_1252_Group77_allseats1_Model001.material
-        }
-        rotation={[-3.141, -1.305, -3.141]}
-        scale={0.202}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={
-          nodes.Mesh27152_chair3_5_1269_Group77_allseats1_Model.geometry
-        }
-        material={
-          nodes.Mesh27152_chair3_5_1269_Group77_allseats1_Model.material
-        }
-        rotation={[-3.141, -1.305, -3.141]}
-        scale={0.202}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={
-          nodes.Mesh27367_chair3_5_1484_Group77_allseats1_Model.geometry
-        }
-        material={
-          nodes.Mesh27367_chair3_5_1484_Group77_allseats1_Model.material
-        }
-        rotation={[-3.141, -1.305, -3.141]}
-        scale={0.202}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={
-          nodes.Mesh27602_chair3_5_1719_Group77_allseats1_Model.geometry
-        }
-        material={
-          nodes.Mesh27602_chair3_5_1719_Group77_allseats1_Model.material
-        }
-        rotation={[-3.141, -1.305, -3.141]}
-        scale={0.202}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={
-          nodes.Mesh29412_chair3_5_2047_Group77_allseats1_Model.geometry
-        }
-        material={
-          nodes.Mesh29412_chair3_5_2047_Group77_allseats1_Model.material
-        }
-        rotation={[-3.141, -1.305, -3.141]}
-        scale={0.202}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={
-          nodes.Mesh29416_chair3_5_2051_Group77_allseats1_Model.geometry
-        }
-        material={
-          nodes.Mesh29416_chair3_5_2051_Group77_allseats1_Model.material
-        }
-        rotation={[-3.141, -1.305, -3.141]}
-        scale={0.202}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={
-          nodes.Mesh29567_chair3_5_2202_Group77_allseats1_Model.geometry
-        }
-        material={
-          nodes.Mesh29567_chair3_5_2202_Group77_allseats1_Model.material
-        }
-        rotation={[-3.141, -1.305, -3.141]}
-        scale={0.202}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={
-          nodes.Mesh29609_chair3_5_2244_Group77_allseats1_Model.geometry
-        }
-        material={
-          nodes.Mesh29609_chair3_5_2244_Group77_allseats1_Model.material
-        }
-        rotation={[-3.141, -1.305, -3.141]}
-        scale={0.202}
-      />
+    );
+  });
+
+  return (
+    <group
+      dispose={null}
+      onPointerOver={() => setIsHovered(true)}
+      onPointerOut={() => setIsHovered(false)}
+    >
+      {meshes}
     </group>
   );
+
+  // 원래 코드
+  // return (
+  //   <group
+  //     dispose={null}
+  //     onPointerOver={() => onMeshOver(nodes["Mesh6271_Center_zone-218"].name)}
+  //     onPointerOut={onMeshOut}
+  //   >
+  //     <mesh
+  //       onClick={() =>
+  //         onClickMesh({
+  //           area_name: nodes["Mesh6271_Center_zone-218"].name,
+  //           zone: "113",
+  //         })
+  //       }
+  //       onPointerOver={() => onMeshOver(nodes["Mesh6271_Center_zone-218"].name)}
+  //       onPointerOut={onMeshOut}
+  //       material={getColor(nodes["Mesh6271_Center_zone-218"].name)}
+  //       geometry={nodes["Mesh6271_Center_zone-218"].geometry}
+  //       // material={nodes["Mesh6271_Center_zone-218"].material}
+  //       castShadow
+  //       receiveShadow
+  //       rotation={[-3.141, -1.305, -3.141]}
+  //       scale={0.292}
+  //     />
+  //     <mesh
+  //       castShadow
+  //       receiveShadow
+  //       geometry={nodes["Mesh6375_Center_zone-315"].geometry}
+  //       material={nodes["Mesh6375_Center_zone-315"].material}
+  //       rotation={[-3.141, -1.305, -3.141]}
+  //       scale={0.292}
+  //     />
+  //     <mesh
+  //       castShadow
+  //       receiveShadow
+  //       geometry={nodes["Mesh6693_Center_zone-316"].geometry}
+  //       material={nodes["Mesh6693_Center_zone-316"].material}
+  //       rotation={[-3.141, -1.305, -3.141]}
+  //       scale={0.292}
+  //     />
+  //     <mesh
+  //       castShadow
+  //       receiveShadow
+  //       geometry={nodes["Mesh6925_Center_zone-219"].geometry}
+  //       material={nodes["Mesh6925_Center_zone-219"].material}
+  //       rotation={[-3.141, -1.305, -3.141]}
+  //       scale={0.292}
+  //     />
+  //     <mesh
+  //       castShadow
+  //       receiveShadow
+  //       geometry={nodes["Mesh26589_Center_zone-223"].geometry}
+  //       material={nodes["Mesh26589_Center_zone-223"].material}
+  //       rotation={[-3.141, -1.305, -3.141]}
+  //       scale={0.292}
+  //     />
+  //     <mesh
+  //       castShadow
+  //       receiveShadow
+  //       geometry={nodes["Mesh26751_Center_zone-320"].geometry}
+  //       material={nodes["Mesh26751_Center_zone-320"].material}
+  //       rotation={[-3.141, -1.305, -3.141]}
+  //       scale={0.292}
+  //     />
+  //     <mesh
+  //       castShadow
+  //       receiveShadow
+  //       geometry={nodes["Mesh26954_Center_zone-221"].geometry}
+  //       material={nodes["Mesh26954_Center_zone-221"].material}
+  //       rotation={[-3.141, -1.305, -3.141]}
+  //       scale={0.292}
+  //     />
+  //     <mesh
+  //       castShadow
+  //       receiveShadow
+  //       geometry={nodes["Mesh27107_Center_zone-222"].geometry}
+  //       material={nodes["Mesh27107_Center_zone-222"].material}
+  //       rotation={[-3.141, -1.305, -3.141]}
+  //       scale={0.292}
+  //     />
+  //     <mesh
+  //       castShadow
+  //       receiveShadow
+  //       geometry={nodes["Mesh27135_Center_zone-318"].geometry}
+  //       material={nodes["Mesh27135_Center_zone-318"].material}
+  //       rotation={[-3.141, -1.305, -3.141]}
+  //       scale={0.292}
+  //     />
+  //     <mesh
+  //       castShadow
+  //       receiveShadow
+  //       geometry={nodes["Mesh27152_Center_zone-319"].geometry}
+  //       material={nodes["Mesh27152_Center_zone-319"].material}
+  //       rotation={[-3.141, -1.305, -3.141]}
+  //       scale={0.292}
+  //     />
+  //     <mesh
+  //       castShadow
+  //       receiveShadow
+  //       geometry={nodes["Mesh27367_Center_zone-220"].geometry}
+  //       material={nodes["Mesh27367_Center_zone-220"].material}
+  //       rotation={[-3.141, -1.305, -3.141]}
+  //       scale={0.292}
+  //     />
+  //     <mesh
+  //       castShadow
+  //       receiveShadow
+  //       geometry={nodes["Mesh27602_Center_zone-317"].geometry}
+  //       material={nodes["Mesh27602_Center_zone-317"].material}
+  //       rotation={[-3.141, -1.305, -3.141]}
+  //       scale={0.292}
+  //     />
+  //     <mesh
+  //       castShadow
+  //       receiveShadow
+  //       geometry={nodes["Mesh29412_Center_zone-313"].geometry}
+  //       material={nodes["Mesh29412_Center_zone-313"].material}
+  //       rotation={[-3.141, -1.305, -3.141]}
+  //       scale={0.292}
+  //     />
+  //     <mesh
+  //       castShadow
+  //       receiveShadow
+  //       geometry={nodes["Mesh29416_Center_zone-314"].geometry}
+  //       material={nodes["Mesh29416_Center_zone-314"].material}
+  //       rotation={[-3.141, -1.305, -3.141]}
+  //       scale={0.292}
+  //     />
+  //     <mesh
+  //       castShadow
+  //       receiveShadow
+  //       geometry={nodes["Mesh29567_Center_zone-216"].geometry}
+  //       material={nodes["Mesh29567_Center_zone-216"].material}
+  //       rotation={[-3.141, -1.305, -3.141]}
+  //       scale={0.292}
+  //     />
+  //     <mesh
+  //       castShadow
+  //       receiveShadow
+  //       geometry={nodes["Mesh29609_Center_zone-217"].geometry}
+  //       material={nodes["Mesh29609_Center_zone-217"].material}
+  //       rotation={[-3.141, -1.305, -3.141]}
+  //       scale={0.292}
+  //     />
+  //   </group>
+  // );
 }
 
 useGLTF.preload("/models/center.glb");
