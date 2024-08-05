@@ -88,9 +88,9 @@ const SquardPlayerCon = () => {
   return (
     <div
       id="squard-player"
-      className="bg-[#F7F7F7] flex flex-row h-screen w-screen overflow-hidden"
+      className="bg-[#F7F7F7] flex flex-row h-screen w-full overflow-hidden"
     >
-      <div className="Left ">
+      <div className="Left  ">
         <div id="ai_button_container" className="pt-2 pl-10">
           <p className="p-3 text-lg font-['KT']">내가 짜는 wiz 스쿼드</p>
           <hr className="border-solid border-[1px] border-slate-600 w-[20%]" />
@@ -154,7 +154,7 @@ const SquardPlayerCon = () => {
                   Aisquard.map((player, index) => (
                     <div
                       style={{
-                        transform: "scale(1)",
+                        transform: "scale(0.8)",
                       }}
                       onDragStart={handleDragStart(player)}
                       draggable
@@ -175,7 +175,7 @@ const SquardPlayerCon = () => {
                   squard.map((player, index) => (
                     <motion.div
                       style={{
-                        transform: "scale(1)",
+                        transform: "scale(0.8)",
                       }}
                       key={index}
                       className={`absolute cursor-pointer ${getPositionStyle(

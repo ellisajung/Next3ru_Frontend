@@ -1,23 +1,25 @@
-// 화자 답변을 생성하는 컴포넌트
 import React, { ReactNode } from "react";
 
 type MessageParserProps = {
-  children: ReactNode; // children의 타입을 ReactNode으로 지정
-  actions: { [key: string]: Function }; // actions 객체 타입 정의
+  children: ReactNode;
+  actions: {
+    [key: string]: Function;
+    handleUserMessage: (message: string) => void; // OpenAI API를 호출할 액션 추가
+  };
 };
 
 const MessageParser = ({ children, actions }: MessageParserProps) => {
   const parse = (message: string) => {
+    // 기존의 조건들
     if (message.includes("schedule")) {
-      actions.handleDailySchedule(); // actions 객체의 handleHello 함수 호출 ->  응답에 따른 답변 호출
-    }
-
-    if (message.includes("teamRecord")) {
-      actions.handleTeamRecord(); // actions 객체의 handleHello 함수 호출 ->  응답에 따른 답변 호출
-    }
-
-    if (message.includes("todayLineUp")) {
-      actions.todayLineUp(); // actions 객체의 handleHello 함수 호출 ->  응답에 따른 답변 호출
+      actions.handleDailySchedule();
+    } else if (message.includes("teamRecord")) {
+      actions.handleTeamRecord();
+    } else if (message.includes("todayLineUp")) {
+      actions.handlePlayerRanking();
+    } else {
+      // OpenAI API를 통해 답변을 처리할 경우
+      actions.handleUserMessage(message); // OpenAI API를 통해 처리하도록 호출
     }
   };
 
