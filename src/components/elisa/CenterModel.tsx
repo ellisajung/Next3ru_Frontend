@@ -5,13 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { type TClickedMeshInfo } from "@/components/elisa/StadiumModel";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/shadcn-ui/tooltip";
 import { Button } from "../shadcn-ui/button";
+import { TooltipModel } from "./TooltipModel";
 
 type NodeKeys =
   | "Mesh6271_Center_zone-218"
@@ -38,11 +33,21 @@ type GLTFResult = GLTF & {
   materials: { [key: string]: THREE.MeshStandardMaterial };
 };
 
-export function CenterModel({ showModal, handleMeshClick }: any) {
+export type TTooltip = {
+  position: [number, number, number];
+  text: string;
+};
+
+export function CenterModel({
+  showModal,
+  handleMeshHover,
+  handleMeshClick,
+}: any) {
   const { nodes, materials } = useGLTF("/models/center.glb") as GLTFResult;
 
+  const [tooltip, setTooltip] = useState<TTooltip | null>(null);
   const [isHovered, setIsHovered] = useState(false);
-  const [hoveredMesh, setHoveredMesh] = useState<string | null>(null);
+  const [hoveredMesh, setHoveredMesh] = useState<TClickedMeshInfo | null>(null);
   const [clickedMesh, setClickedMesh] = useState<TClickedMeshInfo | null>(null);
 
   const defaultColor = nodes["Mesh6271_Center_zone-218"]
@@ -50,17 +55,27 @@ export function CenterModel({ showModal, handleMeshClick }: any) {
   const hoverColor = defaultColor.clone();
   hoverColor.color.set("#702CA4");
 
-  const onClickMesh = (info: TClickedMeshInfo): void => {
+  const onMeshClick = (info: TClickedMeshInfo): void => {
     handleMeshClick(info);
     setClickedMesh(info);
   };
 
-  const onMeshOver = (meshName: string): void => {
-    setHoveredMesh(meshName);
+  const onMeshOver = (mesh: any, info: TClickedMeshInfo): void => {
+    console.log(mesh); // mesh 객체의 구조를 확인
+    handleMeshHover(info);
+    setHoveredMesh(info);
+    // mesh와 mesh.object가 정의되어 있는지 확인
+    if (mesh && mesh.object && mesh.object.position) {
+      setTooltip({
+        position: [0, 1, 0], // 툴팁 위치 조정
+        text: `${info.area_name}\n ${info.zone}번 구역`,
+      });
+    }
   };
 
   const onMeshOut = (): void => {
     setHoveredMesh(null);
+    setTooltip(null);
   };
 
   const getColor = (isHovered: boolean, meshName: string) =>
@@ -78,6 +93,10 @@ export function CenterModel({ showModal, handleMeshClick }: any) {
     const mesh = nodes[key];
     const color = getColor(isHovered, mesh.name);
     const zone = mesh.name.slice(-3);
+    const meshInfo: TClickedMeshInfo = {
+      area_name: "중앙지정석",
+      zone: zone,
+    };
     console.log(mesh.name, zone); // 왜 11번이나 렌더링되는거지...?
     // 고치기전 코드 (트러블슈팅!!!-렌더러 차이에서 오는 문제)
     // https://chatgpt.com/c/aa2f604b-e552-409e-8e22-11ca135faf90
@@ -167,13 +186,8 @@ export function CenterModel({ showModal, handleMeshClick }: any) {
         receiveShadow
         geometry={mesh.geometry}
         material={color}
-        onClick={() =>
-          onClickMesh({
-            area_name: mesh.name,
-            zone: zone ? zone[1] : null,
-          })
-        }
-        onPointerOver={() => onMeshOver(mesh.name)}
+        onClick={() => onMeshClick(meshInfo)}
+        onPointerOver={() => onMeshOver(mesh, meshInfo)}
         onPointerOut={onMeshOut}
         rotation={[-3.141, -1.305, -3.141]}
         scale={0.292}
@@ -188,6 +202,12 @@ export function CenterModel({ showModal, handleMeshClick }: any) {
       onPointerOut={() => setIsHovered(false)}
     >
       {meshes}
+      {tooltip && (
+        <TooltipModel
+          position={tooltip.position}
+          text={tooltip.text}
+        />
+      )}
     </group>
   );
 

@@ -191,6 +191,7 @@ const ViewPicSwiper: React.FC<ISwiperProps> = ({ zone }) => {
       }}
       modules={[Scrollbar]}
     >
+      {console.log(zone) as any}
       {viewPics[zone].map((pic, i) => (
         <SwiperSlide key={i}>
           <Image
@@ -201,7 +202,6 @@ const ViewPicSwiper: React.FC<ISwiperProps> = ({ zone }) => {
           />
         </SwiperSlide>
       ))}
-      {console.log("swiper loaded!") as any}
     </Swiper>
   );
 };

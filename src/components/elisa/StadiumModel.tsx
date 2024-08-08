@@ -39,16 +39,18 @@ export default function StadiumModel() {
   const [clickedMeshInfo, setClickedMeshInfo] = useState<
     TClickedMeshInfo | undefined
   >();
+  const [hoveredMeshInfo, setHoveredMeshInfo] = useState<
+    TClickedMeshInfo | undefined
+  >();
 
   const handleMeshClick = (info: TClickedMeshInfo) => {
     setShowModal(true);
-    console.log("setting modal to true!");
-    // console.log(showModal); // false
     setClickedMeshInfo(info); // 클릭된 메쉬의 정보를 상태에 저장
-    console.log(info);
   };
 
-  console.log(showModal); // true
+  const handleMeshHover = (info: TClickedMeshInfo) => {
+    setHoveredMeshInfo(info); // 호버된 메쉬의 정보를 상태에 저장
+  };
 
   return (
     <div
@@ -60,70 +62,87 @@ export default function StadiumModel() {
         <Center>
           <SkeletonModel
             showModal={showModal}
+            handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <CenterModel
             showModal={showModal}
+            handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <Cheering1RuModel
             showModal={showModal}
+            handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <Cheering3RuModel
             showModal={showModal}
+            handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <Exiting1RuModel
             showModal={showModal}
+            handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <Exiting3RuModel
             showModal={showModal}
+            handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <GiniTvModel
             showModal={showModal}
+            handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <GiniModel
             showModal={showModal}
+            handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <Grass1RuModel
             showModal={showModal}
+            handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <Grass3RuModel
             showModal={showModal}
+            handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <Kidsland4thModel
             showModal={showModal}
+            handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <Kidsland5thModel
             showModal={showModal}
+            handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <KtAlphaModel
             showModal={showModal}
+            handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <Sky1RuModel
             showModal={showModal}
+            handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <Sky3RuModel
             showModal={showModal}
+            handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <TvingTableModel
             showModal={showModal}
+            handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <YBoxModel
             showModal={showModal}
+            handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           {/* <Floor /> */}
