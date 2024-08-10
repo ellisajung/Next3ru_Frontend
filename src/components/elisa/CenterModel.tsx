@@ -43,6 +43,8 @@ export function CenterModel({
   handleMeshHover,
   handleMeshClick,
 }: any) {
+  // const group = useRef<THREE.Group>(null);
+
   const { nodes, materials } = useGLTF("/models/center.glb") as GLTFResult;
 
   const [tooltip, setTooltip] = useState<TTooltip | null>(null);
@@ -64,13 +66,22 @@ export function CenterModel({
     console.log(mesh); // mesh 객체의 구조를 확인
     handleMeshHover(info);
     setHoveredMesh(info);
-    // mesh와 mesh.object가 정의되어 있는지 확인
-    if (mesh && mesh.object && mesh.object.position) {
-      setTooltip({
-        position: [0, 1, 0], // 툴팁 위치 조정
-        text: `${info.area_name}\n ${info.zone}번 구역`,
-      });
-    }
+
+    const worldPosition = new THREE.Vector3();
+    mesh.getWorldPosition(worldPosition);
+    // 월드 매트릭스 업데이트
+    // group.current?.updateMatrixWorld(true);
+    // mesh.updateMatrixWorld(true);
+    console.log(
+      "mesh's world position: ",
+      mesh.getWorldPosition(worldPosition),
+    );
+
+    // 툴팁의 오프셋을 추가하여 매쉬 위에 위치
+    setTooltip({
+      position: [worldPosition.x, worldPosition.y + 1, worldPosition.z], // 오프셋을 조정하여 위치 조정
+      text: `${info.area_name}\n ${info.zone}번 구역`,
+    });
   };
 
   const onMeshOut = (): void => {
@@ -97,7 +108,7 @@ export function CenterModel({
       area_name: "중앙지정석",
       zone: zone,
     };
-    console.log(mesh.name, zone); // 왜 11번이나 렌더링되는거지...?
+    // console.log(mesh.name, zone); // 왜 11번이나 렌더링되는거지...?
     // 고치기전 코드 (트러블슈팅!!!-렌더러 차이에서 오는 문제)
     // https://chatgpt.com/c/aa2f604b-e552-409e-8e22-11ca135faf90
     // 코드 1

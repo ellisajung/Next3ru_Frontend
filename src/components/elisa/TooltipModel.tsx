@@ -22,7 +22,8 @@ export function TooltipModel({ position, text }: TTooltip) {
         receiveShadow
         geometry={nodes.Cube.geometry}
         material={nodes.Cube.material}
-        scale={[12.803, 20, 20.914]}
+        scale={[15.803, 20, 20.914]}
+        position={position}
       />
     </group>
   );

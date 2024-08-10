@@ -27,6 +27,8 @@ import { Sky3RuModel } from "./Sky3RuModel";
 import { TvingTableModel } from "./TvingTableModel";
 import { YBoxModel } from "./YBoxModel";
 import SeatInfoModal from "./SeatInfoModal";
+import { TooltipModel } from "./TooltipModel";
+import { text } from "stream/consumers";
 
 export type TClickedMeshInfo = {
   area_name: string;
@@ -145,6 +147,10 @@ export default function StadiumModel() {
             handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
+          {/* <TooltipModel
+            position={[100, 100, 100]}
+            text="tooltip"
+          /> */}
           {/* <Floor /> */}
         </Center>
         <Environment
