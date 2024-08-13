@@ -2,8 +2,20 @@ import { Card } from "@/components/shadcn-ui/card";
 import Image from "next/image";
 import AreaNameSwiper from "./AreaNameSwiper";
 import StadiumModel from "./StadiumModel";
+import { GrPowerReset } from "react-icons/gr";
+import { Button } from "../shadcn-ui/button";
+import { seatInfo } from "./seatInfo";
+import { useState } from "react";
 
 const StadiumModelTab = () => {
+  const [reset, setReset] = useState(false);
+
+  const handleReset = () => {
+    setReset(true);
+    // 상태가 변경된 후 바로 false로 설정
+    setTimeout(() => setReset(false), 0);
+  };
+
   return (
     <Card className="relative border-none h-full flex flex-col dark:bg-black">
       <StadiumModel />
@@ -24,12 +36,20 @@ const StadiumModelTab = () => {
             height={300}
           />
         </Card>
-        <div>
-          <span className="text-lg font-semibold p-1">구역 선택</span>
-          <Card className="border-none h-96 flex justify-center items-center bg-white bg-opacity-65 dark:bg-black dark:bg-opacity-55">
-            <AreaNameSwiper />
-          </Card>
-        </div>
+        <Card className="border-none h-96 px-4 py-3 bg-white bg-opacity-65 dark:bg-black dark:bg-opacity-55">
+          <div className="mb-3 p-1 flex justify-between items-center">
+            <p className="text-lg font-semibold">구역 선택</p>
+            <Button
+              variant="outline"
+              size="icon"
+              className="dark:bg-white dark:bg-opacity-20 bg-black bg-opacity-10"
+              onClick={handleReset}
+            >
+              <GrPowerReset />
+            </Button>
+          </div>
+          <AreaNameSwiper reset={reset} />
+        </Card>
       </div>
     </Card>
   );

@@ -7,9 +7,13 @@ import { IoEyeOffOutline } from "react-icons/io5";
 import { IoEyeOutline } from "react-icons/io5";
 import "../../styles/elisa-copy.css";
 import { seatInfo } from "@/components/elisa/seatInfo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const AreaNameSwiper = () => {
+interface AreaNameSwiperProps {
+  reset: boolean;
+}
+
+const AreaNameSwiper: React.FC<AreaNameSwiperProps> = ({ reset }) => {
   // const [hide, setHide] = useState(true);
   const [hides, setHides] = useState<{ [key: number]: boolean }>(
     seatInfo.areas.reduce((acc, _, i) => ({ ...acc, [i]: true }), {}),
@@ -22,10 +26,18 @@ const AreaNameSwiper = () => {
     }));
   };
 
+  useEffect(() => {
+    if (reset) {
+      setHides(
+        seatInfo.areas.reduce((acc, _, i) => ({ ...acc, [i]: true }), {}),
+      );
+    }
+  }, [reset]); // reset prop을 기반으로 hides 상태를 초기화
+
   return (
     <div
       id="area-name-swiper"
-      className="w-full h-full py-4 px-6 flex items-center"
+      className="w-full h-full flex items-center"
     >
       <Swiper
         className="area-name-swiper"
@@ -44,7 +56,7 @@ const AreaNameSwiper = () => {
             >
               <div
                 className={`px-2 py-[2px] flex grow items-center gap-4 rounded-md transition-all duration-150 ease-in-out ${
-                  hides[i] ? "" : "bg-black/[.2] dark:bg-white/[.2]"
+                  hides[i] ? "" : "bg-black/[.1] dark:bg-white/[.2]"
                 }`}
               >
                 <div
