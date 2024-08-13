@@ -1,9 +1,9 @@
 import * as THREE from "three";
-import React, { useEffect, useRef, useState } from "react";
-import { useGLTF } from "@react-three/drei";
+import { useEffect, useState } from "react";
+import { Html, useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { TClickedMeshInfo } from "./StadiumModel";
-import { TTooltip } from "./CenterModel";
+import MeshLabel from "./MeshLabel";
 
 type NodeKeys =
   | "Mesh23780_Y-box_zone-114"
@@ -47,7 +47,6 @@ export function YBoxModel({
 }: any) {
   const { nodes, materials } = useGLTF("/models/y-box.glb") as GLTFResult;
 
-  const [tooltip, setTooltip] = useState<TTooltip | null>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredMesh, setHoveredMesh] = useState<TClickedMeshInfo | null>(null);
   const [clickedMesh, setClickedMesh] = useState<TClickedMeshInfo | null>(null);
@@ -62,31 +61,13 @@ export function YBoxModel({
     setClickedMesh(info);
   };
 
-  const onMeshOver = (mesh: any, info: TClickedMeshInfo): void => {
-    console.log(mesh); // mesh 객체의 구조를 확인
+  const onMeshOver = (info: TClickedMeshInfo): void => {
     handleMeshHover(info);
     setHoveredMesh(info);
-
-    const worldPosition = new THREE.Vector3();
-    // 월드 매트릭스 업데이트
-    // group.current?.updateMatrixWorld(true);
-    mesh.updateMatrixWorld(true);
-    mesh.getWorldPosition(worldPosition);
-    console.log(
-      "mesh's world position: ",
-      mesh.getWorldPosition(worldPosition),
-    );
-
-    // 툴팁의 오프셋을 추가하여 매쉬 위에 위치
-    setTooltip({
-      position: [worldPosition.x, worldPosition.y + 500, worldPosition.z], // 오프셋을 조정하여 위치 조정
-      text: `${info.area_name}\n ${info.zone}번 구역`,
-    });
   };
 
   const onMeshOut = (): void => {
     setHoveredMesh(null);
-    setTooltip(null);
   };
 
   const getColor = (isHovered: boolean, meshName: string) =>
@@ -102,7 +83,7 @@ export function YBoxModel({
 
   const meshes = meshesData.map(({ name, position }) => {
     const mesh = nodes[name];
-    const zone = name.slice(-3);
+    const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
     const meshInfo: TClickedMeshInfo = {
       area_name: "Y박스석",
       zone: zone,
@@ -115,12 +96,18 @@ export function YBoxModel({
         geometry={mesh.geometry}
         material={getColor(isHovered, name)}
         onClick={() => onMeshClick(meshInfo)}
-        onPointerOver={() => onMeshOver(mesh, meshInfo)}
+        onPointerOver={() => onMeshOver(meshInfo)}
         onPointerOut={onMeshOut}
         position={position}
         rotation={[-3.141, -1.305, -3.141]}
         scale={0.292}
-      />
+      >
+        {hoveredMesh?.zone === zone && (
+          <Html distanceFactor={500}>
+            <MeshLabel {...hoveredMesh} />
+          </Html>
+        )}
+      </mesh>
     );
   });
 
@@ -133,84 +120,6 @@ export function YBoxModel({
       {meshes}
     </group>
   );
-
-  // 원래 코드
-  // return (
-  //   <group dispose={null}>
-  //     <mesh
-  //       castShadow
-  //       receiveShadow
-  //       geometry={nodes["Mesh23780_Y-box_zone-114"].geometry}
-  //       material={nodes["Mesh23780_Y-box_zone-114"].material}
-  //       rotation={[-3.141, -1.305, -3.141]}
-  //       scale={0.292}
-  //     />
-  //     <mesh
-  //       castShadow
-  //       receiveShadow
-  //       geometry={nodes["Mesh23940_Y-box_zone-115"].geometry}
-  //       material={nodes["Mesh23940_Y-box_zone-115"].material}
-  //       rotation={[-3.141, -1.305, -3.141]}
-  //       scale={0.292}
-  //     />
-  //     <mesh
-  //       castShadow
-  //       receiveShadow
-  //       geometry={nodes["Mesh24131_Y-box_zone-214"].geometry}
-  //       material={nodes["Mesh24131_Y-box_zone-214"].material}
-  //       rotation={[-3.141, -1.305, -3.141]}
-  //       scale={0.292}
-  //     />
-  //     <mesh
-  //       castShadow
-  //       receiveShadow
-  //       geometry={nodes["Mesh24329_Y-box_zone-311"].geometry}
-  //       material={nodes["Mesh24329_Y-box_zone-311"].material}
-  //       rotation={[-3.141, -1.305, -3.141]}
-  //       scale={0.292}
-  //     />
-  //     <mesh
-  //       castShadow
-  //       receiveShadow
-  //       geometry={nodes["Mesh24550_Y-box_zone-312"].geometry}
-  //       material={nodes["Mesh24550_Y-box_zone-312"].material}
-  //       rotation={[-3.141, -1.305, -3.141]}
-  //       scale={0.292}
-  //     />
-  //     <mesh
-  //       castShadow
-  //       receiveShadow
-  //       geometry={nodes["Mesh24648_Y-box_zone-215"].geometry}
-  //       material={nodes["Mesh24648_Y-box_zone-215"].material}
-  //       rotation={[-3.141, -1.305, -3.141]}
-  //       scale={0.292}
-  //     />
-  //     <mesh
-  //       castShadow
-  //       receiveShadow
-  //       geometry={nodes["Mesh26049_Y-box_zone-310"].geometry}
-  //       material={nodes["Mesh26049_Y-box_zone-310"].material}
-  //       rotation={[-3.141, -1.305, -3.141]}
-  //       scale={0.292}
-  //     />
-  //     <mesh
-  //       castShadow
-  //       receiveShadow
-  //       geometry={nodes["Mesh26234_Y-box_zone-213"].geometry}
-  //       material={nodes["Mesh26234_Y-box_zone-213"].material}
-  //       rotation={[-3.141, -1.305, -3.141]}
-  //       scale={0.292}
-  //     />
-  //     <mesh
-  //       castShadow
-  //       receiveShadow
-  //       geometry={nodes["Mesh26341_Y-box_zone-113"].geometry}
-  //       material={nodes["Mesh26341_Y-box_zone-113"].material}
-  //       rotation={[-3.141, -1.305, -3.141]}
-  //       scale={0.292}
-  //     />
-  //   </group>
-  // );
 }
 
 useGLTF.preload("/models/y-box.glb");

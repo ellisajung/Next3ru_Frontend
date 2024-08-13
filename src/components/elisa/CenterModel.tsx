@@ -1,14 +1,10 @@
 "use client";
 
 import * as THREE from "three";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useGLTF, Html } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { type TClickedMeshInfo } from "@/components/elisa/StadiumModel";
-import { Button } from "../shadcn-ui/button";
-import { TooltipModel } from "./TooltipModel";
-import Tooltip from "./MeshLabel";
-import { useThree } from "@react-three/fiber";
 import MeshLabel from "./MeshLabel";
 
 type NodeKeys =
@@ -81,13 +77,6 @@ export function CenterModel({
 
   const { nodes, materials } = useGLTF("/models/center.glb") as GLTFResult;
 
-  // const [meshLabel, setMeshLabel] = useState<{
-  //   info: TClickedMeshInfo | null;
-  //   visible: boolean;
-  // }>({
-  //   info: null,
-  //   visible: false,
-  // });
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredMesh, setHoveredMesh] = useState<TClickedMeshInfo | null>(null);
   const [clickedMesh, setClickedMesh] = useState<TClickedMeshInfo | null>(null);
@@ -102,16 +91,13 @@ export function CenterModel({
     setClickedMesh(info);
   };
 
-  const onMeshOver = (mesh: any, info: TClickedMeshInfo): void => {
-    console.log(mesh); // mesh 객체의 구조를 확인
+  const onMeshOver = (info: TClickedMeshInfo): void => {
     handleMeshHover(info);
     setHoveredMesh(info);
-    // setMeshLabel({ info: info, visible: true });
   };
 
   const onMeshOut = (): void => {
     setHoveredMesh(null);
-    // setMeshLabel((prevState) => ({ ...prevState, visible: false }));
   };
 
   const getColor = (isHovered: boolean, meshName: string) =>
@@ -127,7 +113,7 @@ export function CenterModel({
 
   const meshes = meshesData.map(({ name, position }) => {
     const mesh = nodes[name];
-    const zone = name.slice(-3);
+    const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
     const meshInfo: TClickedMeshInfo = {
       area_name: "중앙지정석",
       zone: zone,
@@ -140,7 +126,7 @@ export function CenterModel({
         geometry={mesh.geometry}
         material={getColor(isHovered, name)}
         onClick={() => onMeshClick(meshInfo)}
-        onPointerOver={() => onMeshOver(mesh, meshInfo)}
+        onPointerOver={() => onMeshOver(meshInfo)}
         onPointerOut={onMeshOut}
         position={position}
         rotation={[-3.141, -1.305, -3.141]}
