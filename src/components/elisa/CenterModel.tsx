@@ -2,13 +2,14 @@
 
 import * as THREE from "three";
 import { useEffect, useRef, useState } from "react";
-import { useGLTF } from "@react-three/drei";
+import { useGLTF, Html } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { type TClickedMeshInfo } from "@/components/elisa/StadiumModel";
 import { Button } from "../shadcn-ui/button";
 import { TooltipModel } from "./TooltipModel";
-import Tooltip from "./Tooltip";
+import Tooltip from "./MeshLabel";
 import { useThree } from "@react-three/fiber";
+import MeshLabel from "./MeshLabel";
 
 type NodeKeys =
   | "Mesh6271_Center_zone-218"
@@ -33,11 +34,6 @@ type GLTFResult = GLTF & {
     [key in NodeKeys]: THREE.Mesh;
   };
   materials: { [key: string]: THREE.MeshStandardMaterial };
-};
-
-export type TTooltip = {
-  position: [number, number, number];
-  text: string;
 };
 
 type MeshData = {
@@ -84,14 +80,14 @@ export function CenterModel({
   // const group = useRef<THREE.Group>(null);
 
   const { nodes, materials } = useGLTF("/models/center.glb") as GLTFResult;
-  const { camera, gl } = useThree(); // Use `useThree` to get camera and renderer
 
-  const [tooltip, setTooltip] = useState({
-    x: 0,
-    y: 0,
-    text: "",
-    visible: false,
-  });
+  // const [meshLabel, setMeshLabel] = useState<{
+  //   info: TClickedMeshInfo | null;
+  //   visible: boolean;
+  // }>({
+  //   info: null,
+  //   visible: false,
+  // });
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredMesh, setHoveredMesh] = useState<TClickedMeshInfo | null>(null);
   const [clickedMesh, setClickedMesh] = useState<TClickedMeshInfo | null>(null);
@@ -101,72 +97,21 @@ export function CenterModel({
   const hoverColor = defaultColor.clone();
   hoverColor.color.set("#702CA4");
 
-  const raycaster = new THREE.Raycaster();
-  const mouse = new THREE.Vector2();
-
   const onMeshClick = (info: TClickedMeshInfo): void => {
     handleMeshClick(info);
     setClickedMesh(info);
   };
 
-  const onMeshOver = (e: any, mesh: any, info: TClickedMeshInfo): void => {
+  const onMeshOver = (mesh: any, info: TClickedMeshInfo): void => {
     console.log(mesh); // mesh 객체의 구조를 확인
     handleMeshHover(info);
     setHoveredMesh(info);
-
-    // const worldPosition = new THREE.Vector3();
-    // // 월드 매트릭스 업데이트
-    // // group.current?.updateMatrixWorld(true);
-    // mesh.updateMatrixWorld(true);
-    // mesh.getWorldPosition(worldPosition);
-    // console.log(
-    //   "mesh's world position: ",
-    //   mesh.getWorldPosition(worldPosition),
-    // );
-
-    // // 툴팁의 오프셋을 추가하여 매쉬 위에 위치
-    // setTooltip({
-    //   position: [worldPosition.x, worldPosition.y + 10, worldPosition.z], // 오프셋을 조정하여 위치 조정
-    //   text: `${info.area_name}\n ${info.zone}번 구역`,
-    // });
-
-    // Set mouse position for raycasting
-    mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-
-    // Raycaster update and intersect
-    raycaster.ray.origin.copy(camera.position);
-    raycaster.ray.direction
-      .set(mouse.x, mouse.y, 1)
-      .unproject(camera)
-      .sub(camera.position)
-      .normalize();
-
-    const intersects = raycaster.intersectObject(mesh);
-    if (intersects.length > 0) {
-      const intersect = intersects[0];
-      const { x, y } = intersect.point;
-
-      // Convert 3D world coordinates to 2D screen coordinates
-      const vector = new THREE.Vector3(x, y, 0.5);
-      vector.project(camera);
-
-      // Map normalized device coordinates to screen coordinates
-      const screenX = (vector.x * 0.5 + 0.5) * window.innerWidth;
-      const screenY = (-vector.y * 0.5 + 0.5) * window.innerHeight;
-
-      setTooltip({
-        x: screenX,
-        y: screenY,
-        text: `${info.area_name}\n ${info.zone}번 구역`,
-        visible: true,
-      });
-    }
+    // setMeshLabel({ info: info, visible: true });
   };
 
   const onMeshOut = (): void => {
     setHoveredMesh(null);
-    setTooltip((prevState) => ({ ...prevState, visible: false }));
+    // setMeshLabel((prevState) => ({ ...prevState, visible: false }));
   };
 
   const getColor = (isHovered: boolean, meshName: string) =>
@@ -195,12 +140,18 @@ export function CenterModel({
         geometry={mesh.geometry}
         material={getColor(isHovered, name)}
         onClick={() => onMeshClick(meshInfo)}
-        onPointerOver={(e) => onMeshOver(e, mesh, meshInfo)}
+        onPointerOver={() => onMeshOver(mesh, meshInfo)}
         onPointerOut={onMeshOut}
         position={position}
         rotation={[-3.141, -1.305, -3.141]}
         scale={0.292}
-      />
+      >
+        {hoveredMesh?.zone === zone && (
+          <Html distanceFactor={500}>
+            <MeshLabel {...hoveredMesh} />
+          </Html>
+        )}
+      </mesh>
     );
   });
 
@@ -213,13 +164,6 @@ export function CenterModel({
       >
         {meshes}
       </group>
-      {tooltip.visible && (
-        <Tooltip
-          x={tooltip.x}
-          y={tooltip.y}
-          text={tooltip.text}
-        />
-      )}
     </>
   );
 }
