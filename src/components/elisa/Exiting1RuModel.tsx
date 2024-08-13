@@ -44,10 +44,8 @@ export function Exiting1RuModel({
     setHoveredMesh(null);
   };
 
-  const getColor = (isHovered: boolean, meshName: string) =>
-    isHovered || clickedMesh?.area_name === meshName
-      ? hoverColor
-      : defaultColor;
+  const getColor = (info: TClickedMeshInfo) =>
+    isHovered || info.zone === clickedMesh?.zone ? hoverColor : defaultColor;
 
   useEffect(() => {
     if (showModal == false) {
@@ -72,7 +70,7 @@ export function Exiting1RuModel({
         castShadow
         receiveShadow
         geometry={mesh.geometry}
-        material={getColor(isHovered, mesh.name)}
+        material={getColor(meshInfo)}
         onClick={() => onMeshClick(meshInfo)}
         onPointerOver={() => onMeshOver(meshInfo)}
         onPointerOut={onMeshOut}

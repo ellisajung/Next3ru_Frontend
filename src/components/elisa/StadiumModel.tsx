@@ -27,8 +27,6 @@ import { Sky3RuModel } from "./Sky3RuModel";
 import { TvingTableModel } from "./TvingTableModel";
 import { YBoxModel } from "./YBoxModel";
 import SeatInfoModal from "./SeatInfoModal";
-import { TooltipModel } from "./TooltipModel";
-import { text } from "stream/consumers";
 
 export type TClickedMeshInfo = {
   area_name: string;
@@ -58,7 +56,6 @@ export default function StadiumModel() {
     <div
       id="stadium"
       className="h-full"
-      // className="h-full" // 아니 이거 때문이라니...
     >
       <Canvas className="rounded-lg">
         <Center>
