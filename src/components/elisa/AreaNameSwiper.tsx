@@ -38,17 +38,19 @@ const AreaNameSwiper = () => {
       >
         {seatInfo.areas.map(({ area_name, area_color }, i) => (
           <SwiperSlide key={i}>
-            <div className="relative flex justify-between items-center p-1">
-              <div className="flex items-center gap-4">
+            <div className="group relative flex justify-between items-center p-1">
+              <div className="flex grow items-center gap-4">
                 <div
-                  className="w-5 h-5 rounded border-solid border-2 hover:outline hover:outline-2 hover:outline-black dark:hover:outline-white"
+                  className="w-5 h-5 rounded border-solid border-2 group-hover:outline transition-all duration-150 ease-in-out hover:outline-2 hover:outline-black dark:hover:outline-white"
                   style={{ backgroundColor: area_color }}
                 ></div>
-                <p className="font-semibold">{area_name}</p>
+                <p className="font-semibold group-hover:font-bold group-hover:text-lg transition-all duration-150 ease-in-out">
+                  {area_name}
+                </p>
               </div>
               <button
                 onClick={() => toggleHide(i)}
-                className="flex text-lg px-5"
+                className="flex text-lg mx-5 group-hover:text-2xl transition-all duration-150 ease-in-out"
               >
                 {hides[i] ? <IoEyeOffOutline /> : <IoEyeOutline />}
               </button>
