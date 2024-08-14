@@ -15,6 +15,8 @@ type GLTFResult = GLTF & {
 };
 
 export function Grass1RuModel({
+  hides,
+  areaName,
   showModal,
   handleMeshHover,
   handleMeshClick,
@@ -45,7 +47,9 @@ export function Grass1RuModel({
   };
 
   const getColor = (info: TClickedMeshInfo) =>
-    isHovered || info.zone === clickedMesh?.zone ? hoverColor : defaultColor;
+    !hides[areaName] || isHovered || info.zone === clickedMesh?.zone
+      ? hoverColor
+      : defaultColor;
 
   useEffect(() => {
     if (showModal == false) {
@@ -56,7 +60,7 @@ export function Grass1RuModel({
   const mesh = nodes["Mesh2655_Grass-1ru"];
   const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
   const meshInfo: TClickedMeshInfo = {
-    area_name: "외야잔디(1루)",
+    area_name: areaName,
     zone: zone,
   };
 

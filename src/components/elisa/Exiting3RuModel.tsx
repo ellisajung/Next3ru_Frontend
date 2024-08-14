@@ -15,6 +15,8 @@ type GLTFResult = GLTF & {
 };
 
 export function Exiting3RuModel({
+  hides,
+  areaName,
   handleMeshHover,
   showModal,
   handleMeshClick,
@@ -45,7 +47,9 @@ export function Exiting3RuModel({
   };
 
   const getColor = (info: TClickedMeshInfo) =>
-    isHovered || info.zone === clickedMesh?.zone ? hoverColor : defaultColor;
+    !hides[areaName] || isHovered || info.zone === clickedMesh?.zone
+      ? hoverColor
+      : defaultColor;
 
   useEffect(() => {
     if (showModal == false) {
@@ -56,7 +60,7 @@ export function Exiting3RuModel({
   const mesh = nodes["Mesh22083_3Ru-exiting"];
   const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
   const meshInfo: TClickedMeshInfo = {
-    area_name: "익사이팅석",
+    area_name: areaName,
     zone: zone,
   };
 

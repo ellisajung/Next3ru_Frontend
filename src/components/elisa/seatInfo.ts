@@ -820,7 +820,7 @@ export const seatInfo: TSeatInfo = {
       ],
     },
     {
-      area_name: "티빙 테이블석(외야)",
+      area_name: "티빙테이블석(외야)",
       area_color: "#DB7390",
       price: 25000,
       zones: [

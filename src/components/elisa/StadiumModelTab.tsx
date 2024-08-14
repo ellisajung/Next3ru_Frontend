@@ -8,17 +8,35 @@ import { seatInfo } from "./seatInfo";
 import { useState } from "react";
 
 const StadiumModelTab = () => {
-  const [reset, setReset] = useState(false);
+  // const [hide, setHide] = useState(true);
+  const [hides, setHides] = useState<{ [key: string]: boolean }>(
+    seatInfo.areas.reduce(
+      (acc, curr) => ({ ...acc, [curr.area_name]: true }),
+      {},
+    ),
+  ); // 동적 상태관리
+
+  const handleToggleHide = (area: string) => {
+    setHides((prevHides) => ({
+      ...prevHides,
+      [area]: !prevHides[area],
+    }));
+  };
 
   const handleReset = () => {
-    setReset(true);
-    // 상태가 변경된 후 바로 false로 설정
-    setTimeout(() => setReset(false), 0);
+    setHides(
+      seatInfo.areas.reduce(
+        (acc, curr) => ({ ...acc, [curr.area_name]: true }),
+        {},
+      ),
+    );
   };
+
+  console.log(hides);
 
   return (
     <Card className="relative border-none h-full flex flex-col dark:bg-black">
-      <StadiumModel />
+      <StadiumModel hides={hides} />
       <Card className="absolute border-none left-4 top-4 bg-white bg-opacity-65 dark:bg-black dark:bg-opacity-55">
         <div className="flex flex-row items-center p-6 gap-16">
           <p className="text-2xl font-bold">3D 좌석안내도</p>
@@ -48,7 +66,10 @@ const StadiumModelTab = () => {
               <GrPowerReset />
             </Button>
           </div>
-          <AreaNameSwiper reset={reset} />
+          <AreaNameSwiper
+            hides={hides}
+            onToggleHide={handleToggleHide}
+          />
         </Card>
       </div>
     </Card>

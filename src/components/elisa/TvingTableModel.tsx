@@ -15,6 +15,8 @@ type GLTFResult = GLTF & {
 };
 
 export function TvingTableModel({
+  hides,
+  areaName,
   showModal,
   handleMeshHover,
   handleMeshClick,
@@ -45,7 +47,9 @@ export function TvingTableModel({
   };
 
   const getColor = (info: TClickedMeshInfo) =>
-    isHovered || info.zone === clickedMesh?.zone ? hoverColor : defaultColor;
+    !hides[areaName] || isHovered || info.zone === clickedMesh?.zone
+      ? hoverColor
+      : defaultColor;
 
   useEffect(() => {
     if (showModal == false) {
@@ -56,7 +60,7 @@ export function TvingTableModel({
   const mesh = nodes["Mesh2887_Tving-table"];
   const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
   const meshInfo: TClickedMeshInfo = {
-    area_name: "티빙테이블석",
+    area_name: areaName,
     zone: zone,
   };
 

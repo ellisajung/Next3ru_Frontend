@@ -33,7 +33,11 @@ export type TClickedMeshInfo = {
   zone: string | null;
 };
 
-export default function StadiumModel() {
+export default function StadiumModel({
+  hides,
+}: {
+  hides: { [key: string]: boolean };
+}) {
   const cameraRef = useRef(null);
   const [showModal, setShowModal] = useState(false);
   const [clickedMeshInfo, setClickedMeshInfo] = useState<
@@ -65,81 +69,113 @@ export default function StadiumModel() {
             handleMeshClick={handleMeshClick}
           />
           <CenterModel
+            areaName="중앙지정석"
+            hides={hides}
             showModal={showModal}
             handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <Cheering1RuModel
+            areaName="1루 응원지정석"
+            hides={hides}
             showModal={showModal}
             handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <Cheering3RuModel
+            areaName="3루 응원지정석"
+            hides={hides}
             showModal={showModal}
             handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <Exiting1RuModel
+            areaName="하이파이브존"
+            hides={hides}
             showModal={showModal}
             handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <Exiting3RuModel
+            areaName="익사이팅석"
+            hides={hides}
             showModal={showModal}
             handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <GiniTvModel
+            areaName="지니TV석"
+            hides={hides}
             showModal={showModal}
             handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <GiniModel
+            areaName="지니존"
+            hides={hides}
             showModal={showModal}
             handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <Grass1RuModel
+            areaName="외야잔디/자유석"
+            hides={hides}
             showModal={showModal}
             handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <Grass3RuModel
+            areaName="외야잔디/자유석"
+            hides={hides}
             showModal={showModal}
             handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <Kidsland4thModel
+            areaName="키즈랜드 캠핑존"
+            hides={hides}
             showModal={showModal}
             handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <Kidsland5thModel
+            areaName="키즈랜드 캠핑존"
+            hides={hides}
             showModal={showModal}
             handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <KtAlphaModel
+            areaName="KT알파쇼핑석"
+            hides={hides}
             showModal={showModal}
             handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <Sky1RuModel
+            areaName="1루 스카이존"
+            hides={hides}
             showModal={showModal}
             handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <Sky3RuModel
+            areaName="3루 스카이존"
+            hides={hides}
             showModal={showModal}
             handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <TvingTableModel
+            areaName="티빙테이블석(외야)"
+            hides={hides}
             showModal={showModal}
             handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <YBoxModel
+            areaName="Y박스석"
+            hides={hides}
             showModal={showModal}
             handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}

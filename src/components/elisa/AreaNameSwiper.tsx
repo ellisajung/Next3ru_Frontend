@@ -10,30 +10,14 @@ import { seatInfo } from "@/components/elisa/seatInfo";
 import { useEffect, useState } from "react";
 
 interface AreaNameSwiperProps {
-  reset: boolean;
+  hides: { [key: string]: boolean };
+  onToggleHide: (area: string) => void;
 }
 
-const AreaNameSwiper: React.FC<AreaNameSwiperProps> = ({ reset }) => {
-  // const [hide, setHide] = useState(true);
-  const [hides, setHides] = useState<{ [key: number]: boolean }>(
-    seatInfo.areas.reduce((acc, _, i) => ({ ...acc, [i]: true }), {}),
-  ); // 동적 상태관리
-
-  const toggleHide = (i: number) => {
-    setHides((prevHides) => ({
-      ...prevHides,
-      [i]: !prevHides[i],
-    }));
-  };
-
-  useEffect(() => {
-    if (reset) {
-      setHides(
-        seatInfo.areas.reduce((acc, _, i) => ({ ...acc, [i]: true }), {}),
-      );
-    }
-  }, [reset]); // reset prop을 기반으로 hides 상태를 초기화
-
+const AreaNameSwiper: React.FC<AreaNameSwiperProps> = ({
+  hides,
+  onToggleHide,
+}) => {
   return (
     <div
       id="area-name-swiper"
@@ -48,15 +32,15 @@ const AreaNameSwiper: React.FC<AreaNameSwiperProps> = ({ reset }) => {
         scrollbar={true}
         modules={[FreeMode, Scrollbar, Mousewheel]}
       >
-        {seatInfo.areas.map(({ area_name, area_color }, i) => (
-          <SwiperSlide key={i}>
+        {seatInfo.areas.map(({ area_name, area_color }) => (
+          <SwiperSlide key={area_name}>
             <div
               className="group relative flex justify-between items-center py-1"
-              onClick={() => toggleHide(i)}
+              onClick={() => onToggleHide(area_name)}
             >
               <div
                 className={`px-2 py-[2px] flex grow items-center gap-4 rounded-md transition-all duration-150 ease-in-out ${
-                  hides[i] ? "" : "bg-black/[.1] dark:bg-white/[.2]"
+                  hides[area_name] ? "" : "bg-black/[.1] dark:bg-white/[.2]"
                 }`}
               >
                 <div
@@ -68,7 +52,7 @@ const AreaNameSwiper: React.FC<AreaNameSwiperProps> = ({ reset }) => {
                 </p>
               </div>
               <div className="flex text-lg ml-4 mr-6 group-hover:text-2xl transition-all duration-150 ease-in-out">
-                {hides[i] ? <IoEyeOffOutline /> : <IoEyeOutline />}
+                {hides[area_name] ? <IoEyeOffOutline /> : <IoEyeOutline />}
               </div>
             </div>
           </SwiperSlide>

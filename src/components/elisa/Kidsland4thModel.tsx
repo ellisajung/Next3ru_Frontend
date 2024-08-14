@@ -15,6 +15,8 @@ type GLTFResult = GLTF & {
 };
 
 export function Kidsland4thModel({
+  hides,
+  areaName,
   showModal,
   handleMeshHover,
   handleMeshClick,
@@ -47,7 +49,9 @@ export function Kidsland4thModel({
   };
 
   const getColor = (info: TClickedMeshInfo) =>
-    isHovered || info.zone === clickedMesh?.zone ? hoverColor : defaultColor;
+    !hides[areaName] || isHovered || info.zone === clickedMesh?.zone
+      ? hoverColor
+      : defaultColor;
 
   useEffect(() => {
     if (showModal == false) {
@@ -58,7 +62,7 @@ export function Kidsland4thModel({
   const mesh = nodes["Mesh3475_Kidsland-4th"];
   const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
   const meshInfo: TClickedMeshInfo = {
-    area_name: "1루 익사이팅존",
+    area_name: areaName,
     zone: zone,
   };
 

@@ -111,6 +111,8 @@ const meshesData: MeshData[] = [
 ];
 
 export function Sky3RuModel({
+  hides,
+  areaName,
   showModal,
   handleMeshHover,
   handleMeshClick,
@@ -141,7 +143,9 @@ export function Sky3RuModel({
   };
 
   const getColor = (info: TClickedMeshInfo) =>
-    isHovered || info.zone === clickedMesh?.zone ? hoverColor : defaultColor;
+    !hides[areaName] || isHovered || info.zone === clickedMesh?.zone
+      ? hoverColor
+      : defaultColor;
 
   useEffect(() => {
     if (showModal == false) {
@@ -153,7 +157,7 @@ export function Sky3RuModel({
     const mesh = nodes[name];
     const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
     const meshInfo: TClickedMeshInfo = {
-      area_name: "3루 스카이존",
+      area_name: areaName,
       zone: zone,
     };
     return (

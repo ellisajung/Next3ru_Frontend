@@ -47,6 +47,8 @@ const meshesData: MeshData[] = [
 ];
 
 export function GiniTvModel({
+  hides,
+  areaName,
   showModal,
   handleMeshHover,
   handleMeshClick,
@@ -77,7 +79,9 @@ export function GiniTvModel({
   };
 
   const getColor = (info: TClickedMeshInfo) =>
-    isHovered || info.zone === clickedMesh?.zone ? hoverColor : defaultColor;
+    !hides[areaName] || isHovered || info.zone === clickedMesh?.zone
+      ? hoverColor
+      : defaultColor;
 
   useEffect(() => {
     if (showModal == false) {
@@ -89,7 +93,7 @@ export function GiniTvModel({
     const mesh = nodes[name];
     const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
     const meshInfo: TClickedMeshInfo = {
-      area_name: "지니TV석",
+      area_name: areaName,
       zone: zone,
     };
     return (

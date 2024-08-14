@@ -29,6 +29,8 @@ const meshesData: MeshData[] = [
 ];
 
 export function KtAlphaModel({
+  hides,
+  areaName,
   showModal,
   handleMeshHover,
   handleMeshClick,
@@ -59,7 +61,9 @@ export function KtAlphaModel({
   };
 
   const getColor = (info: TClickedMeshInfo) =>
-    isHovered || info.zone === clickedMesh?.zone ? hoverColor : defaultColor;
+    !hides[areaName] || isHovered || info.zone === clickedMesh?.zone
+      ? hoverColor
+      : defaultColor;
 
   useEffect(() => {
     if (showModal == false) {
@@ -71,7 +75,7 @@ export function KtAlphaModel({
     const mesh = nodes[name];
     const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
     const meshInfo: TClickedMeshInfo = {
-      area_name: "kt알파석",
+      area_name: areaName,
       zone: zone,
     };
     return (

@@ -41,6 +41,8 @@ const meshesData: MeshData[] = [
 ];
 
 export function YBoxModel({
+  hides,
+  areaName,
   showModal,
   handleMeshHover,
   handleMeshClick,
@@ -71,7 +73,9 @@ export function YBoxModel({
   };
 
   const getColor = (info: TClickedMeshInfo) =>
-    isHovered || info.zone === clickedMesh?.zone ? hoverColor : defaultColor;
+    !hides[areaName] || isHovered || info.zone === clickedMesh?.zone
+      ? hoverColor
+      : defaultColor;
 
   useEffect(() => {
     if (showModal == false) {
@@ -83,7 +87,7 @@ export function YBoxModel({
     const mesh = nodes[name];
     const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
     const meshInfo: TClickedMeshInfo = {
-      area_name: "Y박스석",
+      area_name: areaName,
       zone: zone,
     };
     return (
