@@ -10,7 +10,9 @@ import MyCustomAvatar from "../MyCustomAvatar";
 
 import DailySchedule from "./widgets/DailySchedule";
 import TeamRecord from "./widgets/TeamRecord";
-import FavoritePlayer from "./widgets/FavoritePlayer";
+import ChatMessage from "../ChatMessage";
+import TodayLineUp from "./widgets/TodayLineUp";
+// import FavoritePlayer from "./widgets/FavoritePlayer/PitcherFavoritePlayer";
 // import DailyBriefing from "./widgets/DailyBriefing";
 // import ResultPrediction from "./widgets/ResultPrediction";
 
@@ -18,11 +20,12 @@ const botName = "KT WizBot";
 
 const config = {
   initialMessages: [
-    createChatBotMessage(`안녕하세요, ${botName}입니다.`, {}),
-    createChatBotMessage(`원하시는 메뉴를 말씀해 주세요.`, {
-      delay: 400,
-      widget: "overview",
-    }),
+    createChatBotMessage(
+      `안녕하세요, ${botName}입니다. 원하시는 메뉴를 선택해주세요.`,
+      {
+        widget: "overview",
+      }
+    ),
   ],
 
   botName: botName,
@@ -63,8 +66,8 @@ const config = {
       widgetFunc: (props: any) => <TeamRecord />,
     },
     {
-      widgetName: "playerRanking", //관심선수
-      widgetFunc: (props: any) => <FavoritePlayer />,
+      widgetName: "todayLineUp", //금일 경기 라인업
+      widgetFunc: (props: any) => <TodayLineUp />,
     },
   ],
 };

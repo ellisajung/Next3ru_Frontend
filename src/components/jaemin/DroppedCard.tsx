@@ -1,16 +1,27 @@
 // components/DroppablePlayerCard.tsx
-import { useState } from "react";
+
+"use client";
+
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import PlayerCard from "@/components/jaemin/PlayerCard";
 
 interface PlayerCardProps {
   position_translated: string;
+  player?: any;
+  clearPlayer?: (pcode: string) => void;
 }
 
 const DroppablePlayerCard: React.FC<PlayerCardProps> = ({
   position_translated,
+  player,
+  clearPlayer,
 }) => {
-  const [droppedPlayer, setDroppedPlayer] = useState<any>(null); // droppedPlayer 상태 추가
+  const [droppedPlayer, setDroppedPlayer] = useState<any>(player || null);
+
+  useEffect(() => {
+    setDroppedPlayer(player);
+  }, [player]);
 
   const handleDragEnter = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -20,15 +31,25 @@ const DroppablePlayerCard: React.FC<PlayerCardProps> = ({
     event.preventDefault();
     const data = event.dataTransfer.getData("player");
     if (data) {
-      setDroppedPlayer(JSON.parse(data));
+      const player = JSON.parse(data);
+      setDroppedPlayer(player);
+      clearPlayer?.(player.pcode);
     }
   };
 
   const handleRemovePlayer = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation(); // 전파막기
+    event.stopPropagation();
     setDroppedPlayer(null);
   };
-  //삭제기능 함수
+
+  const getImageUrl = (player: any) => {
+    if (!player) return "";
+    if (["SP", "RP", "CP"].includes(player.position)) {
+      return `/images/pitcher/${player.playerName}.svg`;
+    } else {
+      return `/images/hitter/${player.playerName}.svg`;
+    }
+  };
 
   return (
     <div
@@ -40,26 +61,20 @@ const DroppablePlayerCard: React.FC<PlayerCardProps> = ({
         <div className="relative w-full h-full">
           <button
             onClick={handleRemovePlayer}
-            className="absolute z-10 top-[-10px] right-[-10px] bg-red-500 text-white rounded-full w-6 h-6 flex "
+            className="absolute z-10 top-[-8px] right-[-8px] bg-red-500 text-white rounded-full w-4 h-4 flex justify-center items-center"
           ></button>
           <PlayerCard
-            name={droppedPlayer.name}
-            imageUrl={droppedPlayer.imageUrl}
-            num={droppedPlayer.num}
-            position_translated={
-              droppedPlayer.position_translated || droppedPlayer.position
-            }
-            rating={droppedPlayer.rating}
-            pcode={droppedPlayer.pcode}
-            changeinn={droppedPlayer.changeinn}
+            name={droppedPlayer.playerName}
+            imageUrl={getImageUrl(droppedPlayer)} // imageUrl로 업데이트
+            num={droppedPlayer.backnum}
+            position={droppedPlayer.position}
           />
         </div>
       ) : (
         <div>
-          {" "}
-          <Image src="/images/drag.svg" alt="빈 칸" width={150} height={190} />
+          <Image src="/images/drag.svg" alt="빈 칸" width={140} height={160} />
           <div
-            className="bg-transparent text-red-700 text-[25px] font-extrabold absolute px-1 font-['KT'] "
+            className="bg-transparent text-red-700 text-[25px] font-extrabold absolute px-1 font-['KT']"
             style={{ top: "130%", left: "65%" }}
           >
             {position_translated}

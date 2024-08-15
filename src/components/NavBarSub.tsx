@@ -3,11 +3,12 @@
 import React from "react";
 import Image from "next/image";
 
-import { usePathname } from "next/navigation";
+import { usePathname} from "next/navigation";
 import Link from "next/link";
 
 export default function NavBarSub() {
   const pathname = usePathname();
+
   return (
     <div className="relative z-40 mt-2">
       <ul className="subMenu w-full h-64 hidden justify-center  xl:group-hover:flex bg-opacity-80 bg-[#161616] shadow-xl slide-down">

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import NavBarSub from "@/components/NavBarSub";
 import "@/styles/jaemin.css";
+import { ThemeToggle } from "./elisa/ThemeChanger";
 
 const NavBar = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -41,18 +42,27 @@ const NavBar = () => {
   }, []);
 
   return (
-    <header className={`fixed w-full z-50 `}>
+    <header className={`block fixed top-0 w-full z-50 `}>
       <div
         className={`gnb_header ${
           isScrolled ? "slide-up" : "slide-down"
         } text-[#ffffff] gap-2 font-['KT'] xl:flex xl:justify-end xl:items-center xl:pr-3 xl:h-[39px] xl:bg-gradient-to-r xl:from-[#F69AA9] xl:via-[#E1ADED] xl:via-[#AAC6E5] xl:to-[#97D5E0] hidden`}
       >
-        <a className="hover:text-black transition-color" href="/">
+        <div className="mr-2">
+          <ThemeToggle />
+        </div>
+        <a
+          className="hover:text-black transition-color"
+          href="/"
+        >
           로그인
         </a>
         &nbsp;
         <b>|</b>&nbsp;
-        <a className="hover:text-black transition-color" href="/">
+        <a
+          className="hover:text-black transition-color"
+          href="/"
+        >
           회원가입
         </a>
         &nbsp;
@@ -132,7 +142,10 @@ const NavBar = () => {
               <Link href="/Sponser">스폰서</Link>
             </li>
             <li>
-              <Link className="text-[#FF0000] font-extrabold" href="/ticket">
+              <Link
+                className="text-[#FF0000] font-extrabold"
+                href="/ticket"
+              >
                 티켓구매
               </Link>
             </li>{" "}

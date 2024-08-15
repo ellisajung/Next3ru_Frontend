@@ -3,7 +3,7 @@ import Options from "./Options";
 
 import { AiTwotoneClockCircle } from "react-icons/ai";
 import { BsClipboard2Fill } from "react-icons/bs";
-import { FaRegStar } from "react-icons/fa";
+import { FaBaseballBatBall } from "react-icons/fa6";
 
 const GeneralOptions = (props: any) => {
   const options = [
@@ -14,17 +14,35 @@ const GeneralOptions = (props: any) => {
       icon: <AiTwotoneClockCircle />,
     },
     {
-      name: "팀기록",
+      name: "KBO 리그기록",
       handler: props.actionProvider.handleTeamRecord,
       id: 2,
       icon: <BsClipboard2Fill />,
     },
     {
-      name: "관심선수",
+      name: "선수 라인업",
       handler: props.actionProvider.handlePlayerRanking,
       id: 3,
-      icon: <FaRegStar />,
+      icon: <FaBaseballBatBall />,
     },
+
+    // {
+    //   name: "AI 선수 컨디션점수",
+    //   handler: props.actionProvider.handlePlayerConditionScore,
+    //   id: 4,
+    // },
+
+    // {
+    //   name: "AI 스쿼드",
+    //   handler: props.actionProvider.handleAISquad,
+    //   id: 5,
+    // },
+
+    // {
+    //   name: "3D 좌석안내",
+    //   handler: props.actionProvider.handle3DSeatingGuide,
+    //   id: 6,
+    // },
   ];
 
   return <Options options={options} title="Options" {...props} />;

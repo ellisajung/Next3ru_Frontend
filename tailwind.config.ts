@@ -1,13 +1,13 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
+const { fontFamily } = require("tailwindcss/defaultTheme");
 
 const config = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-	],
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   prefix: "",
   theme: {
     container: {
@@ -18,9 +18,21 @@ const config = {
       },
     },
     extend: {
+      filter: {
+        "invert-0": "invert(0)",
+        "brightness-0": "brightness(0)",
+        "contrast-100": "contrast(100%)",
+      },
+      fontFamily: {
+        sans: ["var(--font-sans)", ...fontFamily.sans],
+      },
       backgroundImage: {
         "custom-gradient":
-          "linear-gradient(145deg,#000000,#1C1C1C, #2E2E2E, #151515,#000000,#000000,#000000,#EC1C23)",
+          "linear-gradient(45deg,#000000,#1C1C1C, #2E2E2E, #151515,#000000,#000000,#000000,#EC1C23)",
+        "card-gradient":
+          "linear-gradient(157deg, #ffffff ,#ffffff, #ffffff,#000 ,#000000 ,#000000 )",
+        "mvp-gradient":
+          "linear-gradient(327deg, #9ad4e1 , #aac7e6 , #e7a9dc, #f69bab )",
       },
       colors: {
         border: "hsl(var(--border))",
@@ -100,7 +112,7 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
-} satisfies Config
+  plugins: [require("tailwindcss-animate"), require("tailwindcss-filters")],
+} satisfies Config;
 
-export default config
+export default config;
