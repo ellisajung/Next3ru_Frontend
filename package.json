@@ -50,6 +50,7 @@
     "react-spinners": "^0.14.1",
     "react-swiper": "^0.1.5",
     "react-tooltip": "^5.27.1",
+    "react-zoom-pan-pinch": "^3.6.1",
     "slider": "^1.0.4",
     "styled-components": "^6.1.12",
     "swiper": "^11.1.9",

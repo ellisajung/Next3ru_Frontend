@@ -6,6 +6,7 @@ import { GrPowerReset } from "react-icons/gr";
 import { Button } from "../shadcn-ui/button";
 import { seatInfo } from "./seatInfo";
 import { useState } from "react";
+import SeatMapImg from "./SeatMapImg";
 
 const StadiumModelTab = () => {
   // const [hide, setHide] = useState(true);
@@ -47,12 +48,7 @@ const StadiumModelTab = () => {
       </Card>
       <div className="absolute inset-y-0 top-4 bottom-4 right-4 flex flex-col justify-between">
         <Card className="border-none flex justify-center items-center bg-white bg-opacity-65 dark:bg-black dark:bg-opacity-55">
-          <Image
-            src="/images/elisa/seatmap.png"
-            alt="baseball-field-icon"
-            width={300}
-            height={300}
-          />
+          <SeatMapImg />
         </Card>
         <Card className="border-none h-96 px-4 py-3 bg-white bg-opacity-65 dark:bg-black dark:bg-opacity-55">
           <div className="mb-3 p-1 flex justify-between items-center">
@@ -63,7 +59,7 @@ const StadiumModelTab = () => {
               className="dark:bg-white dark:bg-opacity-20 bg-black bg-opacity-10"
               onClick={handleReset}
             >
-              <GrPowerReset />
+              <GrPowerReset className="text-lg" />
             </Button>
           </div>
           <AreaNameSwiper
