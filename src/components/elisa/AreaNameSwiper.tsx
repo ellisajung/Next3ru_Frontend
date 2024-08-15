@@ -7,25 +7,21 @@ import { IoEyeOffOutline } from "react-icons/io5";
 import { IoEyeOutline } from "react-icons/io5";
 import "../../styles/elisa-copy.css";
 import { seatInfo } from "@/components/elisa/seatInfo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const AreaNameSwiper = () => {
-  // const [hide, setHide] = useState(true);
-  const [hides, setHides] = useState<{ [key: number]: boolean }>(
-    seatInfo.areas.reduce((acc, _, i) => ({ ...acc, [i]: true }), {}),
-  ); // 동적 상태관리
+interface AreaNameSwiperProps {
+  hides: { [key: string]: boolean };
+  onToggleHide: (area: string) => void;
+}
 
-  const toggleHide = (i: number) => {
-    setHides((prevHides) => ({
-      ...prevHides,
-      [i]: !prevHides[i],
-    }));
-  };
-
+const AreaNameSwiper: React.FC<AreaNameSwiperProps> = ({
+  hides,
+  onToggleHide,
+}) => {
   return (
     <div
       id="area-name-swiper"
-      className="w-full h-full py-4 px-6 flex items-center"
+      className="w-full h-full flex items-center"
     >
       <Swiper
         className="area-name-swiper"
@@ -36,22 +32,28 @@ const AreaNameSwiper = () => {
         scrollbar={true}
         modules={[FreeMode, Scrollbar, Mousewheel]}
       >
-        {seatInfo.areas.map(({ area_name, area_color }, i) => (
-          <SwiperSlide key={i}>
-            <div className="relative flex justify-between items-center p-1">
-              <div className="flex items-center gap-4">
+        {seatInfo.areas.map(({ area_name, area_color }) => (
+          <SwiperSlide key={area_name}>
+            <div
+              className="group relative flex justify-between items-center py-1"
+              onClick={() => onToggleHide(area_name)}
+            >
+              <div
+                className={`px-2 py-[2px] flex grow items-center gap-4 rounded-md transition-all duration-150 ease-in-out ${
+                  hides[area_name] ? "" : "bg-black/[.1] dark:bg-white/[.2]"
+                }`}
+              >
                 <div
-                  className="w-5 h-5 rounded border-solid border-2 hover:outline hover:outline-2 hover:outline-black dark:hover:outline-white"
+                  className="w-5 h-5 rounded border-solid border-2 group-hover:outline transition-all duration-150 ease-in-out hover:outline-2 hover:outline-black dark:hover:outline-white"
                   style={{ backgroundColor: area_color }}
                 ></div>
-                <p className="font-semibold">{area_name}</p>
+                <p className="font-semibold group-hover:font-bold group-hover:text-lg transition-all duration-150 ease-in-out">
+                  {area_name}
+                </p>
               </div>
-              <button
-                onClick={() => toggleHide(i)}
-                className="flex text-lg px-5"
-              >
-                {hides[i] ? <IoEyeOffOutline /> : <IoEyeOutline />}
-              </button>
+              <div className="flex text-lg ml-4 mr-6 group-hover:text-2xl transition-all duration-150 ease-in-out">
+                {hides[area_name] ? <IoEyeOffOutline /> : <IoEyeOutline />}
+              </div>
             </div>
           </SwiperSlide>
         ))}

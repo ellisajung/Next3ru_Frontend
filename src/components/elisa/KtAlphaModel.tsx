@@ -1,8 +1,9 @@
 import * as THREE from "three";
-import React, { useEffect, useRef, useState } from "react";
-import { useGLTF } from "@react-three/drei";
+import { useEffect, useState } from "react";
+import { Html, useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { TClickedMeshInfo } from "./StadiumModel";
+import MeshLabel from "./MeshLabel";
 
 type NodeKeys =
   | "Mesh8072_Kt-alpha-right"
@@ -16,11 +17,28 @@ type GLTFResult = GLTF & {
   materials: { [key: string]: THREE.MeshStandardMaterial };
 };
 
-export function KtAlphaModel({ showModal, handleMeshClick }: any) {
+type MeshData = {
+  name: NodeKeys;
+  position: [number, number, number];
+};
+
+const meshesData: MeshData[] = [
+  { name: "Mesh8072_Kt-alpha-right", position: [-572.012, 57.268, -540.046] },
+  { name: "Mesh8269_Kt-alpha-center", position: [-458.05, 57.828, -675.671] },
+  { name: "Mesh8401_Kt-alpha-left", position: [-300.116, 57.392, -712.899] },
+];
+
+export function KtAlphaModel({
+  hides,
+  areaName,
+  showModal,
+  handleMeshHover,
+  handleMeshClick,
+}: any) {
   const { nodes, materials } = useGLTF("/models/kt-alpha.glb") as GLTFResult;
 
   const [isHovered, setIsHovered] = useState(false);
-  const [hoveredMesh, setHoveredMesh] = useState<string | null>(null);
+  const [hoveredMesh, setHoveredMesh] = useState<TClickedMeshInfo | null>(null);
   const [clickedMesh, setClickedMesh] = useState<TClickedMeshInfo | null>(null);
 
   const defaultColor = nodes["Mesh8072_Kt-alpha-right"]
@@ -28,27 +46,24 @@ export function KtAlphaModel({ showModal, handleMeshClick }: any) {
   const hoverColor = defaultColor.clone();
   hoverColor.color.set("#CE4E9D");
 
-  const onClickMesh = (info: TClickedMeshInfo): void => {
+  const onMeshClick = (info: TClickedMeshInfo): void => {
     handleMeshClick(info);
     setClickedMesh(info);
   };
 
-  const onMeshOver = (meshName: string): void => {
-    setHoveredMesh(meshName);
+  const onMeshOver = (info: TClickedMeshInfo): void => {
+    handleMeshHover(info);
+    setHoveredMesh(info);
   };
 
   const onMeshOut = (): void => {
     setHoveredMesh(null);
   };
 
-  const getColor = (isHovered: boolean) =>
-    isHovered ? hoverColor : defaultColor;
-
-  const getTooltip = (meshName: string) => {
-    if (clickedMesh?.area_name === meshName || hoveredMesh === meshName)
-      return hoverColor;
-    return defaultColor;
-  };
+  const getColor = (info: TClickedMeshInfo) =>
+    !hides[areaName] || isHovered || info.zone === clickedMesh?.zone
+      ? hoverColor
+      : defaultColor;
 
   useEffect(() => {
     if (showModal == false) {
@@ -56,21 +71,34 @@ export function KtAlphaModel({ showModal, handleMeshClick }: any) {
     }
   }, [showModal]);
 
-  const meshes = (Object.keys(nodes) as NodeKeys[]).map((key) => {
-    const mesh = nodes[key];
+  const meshes = meshesData.map(({ name, position }) => {
+    const mesh = nodes[name];
+    const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
+    const meshInfo: TClickedMeshInfo = {
+      area_name: areaName,
+      zone: zone,
+    };
     return (
       <mesh
-        key={key}
+        key={name}
         castShadow
         receiveShadow
         geometry={mesh.geometry}
-        material={getColor(isHovered)}
-        onClick={() => onClickMesh({ area_name: mesh.name, zone: "113" })}
-        // onPointerOver={() => onMeshOver(mesh.name)}
-        // onPointerOut={onMeshOut}
+        material={getColor(meshInfo)}
+        onClick={() => onMeshClick(meshInfo)}
+        onPointerOver={() => onMeshOver(meshInfo)}
+        onPointerOut={onMeshOut}
+        position={position}
         rotation={[-3.141, -1.305, -3.141]}
         scale={0.292}
-      />
+      >
+        {" "}
+        {hoveredMesh?.zone === zone && (
+          <Html distanceFactor={500}>
+            <MeshLabel {...hoveredMesh} />
+          </Html>
+        )}
+      </mesh>
     );
   });
 
@@ -83,36 +111,6 @@ export function KtAlphaModel({ showModal, handleMeshClick }: any) {
       {meshes}
     </group>
   );
-
-  // 원래 코드
-  // return (
-  //   <group dispose={null}>
-  //     <mesh
-  //       castShadow
-  //       receiveShadow
-  //       geometry={nodes["Mesh8072_Kt-alpha-right"].geometry}
-  //       material={nodes["Mesh8072_Kt-alpha-right"].material}
-  //       rotation={[-3.141, -1.305, -3.141]}
-  //       scale={0.292}
-  //     />
-  //     <mesh
-  //       castShadow
-  //       receiveShadow
-  //       geometry={nodes["Mesh8269_Kt-alpha-center"].geometry}
-  //       material={nodes["Mesh8269_Kt-alpha-center"].material}
-  //       rotation={[-3.141, -1.305, -3.141]}
-  //       scale={0.292}
-  //     />
-  //     <mesh
-  //       castShadow
-  //       receiveShadow
-  //       geometry={nodes["Mesh8401_Kt-alpha-left"].geometry}
-  //       material={nodes["Mesh8401_Kt-alpha-left"].material}
-  //       rotation={[-3.141, -1.305, -3.141]}
-  //       scale={0.292}
-  //     />
-  //   </group>
-  // );
 }
 
 useGLTF.preload("/models/kt-alpha.glb");

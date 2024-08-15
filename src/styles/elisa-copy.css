@@ -14,8 +14,13 @@
   --swiper-scrollbar-right: 0px;
   --swiper-scrollbar-sides-offset: 1%;
   --swiper-scrollbar-bg-color: rgba(0, 0, 0, 0.2);
-  --swiper-scrollbar-drag-bg-color: rgb(0, 0, 0.5);
+  --swiper-scrollbar-drag-bg-color: rgba(0, 0, 0, 0.5);
   --swiper-scrollbar-size: 7px;
+}
+
+.dark .swiper-scrollbar {
+  --swiper-scrollbar-bg-color: rgba(255, 255, 255, 0.2);
+  --swiper-scrollbar-drag-bg-color: rgb(255, 255, 255, 0.6);
 }
 
 .swiper {

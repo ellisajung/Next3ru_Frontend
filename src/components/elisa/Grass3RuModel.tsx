@@ -1,8 +1,9 @@
 import * as THREE from "three";
-import React, { useEffect, useRef, useState } from "react";
-import { useGLTF } from "@react-three/drei";
+import { useEffect, useState } from "react";
+import { Html, useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { TClickedMeshInfo } from "./StadiumModel";
+import MeshLabel from "./MeshLabel";
 
 type NodeKeys = "Mesh1608_Grass-3ru";
 
@@ -13,11 +14,17 @@ type GLTFResult = GLTF & {
   materials: { [key: string]: THREE.MeshStandardMaterial };
 };
 
-export function Grass3RuModel({ showModal, handleMeshClick }: any) {
+export function Grass3RuModel({
+  hides,
+  areaName,
+  showModal,
+  handleMeshHover,
+  handleMeshClick,
+}: any) {
   const { nodes, materials } = useGLTF("/models/grass-3ru.glb") as GLTFResult;
 
   const [isHovered, setIsHovered] = useState(false);
-  const [hoveredMesh, setHoveredMesh] = useState<string | null>(null);
+  const [hoveredMesh, setHoveredMesh] = useState<TClickedMeshInfo | null>(null);
   const [clickedMesh, setClickedMesh] = useState<TClickedMeshInfo | null>(null);
 
   const defaultColor = nodes["Mesh1608_Grass-3ru"]
@@ -25,33 +32,37 @@ export function Grass3RuModel({ showModal, handleMeshClick }: any) {
   const hoverColor = defaultColor.clone();
   hoverColor.color.set("#BDBDBD");
 
-  const onClickMesh = (info: TClickedMeshInfo): void => {
+  const onMeshClick = (info: TClickedMeshInfo): void => {
     handleMeshClick(info);
     setClickedMesh(info);
   };
 
-  const onMeshOver = (meshName: string): void => {
-    setHoveredMesh(meshName);
+  const onMeshOver = (info: TClickedMeshInfo): void => {
+    handleMeshHover(info);
+    setHoveredMesh(info);
   };
 
   const onMeshOut = (): void => {
     setHoveredMesh(null);
   };
 
-  const getColor = (isHovered: boolean) =>
-    isHovered ? hoverColor : defaultColor;
-
-  const getTooltip = (meshName: string) => {
-    if (clickedMesh?.area_name === meshName || hoveredMesh === meshName)
-      return hoverColor;
-    return defaultColor;
-  };
+  const getColor = (info: TClickedMeshInfo) =>
+    !hides[areaName] || isHovered || info.zone === clickedMesh?.zone
+      ? hoverColor
+      : defaultColor;
 
   useEffect(() => {
     if (showModal == false) {
       setClickedMesh(null);
     }
   }, [showModal]);
+
+  const mesh = nodes["Mesh1608_Grass-3ru"];
+  const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
+  const meshInfo: TClickedMeshInfo = {
+    area_name: areaName,
+    zone: zone,
+  };
 
   return (
     <group
@@ -62,18 +73,21 @@ export function Grass3RuModel({ showModal, handleMeshClick }: any) {
       <mesh
         castShadow
         receiveShadow
-        geometry={nodes["Mesh1608_Grass-3ru"].geometry}
-        material={getColor(isHovered)}
-        onClick={() =>
-          onClickMesh({
-            area_name: nodes["Mesh1608_Grass-3ru"].name,
-            zone: "113",
-          })
-        }
-        // onPointerOver={() => onMeshOver(mesh.name)}
-        // onPointerOut={onMeshOut}        rotation={[-3.141, -1.305, -3.141]}
+        geometry={mesh.geometry}
+        material={getColor(meshInfo)}
+        onClick={() => onMeshClick(meshInfo)}
+        onPointerOver={() => onMeshOver(meshInfo)}
+        onPointerOut={onMeshOut}
+        position={[859.407, 79.13, 347.1]}
+        rotation={[-3.141, -1.305, -3.141]}
         scale={0.292}
-      />
+      >
+        {hoveredMesh?.zone === zone && (
+          <Html distanceFactor={500}>
+            <MeshLabel {...hoveredMesh} />
+          </Html>
+        )}
+      </mesh>
     </group>
   );
 }

@@ -32,7 +32,7 @@ export default function RootLayout({
       <body
         className={cn(
           "h-screen bg-background font-sans antialiased",
-          fontSans.variable
+          fontSans.variable,
         )}
       >
         <ThemeProvider
@@ -45,7 +45,7 @@ export default function RootLayout({
           <EdgeStoreProvider>
             <div className="h-screen pt-[110px]">{children}</div>
           </EdgeStoreProvider>
-          <MyChatbot />
+          {/* <MyChatbot /> */}
           {/* <Footer /> */}
         </ThemeProvider>
       </body>

@@ -1,8 +1,9 @@
 import * as THREE from "three";
-import React, { useEffect, useRef, useState } from "react";
-import { useGLTF } from "@react-three/drei";
+import { useEffect, useState } from "react";
+import { Html, useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { TClickedMeshInfo } from "./StadiumModel";
+import MeshLabel from "./MeshLabel";
 
 type NodeKeys =
   | "Mesh10445_Sky-1ru_zone-401"
@@ -25,11 +26,64 @@ type GLTFResult = GLTF & {
   materials: { [key: string]: THREE.MeshStandardMaterial };
 };
 
-export function Sky1RuModel({ showModal, handleMeshClick }: any) {
+type MeshData = {
+  name: NodeKeys;
+  position: [number, number, number];
+};
+
+const meshesData: MeshData[] = [
+  { name: "Mesh10445_Sky-1ru_zone-401", position: [-737.017, 239.18, 560.506] },
+  {
+    name: "Mesh10445_Sky-1ru_zone-402",
+    position: [-743.393, 239.566, 488.915],
+  },
+  {
+    name: "Mesh10445_Sky-1ru_zone-403",
+    position: [-752.707, 239.976, 380.518],
+  },
+  { name: "Mesh10445_Sky-1ru_zone-405", position: [-775.214, 239.96, 91.657] },
+  {
+    name: "Mesh10445_Sky-1ru_zone-406",
+    position: [-785.097, 239.224, -54.314],
+  },
+  {
+    name: "Mesh10445_Sky-1ru_zone-407",
+    position: [-784.296, 237.213, -189.634],
+  },
+  {
+    name: "Mesh10445_Sky-1ru_zone-408",
+    position: [-763.859, 240.732, -313.978],
+  },
+  {
+    name: "Mesh15721_Sky-1ru_zone-410",
+    position: [-714.377, 252.987, -570.564],
+  },
+  { name: "Mesh9812_Sky-1ru_zone-404", position: [-763.976, 239.949, 235.664] },
+  {
+    name: "Mesh10445_Sky-1ru_zone-409",
+    position: [-727.512, 239.49, -437.893],
+  },
+  {
+    name: "Mesh10445_Sky-1ru_zone-411",
+    position: [-595.412, 204.771, -643.678],
+  },
+  {
+    name: "Mesh10445_Sky-1ru_zone-412",
+    position: [-539.837, 204.736, -713.59],
+  },
+];
+
+export function Sky1RuModel({
+  hides,
+  areaName,
+  showModal,
+  handleMeshHover,
+  handleMeshClick,
+}: any) {
   const { nodes, materials } = useGLTF("/models/sky-1ru.glb") as GLTFResult;
 
   const [isHovered, setIsHovered] = useState(false);
-  const [hoveredMesh, setHoveredMesh] = useState<string | null>(null);
+  const [hoveredMesh, setHoveredMesh] = useState<TClickedMeshInfo | null>(null);
   const [clickedMesh, setClickedMesh] = useState<TClickedMeshInfo | null>(null);
 
   const defaultColor = nodes["Mesh10445_Sky-1ru_zone-401"]
@@ -37,27 +91,24 @@ export function Sky1RuModel({ showModal, handleMeshClick }: any) {
   const hoverColor = defaultColor.clone();
   hoverColor.color.set("#211C79");
 
-  const onClickMesh = (info: TClickedMeshInfo): void => {
+  const onMeshClick = (info: TClickedMeshInfo): void => {
     handleMeshClick(info);
     setClickedMesh(info);
   };
 
-  const onMeshOver = (meshName: string): void => {
-    setHoveredMesh(meshName);
+  const onMeshOver = (info: TClickedMeshInfo): void => {
+    handleMeshHover(info);
+    setHoveredMesh(info);
   };
 
   const onMeshOut = (): void => {
     setHoveredMesh(null);
   };
 
-  const getColor = (isHovered: boolean) =>
-    isHovered ? hoverColor : defaultColor;
-
-  const getTooltip = (meshName: string) => {
-    if (clickedMesh?.area_name === meshName || hoveredMesh === meshName)
-      return hoverColor;
-    return defaultColor;
-  };
+  const getColor = (info: TClickedMeshInfo) =>
+    !hides[areaName] || isHovered || info.zone === clickedMesh?.zone
+      ? hoverColor
+      : defaultColor;
 
   useEffect(() => {
     if (showModal == false) {
@@ -65,21 +116,33 @@ export function Sky1RuModel({ showModal, handleMeshClick }: any) {
     }
   }, [showModal]);
 
-  const meshes = (Object.keys(nodes) as NodeKeys[]).map((key) => {
-    const mesh = nodes[key];
+  const meshes = meshesData.map(({ name, position }) => {
+    const mesh = nodes[name];
+    const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
+    const meshInfo: TClickedMeshInfo = {
+      area_name: areaName,
+      zone: zone,
+    };
     return (
       <mesh
-        key={key}
+        key={name}
         castShadow
         receiveShadow
         geometry={mesh.geometry}
-        material={getColor(isHovered)}
-        onClick={() => onClickMesh({ area_name: mesh.name, zone: "113" })}
-        // onPointerOver={() => onMeshOver(mesh.name)}
-        // onPointerOut={onMeshOut}
+        material={getColor(meshInfo)}
+        onClick={() => onMeshClick(meshInfo)}
+        onPointerOver={() => onMeshOver(meshInfo)}
+        onPointerOut={onMeshOut}
+        position={position}
         rotation={[-3.141, -1.305, -3.141]}
         scale={0.292}
-      />
+      >
+        {hoveredMesh?.zone === zone && (
+          <Html distanceFactor={500}>
+            <MeshLabel {...hoveredMesh} />
+          </Html>
+        )}
+      </mesh>
     );
   });
 
@@ -92,108 +155,6 @@ export function Sky1RuModel({ showModal, handleMeshClick }: any) {
       {meshes}
     </group>
   );
-
-  // 원래 코드
-  // return (
-  //   <group dispose={null}>
-  //     <mesh
-  //       castShadow
-  //       receiveShadow
-  //       geometry={nodes["Mesh10445_Sky-1ru_zone-401"].geometry}
-  //       material={nodes["Mesh10445_Sky-1ru_zone-401"].material}
-  //       rotation={[-3.141, -1.305, -3.141]}
-  //       scale={0.292}
-  //     />
-  //     <mesh
-  //       castShadow
-  //       receiveShadow
-  //       geometry={nodes["Mesh10445_Sky-1ru_zone-402"].geometry}
-  //       material={nodes["Mesh10445_Sky-1ru_zone-402"].material}
-  //       rotation={[-3.141, -1.305, -3.141]}
-  //       scale={0.292}
-  //     />
-  //     <mesh
-  //       castShadow
-  //       receiveShadow
-  //       geometry={nodes["Mesh10445_Sky-1ru_zone-403"].geometry}
-  //       material={nodes["Mesh10445_Sky-1ru_zone-403"].material}
-  //       rotation={[-3.141, -1.305, -3.141]}
-  //       scale={0.292}
-  //     />
-  //     <mesh
-  //       castShadow
-  //       receiveShadow
-  //       geometry={nodes["Mesh10445_Sky-1ru_zone-405"].geometry}
-  //       material={nodes["Mesh10445_Sky-1ru_zone-405"].material}
-  //       rotation={[-3.141, -1.305, -3.141]}
-  //       scale={0.292}
-  //     />
-  //     <mesh
-  //       castShadow
-  //       receiveShadow
-  //       geometry={nodes["Mesh10445_Sky-1ru_zone-406"].geometry}
-  //       material={nodes["Mesh10445_Sky-1ru_zone-406"].material}
-  //       rotation={[-3.141, -1.305, -3.141]}
-  //       scale={0.292}
-  //     />
-  //     <mesh
-  //       castShadow
-  //       receiveShadow
-  //       geometry={nodes["Mesh10445_Sky-1ru_zone-407"].geometry}
-  //       material={nodes["Mesh10445_Sky-1ru_zone-407"].material}
-  //       rotation={[-3.141, -1.305, -3.141]}
-  //       scale={0.292}
-  //     />
-  //     <mesh
-  //       castShadow
-  //       receiveShadow
-  //       geometry={nodes["Mesh10445_Sky-1ru_zone-408"].geometry}
-  //       material={nodes["Mesh10445_Sky-1ru_zone-408"].material}
-  //       rotation={[-3.141, -1.305, -3.141]}
-  //       scale={0.292}
-  //     />
-  //     <mesh
-  //       castShadow
-  //       receiveShadow
-  //       geometry={nodes["Mesh15721_Sky-1ru_zone-410"].geometry}
-  //       material={nodes["Mesh15721_Sky-1ru_zone-410"].material}
-  //       rotation={[-3.141, -1.305, -3.141]}
-  //       scale={0.292}
-  //     />
-  //     <mesh
-  //       castShadow
-  //       receiveShadow
-  //       geometry={nodes["Mesh9812_Sky-1ru_zone-404"].geometry}
-  //       material={nodes["Mesh9812_Sky-1ru_zone-404"].material}
-  //       rotation={[-3.141, -1.305, -3.141]}
-  //       scale={0.292}
-  //     />
-  //     <mesh
-  //       castShadow
-  //       receiveShadow
-  //       geometry={nodes["Mesh10445_Sky-1ru_zone-409"].geometry}
-  //       material={nodes["Mesh10445_Sky-1ru_zone-409"].material}
-  //       rotation={[-3.141, -1.305, -3.141]}
-  //       scale={0.292}
-  //     />
-  //     <mesh
-  //       castShadow
-  //       receiveShadow
-  //       geometry={nodes["Mesh10445_Sky-1ru_zone-411"].geometry}
-  //       material={nodes["Mesh10445_Sky-1ru_zone-411"].material}
-  //       rotation={[-3.141, -1.305, -3.141]}
-  //       scale={0.292}
-  //     />
-  //     <mesh
-  //       castShadow
-  //       receiveShadow
-  //       geometry={nodes["Mesh10445_Sky-1ru_zone-412"].geometry}
-  //       material={nodes["Mesh10445_Sky-1ru_zone-412"].material}
-  //       rotation={[-3.141, -1.305, -3.141]}
-  //       scale={0.292}
-  //     />
-  //   </group>
-  // );
 }
 
 useGLTF.preload("/models/sky-1ru.glb");
