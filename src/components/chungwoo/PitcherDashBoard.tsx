@@ -28,14 +28,14 @@ const PitcherDashBoard = () => {
   }, []);
 
   const top20pitchAverage = {
-    "2-seam Fastball": 2.25,
-    "4-seam Fastball": 9.01,
-    ChangeUp: 7.39,
-    Curve: 5.95,
-    Cutter: 3.25,
-    Slider: 12.35,
-    Forkball: 7.19,
-    Sinker: 5.12,
+    "투심": 2.25,
+    "포심": 9.01,
+    체인지업: 7.39,
+    커브: 5.95,
+    커터: 3.25,
+    슬라이더: 12.35,
+    포크볼: 7.19,
+    싱커: 5.12,
   };
 
   const filteredPitchingValue = Object.fromEntries(
@@ -195,7 +195,7 @@ const PitcherDashBoard = () => {
 
     datasets: [
       {
-        label: `${pitcher?.playerName}선수의 값`,
+        label: `${pitcher?.playerInfo.playerName}선수의 값`,
         data: Object.keys(filteredPitchValueAvg).map((label) => filteredPitchingValue[label] || 0),
         backgroundColor: "rgba(255, 159, 64, 0.2)",
         borderColor: "rgba(255, 159, 64, 1)",
@@ -234,14 +234,14 @@ const PitcherDashBoard = () => {
 
   const getPitchColor = (pitch: string): string => {
     const colors: { [key: string]: string } = {
-      "2-seam Fastball": "#FA8258", // 주황
-      "4-seam Fastball": "#FA5858", // 빨강
-      Sinker: "#FA58F4", // 네이비
-      Slider: "#82FA58", // 파랑
-      ChangeUp: "#58FAF4", // 초록
-      Cutter: "#FA5882", // 핑크
-      Curve: "#5858FA", // 청록
-      Forkball: "#D358F7", //보라
+      "투심": "#FA8258", // 주황
+      "포심": "#FA5858", // 빨강
+      싱커: "#FA58F4", // 네이비
+      슬라이더: "#82FA58", // 파랑
+      체인지업: "#58FAF4", // 초록
+      커터: "#FA5882", // 핑크
+      커브: "#5858FA", // 청록
+      포크볼: "#D358F7", //보라
     };
     return colors[pitch] || "#000000"; // 기본 색상 (블랙)
   };
@@ -263,16 +263,16 @@ const PitcherDashBoard = () => {
     pitcherList.find((pitcher) => pitcher.pcode === selectedPitcherPcode)?.whip ?? 0;
 
   const pitchingIndex = {
-    labels: ["ERA", "WHIP", "AVG", "K/9", "BB/9"],
+    labels: ["ERA", "WHIP", "K/9", "BB/9","AVG"],
     datasets: [
       {
-        label: pitcher?.playerName,
+        label: pitcher?.playerInfo.playerName,
         data: [
-          eraValue,
-          whipValue,
-          `${pitcher?.AVG}`,
-          `${pitcher?.["K/9"]}`,
-          `${pitcher?.["BB/9"]}`,
+          `${pitcher?.pitchingMetrics.era}`,
+          `${pitcher?.pitchingMetrics.whip}`,
+          `${pitcher?.pitchingMetrics['k/9']}`,
+          `${pitcher?.pitchingMetrics['bb/9']}`,
+          `${pitcher?.pitchingMetrics.avg}`,
         ],
         backgroundColor: "rgba(255, 159, 64, 0.2)",
         borderColor: "rgba(255, 159, 64, 1)",
@@ -280,7 +280,7 @@ const PitcherDashBoard = () => {
       },
       {
         label: "KBO 평균",
-        data: [4.87, 1.51, 0.276, 7.59, 3.83],
+        data: [4.87, 1.51, 7.59, 3.83,0.276,].map(value => value.toString()),
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         borderColor: "rgba(75, 192, 192, 1)",
         borderWidth: 1,
@@ -290,14 +290,14 @@ const PitcherDashBoard = () => {
 
   return (
     <div className="p-2 font-['KT']">
-      <div className="grid grid-cols-4 gap-4 w-[1400px] mt-8 ">
+      <div className="grid grid-cols-4 gap-4 w-[1400px] ">
         <div className={`p-4 row-span-2 bg-custom-gradient`}>
           <div className="flex justify-center p-4 mt-14">
-            <div className=" text-[#C00000] text-4xl mr-4">No. {pitcher?.backnum}</div>
-            <div className=" text-white text-4xl font-bold">{pitcher?.playerName}</div>
+            <div className=" text-[#C00000] text-4xl mr-4">No. {pitcher?.playerInfo.backnum}</div>
+            <div className=" text-white text-4xl font-bold">{pitcher?.playerInfo.playerName}</div>
           </div>
           <Image
-            src={`/images/pitcher/${pitcher?.playerName}.svg`}
+            src={`/images/pitcher/${pitcher?.playerInfo.playerName}.svg`}
             alt={pitcher?.playerName || "Default Alt Text"}
             width={350}
             height={300}
@@ -306,39 +306,42 @@ const PitcherDashBoard = () => {
           <div className="flex flex-col justify-center p-4 mt-4">
             <div className="flex">
               <div className=" text-white w-16 mr-8 w-[70px] mb-2">투타</div>
-              <div className=" text-white ">{pitcher?.hittype}</div>
+              <div className=" text-white ">{pitcher?.playerInfo.hittype}</div>
             </div>
 
             <div className="flex">
               <div className=" text-white  w-16 mr-8 w-[70px] mb-2">생년월일</div>
-              <div className=" text-white ">
-                {`${pitcher?.birth.substring(0, 4)}.${pitcher?.birth.substring(
-                  4,
-                  6
-                )}.${pitcher?.birth.substring(6, 8)}`}
-              </div>
+              <div className="text-white">
+              {pitcher?.playerInfo.birth
+                ? `${pitcher.playerInfo.birth.substring(0, 4)}.${pitcher.playerInfo.birth.substring(
+                    4,
+                    6
+                  )}.${pitcher.playerInfo.birth.substring(6, 8)}`
+                : '정보없음'}
+            </div>
+
             </div>
 
             <div className="flex">
               <div className=" text-white  w-16 mr-8 w-[70px] mb-2">체격</div>
               <div className=" text-white ">
-                {pitcher?.height}cm,{pitcher?.weight}kg
+                {pitcher?.playerInfo.height}cm,{pitcher?.playerInfo.weight}kg
               </div>
             </div>
 
             <div className="flex">
               <div className=" text-white  w-16 mr-8 w-[70px] mb-2">출신교</div>
-              <div className=" text-white w-[165px]">{pitcher?.career}</div>
+              <div className=" text-white w-[165px]">{pitcher?.playerInfo.career}</div>
             </div>
 
             <div className="flex">
               <div className=" text-white w-16 mr-8 w-[70px] mb-2">입단연도</div>
-              <div className=" text-white ">{pitcher?.debutYear}년</div>
+              <div className=" text-white ">{pitcher?.playerInfo.debutYear}년</div>
             </div>
           </div>
         </div>
         <div className="col-span-2 p-4 bg-white shadow">
-          <h3 className="text-xl font-bold mb-1">2024 {pitcher?.playerName}선수의 투수주요지표</h3>
+          <h3 className="text-xl font-bold mb-1">2024 {pitcher?.playerInfo.playerName}선수의 투수주요지표</h3>
           <p className=" text-gray-600 text-sm">투수의 능력을 평가하는 주요지표입니다.</p>
           <div className="relative">
             <Bar data={pitchingIndex} options={BarOptions} />
@@ -363,16 +366,7 @@ const PitcherDashBoard = () => {
                 </Tooltip>
                 <FaInfoCircle className="text-gray-500"></FaInfoCircle>
               </div>
-              <div className="flex">
-                <Tooltip
-                  content="피안타율입니다. 예시: 0.250 AVG는 4타석 중 1타석에서 안타를 맞는다는 의미입니다. 낮을수록 좋습니다."
-                  className="bg-gray-900 opacity-95 text-xs text-white border border-gray-700 p-2 rounded shadow-lg "
-                  placement="bottom"
-                >
-                  AVG
-                </Tooltip>
-                <FaInfoCircle className="text-gray-500"></FaInfoCircle>
-              </div>
+             
               <div className="flex">
                 <Tooltip
                   content="9이닝당 삼진의 개수입니다. 예시: 9.00 K/9은 9이닝당 평균 9개의 삼진을 기록한 것을 의미합니다. 높을수록 좋습니다."
@@ -390,6 +384,17 @@ const PitcherDashBoard = () => {
                   placement="bottom"
                 >
                   BB/9
+                </Tooltip>
+                <FaInfoCircle className="text-gray-500"></FaInfoCircle>
+              </div>
+
+              <div className="flex">
+                <Tooltip
+                  content="피안타율입니다. 예시: 0.250 AVG는 4타석 중 1타석에서 안타를 맞는다는 의미입니다. 낮을수록 좋습니다."
+                  className="bg-gray-900 opacity-95 text-xs text-white border border-gray-700 p-2 rounded shadow-lg "
+                  placement="bottom"
+                >
+                  AVG
                 </Tooltip>
                 <FaInfoCircle className="text-gray-500"></FaInfoCircle>
               </div>
@@ -415,12 +420,12 @@ const PitcherDashBoard = () => {
         </div>
 
         <div className="p-4 col-span-2 bg-white shadow ">
-          <h3 className="text-xl font-bold mb-1">{pitcher?.playerName}선수의 연봉 그래프</h3>
+          <h3 className="text-xl font-bold mb-1">{pitcher?.playerInfo.playerName}선수의 연봉 그래프</h3>
           <Line data={salaryData} options={LineOptions} />
         </div>
 
         <div className="p-4 bg-white shadow  ">
-          <h3 className="text-xl font-bold mb-1">2024 {pitcher?.playerName} 투구 구종 비율</h3>
+          <h3 className="text-xl font-bold mb-1">2024 {pitcher?.playerInfo.playerName} 투구 구종 비율</h3>
           <p className=" text-gray-600 text-sm">투구 구종별 비율을 시각화한 차트입니다.</p>
           <Pie data={pitchDistribution} options={pieOptions} />
         </div>
