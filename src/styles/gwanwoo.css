@@ -11,7 +11,6 @@
   bottom: 90px;
   width: 520px;
   height: 520px;
-  overflow: hidden;
   border-radius: 25px;
   box-shadow: rgb(0 0 0 / 30%) 0px 12px 60px 5px;
 }
@@ -188,12 +187,13 @@
 #chatbot-swiper .swiper-button-next {
   right: 0px; /* 화면 오른쪽 여백 설정 */
   bottom: 0px; /* 화면 아래쪽 여백 설정 */
+  top:110px;
 }
 
 /* 이전 버튼을 화면 왼쪽으로 위치시킴 */
 #chatbot-swiper .swiper-button-prev {
   left: 0px; /* 화면 왼쪽 여백 설정 */
-  top: 80px; /* 화면 위쪽 여백 설정 */
+  top: 110px; /* 화면 위쪽 여백 설정 */
   opacity: 0; /* 초기에는 숨기기 */
 }
 

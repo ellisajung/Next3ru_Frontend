@@ -53,7 +53,7 @@ const PlayerPitcher = () => {
   }, [searchTerm, pitcherList, sortCriteria]);
 
   return (
-    <div className="p-2 font-['KT'] mt-8">
+    <div className="p-2 font-['KT']">
       <input
         className="placeholder:italic placeholder:text-gray-500 block bg-gray-100 border border-gray-300 rounded-lg  py-2 pl-3  shadow-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 w-full transition duration-150 ease-in-out"
         placeholder="선수명 검색"

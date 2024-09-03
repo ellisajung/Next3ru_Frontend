@@ -32,21 +32,10 @@ export const useStore = create<TickeObjtStore>((set) => ({
   fetchTicketPre: async (date: string) => {
     try {
       const apiUrl = process.env.NEXT_PUBLIC_KTWIZ_API_URL;
-      const response = await axios.get(`${apiUrl}/get_schedule?yearMonth=${date}`);
-      const temp = response.data;
-      const ticketList: Preview[] = temp.data.list;
+      const response = await axios.get(`${apiUrl}/schedule?yearMonth=${date}`);
+      
 
-      const now = new Date();
-      const currentDate = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(
-        2,
-        "0"
-      )}${String(now.getDate()).padStart(2, "0")}`;
-
-      const ktTicket = ticketList.filter((game) => {
-        return game.homeKey === "KT" && game.displayDate >= currentDate;
-      });
-
-      set({ ticketPreData: ktTicket });
+      set({ ticketPreData: response.data.ktGames });
     } catch (error) {
       console.error("Failed to fetch schedule:", error);
     }
