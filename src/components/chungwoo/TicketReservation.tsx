@@ -11,12 +11,12 @@ const TicketReservation = () => {
   }));
 
   useEffect(() => {
-    fetchTicketPre("202408");
+    fetchTicketPre("202409");
   }, [fetchTicketPre]);
 
   function formatDate(dateString: string) {
     const year = parseInt(dateString.substring(0, 4), 10);
-    const month = parseInt(dateString.substring(4, 6), 10) - 1; // 월은 0부터 시작
+    const month = parseInt(dateString.substring(4, 6), 10) - 1;
     const day = parseInt(dateString.substring(6, 8), 10);
 
     const date = new Date(year, month, day);
@@ -47,7 +47,7 @@ const TicketReservation = () => {
   }
 
   return (
-    <div className="w-[967px] mt-36 mx-auto">
+    <div className="w-[967px] mt-16 mx-auto">
       <div className="flex justify-center">
         <Link
           href="#"
@@ -60,42 +60,43 @@ const TicketReservation = () => {
         <table className="bg-white w-full border-collapse">
           <tbody>
             {ticketPreData &&
-              ticketPreData.map((ticket, index) => (
-                <tr key={index} className={`${index === 0 ? "border-[#a50033]" : ""}`}>
-                  <td className="px-[10px] py-[15px] w-[193.4px] h-[70.8px] border-y text-center font-bold text-[#222222]">
-                    {formatDate(ticket.displayDate)}
-                  </td>
-                  <td className="px-[10px] py-[15px] w-[96.7px] h-[70.8px] border-y text-center text-[#777]">
-                    {ticket.gtime}
-                  </td>
-                  <td className="px-[10px] py-[15px] w-[193.4px] h-[70.8px] border-y text-start text-[#a50034]">
-                    {ticket.stadium}
-                  </td>
+              ticketPreData
+                .filter((ticket) => ticket.stadium === "수원")
+                .map((ticket, index) => (
+                  <tr key={index} className={`${index === 0 ? "border-[#a50033]" : ""}`}>
+                    <td className="px-[10px] py-[15px] w-[193.4px] h-[70.8px] border-y text-center font-bold text-[#222222]">
+                      {formatDate(ticket.displayDate)}
+                    </td>
+                    <td className="px-[10px] py-[15px] w-[96.7px] h-[70.8px] border-y text-center text-[#777]">
+                      {ticket.gtime}
+                    </td>
+                    <td className="px-[10px] py-[15px] w-[193.4px] h-[70.8px] border-y text-start text-[#a50034]">
+                      {ticket.stadium}
+                    </td>
 
-                  <td className="flex justify-start items-center px-[10px] py-[15px] w-[290.1px] h-[70.8px] border-y ">
-                    <Image
-                      src={`/images/chatbot/logos/emblem_${ticket.visit}.png`}
-                      alt="원정팀로고"
-                      width={97.5}
-                      height={60}
-                    />
-                    <div className="text-lg font-bold ml-6 text-[#222222]">
-                      {getTeamFullName(ticket.visit)}
-                    </div>
-                  </td>
-                  <td className="px-[10px] py-[15px] w-[193.4px] h-[70.8px] border-y text-center">
-                    <Link href="#">예매오픈</Link>
-                  </td>
-                </tr>
-              ))}
+                    <td className="flex justify-start items-center px-[10px] py-[15px] w-[290.1px] h-[70.8px] border-y ">
+                      <Image
+                        src={`/images/chatbot/logos/emblem_${ticket.visit}.png`}
+                        alt="원정팀로고"
+                        width={97.5}
+                        height={60}
+                      />
+                      <div className="text-lg font-bold ml-6 text-[#222222]">
+                        {getTeamFullName(ticket.visit)}
+                      </div>
+                    </td>
+                    <td className="px-[10px] py-[15px] w-[193.4px] h-[70.8px] border-y text-center">
+                      <Link href="#">예매오픈</Link>
+                    </td>
+                  </tr>
+                ))}
           </tbody>
         </table>
       </div>
       <div className="px-[35px] py-[25px] bg-[#eee] mt-8 mb-16">
         <ul className="w-full list-disc pl-5">
           <li className="text-start w-full text-[#949494] font-bold">
-            티켓 예매가 정상적으로 이뤄지지 않는 경우, 브라우져의 캐시를 삭제하시고 재시도 해주시기
-            바랍니다.
+            티켓 예매가 정상적으로 이뤄지지 않는 경우, 브라우져의 캐시를 삭제하시고 재시도 해주시기 바랍니다.
           </li>
           <li className="text-start w-full text-[#949494] font-bold">
             KT WIZ 홈페이지 회원이 아닌 경우 티켓링크 회원계정으로 예매가 가능합니다.
