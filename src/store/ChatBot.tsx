@@ -2,6 +2,17 @@ import axios from "axios";
 import { create } from "zustand";
 
 interface Game {
+  ktGames: {
+    displayDate: string;
+    home: string;
+    visit: string;
+    homeScore: string;
+    awayScore: string;
+    stadium: string; // 추가된 필드
+    weatherIcon?: string; // 날씨 아이콘 (선택적)
+    temperature?: number; // 온도 (선택적)
+    precipitationProbability?: number; // 강수 확률 (선택적)
+  }
   broadcast: string;
   displayDate: string;
   gameDate: number;
@@ -28,15 +39,17 @@ interface WeatherData {
   precipitationProbability: number | null;
 }
 
-interface TeamRank {
-  G: string;
-  무: string;
-  순위: string;
-  승: string;
-  승률: string;
-  승차: string;
-  팀: string;
-  패: string;
+interface TeamRanking {
+  rank: number;
+  team: string;
+  gamesPlayed: number;
+  wins: number;
+  draws: number;
+  losses: number;
+  gamesBehind: number;
+  winRate: number;
+  runsScored: number;
+  runsAllowed: number;
 }
 
 interface StartMember {
@@ -146,7 +159,7 @@ const translatePosition = (position: string): string => {
 
 interface ChatBotStore {
   schedule: Game[] | null;
-  teamRanks: TeamRank[] | null;
+  teamRanks: TeamRanking[] | null;
   fetchSchedule: (date: string) => Promise<void>;
   fetchTeamRanks: () => Promise<void>;
   fetchStartMember: (date: string) => Promise<void>;
@@ -154,25 +167,6 @@ interface ChatBotStore {
   startMember: StartMember[];
 }
 
-const getWeatherIconByPrecipitation = (precipitationProbability: number) => {
-  if (precipitationProbability >= 70) {
-    return "rainy-6";
-  } else if (precipitationProbability >= 50) {
-    return "cloudy";
-  } else {
-    return "day";
-  }
-};
-
-const getRandomTemperature = () => {
-  // 여름철 온도 범위: 26도에서 35도 사이
-  return Math.floor(Math.random() * (35 - 26 + 1)) + 26;
-};
-
-const getRandomPrecipitationProbability = () => {
-  // 강수 확률 범위: 0%에서 90% 사이
-  return Math.floor(Math.random() * 91);
-};
 const apiUrl = process.env.NEXT_PUBLIC_KTWIZ_API_URL;
 export const useStore = create<ChatBotStore>((set) => ({
   schedule: null,
@@ -182,52 +176,35 @@ export const useStore = create<ChatBotStore>((set) => ({
 
   fetchSchedule: async (date: string) => {
     try {
-      const response = await axios.get(`${apiUrl}/get_schedule?yearMonth=${date}`);
+      // API에서 일정 데이터를 가져옵니다.
+      const response = await axios.get(`${apiUrl}/schedule?yearMonth=${date}`);
+      
+      // 응답 데이터 확인
+      console.log("Fetched Schedule Data:", response.data);
+      
+      // 응답 데이터에서 일정 정보를 추출합니다.
       const scheduleData = response.data;
-      const gameList: Game[] = scheduleData.data.list;
-
-      const now = new Date();
-      const currentDate = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(
-        2,
-        "0"
-      )}${String(now.getDate()).padStart(2, "0")}`;
-
-      const ktGames = gameList.filter((game) => {
-        return (game.homeKey === "KT" || game.visitKey === "KT") && game.displayDate >= currentDate;
-      });
-
-      const updatedKtGames = ktGames.map((game) => {
-        // 강수 확률을 설정하지 않았을 경우 랜덤 값을 생성
-        if (game.temperature === undefined || game.precipitationProbability === undefined) {
-          const precipitationProbability =
-            game.precipitationProbability ?? getRandomPrecipitationProbability();
-          return {
-            ...game,
-            weatherIcon: getWeatherIconByPrecipitation(precipitationProbability),
-            temperature: game.temperature === undefined ? getRandomTemperature() : game.temperature,
-            precipitationProbability: precipitationProbability,
-          };
-        }
-
-        // 강수 확률에 따라 날씨 아이콘 업데이트
-        return {
-          ...game,
-          weatherIcon: getWeatherIconByPrecipitation(game.precipitationProbability),
-        };
-      });
-
-      set({ schedule: updatedKtGames });
+  
+      // 응답 데이터가 객체 형태이고 ktGames 배열이 있는 경우 상태를 설정합니다.
+      if (scheduleData.ktGames && Array.isArray(scheduleData.ktGames)) {
+        set({ schedule: scheduleData.ktGames });
+      } else {
+        console.error("Unexpected response format:", scheduleData);
+      }
     } catch (error) {
       console.error("Failed to fetch schedule:", error);
     }
   },
 
+  
+  
+
   fetchTeamRanks: async () => {
     try {
       // 팀 순위 데이터를 가져올 API URL을 입력하세요
-      const response = await axios.get("http://43.203.217.238:5002/today_rank"); // 실제 API URL로 교체
-
-      const teamRanks: TeamRank[] = response.data;
+      const response = await axios.get(`${apiUrl}/teamRank`); // 실제 API URL로 교체
+      
+      const teamRanks: TeamRanking[] = response.data.teamRankings;
 
       set({ teamRanks });
     } catch (error) {

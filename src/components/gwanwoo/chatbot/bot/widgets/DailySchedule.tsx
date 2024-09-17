@@ -18,7 +18,7 @@ export default function DailySchedule() {
   }));
 
   useEffect(() => {
-    fetchSchedule("202408");
+    fetchSchedule("202409");
   }, [fetchSchedule]);
 
   function formatDate(dateString: string) {
@@ -46,7 +46,7 @@ export default function DailySchedule() {
       인천: "인천 SSG랜더스 필드",
       수원: "수원 KT위즈 파크",
       사직: "사직 야구장",
-      서울: "서울 종합운동장 야구장",
+      잠실: "서울 종합운동장 야구장",
       대전: "대전 한화생명이글스 파크",
     };
 
@@ -68,7 +68,9 @@ export default function DailySchedule() {
 
   const onSwiper = (swiper: SwiperType) => {
     // 왼쪽 버튼의 참조를 얻습니다.
-    const prevButton = document.querySelector("#chatbot-swiper .swiper-button-prev") as HTMLElement;
+    const prevButton = document.querySelector(
+      "#chatbot-swiper .swiper-button-prev"
+    ) as HTMLElement;
 
     // 오른쪽 버튼 클릭 시 왼쪽 버튼을 표시
     swiper.on("slideChange", () => {
@@ -94,11 +96,11 @@ export default function DailySchedule() {
     <Swiper
       id="chatbot-swiper"
       modules={[Navigation]}
-      spaceBetween={90}
+      spaceBetween={120}
       slidesPerView={2}
-      effect={"fade"}
       fadeEffect={{ crossFade: true }}
       navigation
+      slidesOffsetAfter={150}
       onSwiper={onSwiper}
     >
       {isDataLoaded &&
@@ -121,7 +123,7 @@ export default function DailySchedule() {
                       {formatDate(game.displayDate)}
                     </div>
                   </div>
-                  <div className="relative w-20 h-20 overflow-hidden rounded-lg">
+                  <div className="relative w-20 h-20 overflow-hidden rounded-lg ml-[40px] mb-4">
                     <div
                       className="absolute inset-0"
                       style={{
@@ -164,20 +166,25 @@ export default function DailySchedule() {
                   `}</style>
                 </div>
                 <hr />
-                <div className="flex flex-col flex-start p-3 ">
+                <div className="flex flex-col flex-start p-3 w-[250px] h-[80px] mt-1 ">
                   <div className="flex">
-                    <div className="mr-1 font-[KT]">구장</div>
-                    <div className="text-gray-400"> {formatStadiumName(game.stadium)}</div>
+                    <div className="mr-2 font-[KT]">구장</div>
+                    <div className="text-gray-400">
+                      {" "}
+                      {formatStadiumName(game.stadium)}
+                    </div>
                   </div>
                   <div className="flex">
-                    <div className="mr-1 font-[KT]">날씨</div>
+                    <div className=" font-[KT]">날씨</div>
                     <img
                       src={`/images/${game.weatherIcon}.svg`}
                       alt={game.weatherIcon}
                       className="w-6 h-6"
                     />
                     <div className="text-gray-400">{game.temperature}°C</div>
-                    <div className="text-gray-400">(강수확률 {game.precipitationProbability}%)</div>
+                    <div className="text-gray-400">
+                      (강수확률 {game.precipitationProbability}%)
+                    </div>
                   </div>
                 </div>
               </div>

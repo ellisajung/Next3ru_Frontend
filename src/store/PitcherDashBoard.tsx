@@ -2,6 +2,17 @@ import axios from "axios";
 import { create } from "zustand";
 
 interface Player {
+
+  pitchingMetrics: {
+    era: string;
+    whip: string;
+    'k/9': string;
+    'bb/9': string;
+    avg: string;
+  };
+  
+
+
   AVG: number;
   "BB/9": number;
   "K/9": number;
@@ -11,6 +22,17 @@ interface Player {
     "2022": number;
     "2023": number;
     "2024": number;
+  };
+
+  playerInfo: {
+    backnum: string;
+    playerName: string;
+    hittype: string;
+    birth: string;
+    height: string;
+    weight: string;
+    career: string;
+    debutYear: string;
   };
   backnum: string;
   birth: string;
@@ -39,7 +61,6 @@ interface Player {
     Cutter: number;
     Forkball: number;
     Sinker: number;
-    Slider: number;
   };
   pitchingValue: {
     "2-seam Fastball": number;
@@ -49,7 +70,6 @@ interface Player {
     Cutter: number;
     Forkball: number;
     Sinker: number;
-    Slider: number;
   };
   playerName: string;
   playerPrvwImg: string;
@@ -80,7 +100,7 @@ export const useStore = create<PlayerListProps>((set) => ({
   fetchPitcher: async (pcode) => {
     try {
       const apiUrl = process.env.NEXT_PUBLIC_KTWIZ_API_URL;
-      const response = await axios.get(`${apiUrl}/player/${pcode}`);
+      const response = await axios.get(`${apiUrl}/pitcher?pcode=${pcode}`);
       const pitcherData: Player = response.data; // 단일 객체로 받아옴
       set({ pitcher: pitcherData }); // 객체를 설정
     } catch (error) {
