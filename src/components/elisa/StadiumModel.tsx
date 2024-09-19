@@ -57,10 +57,7 @@ export default function StadiumModel({
   };
 
   return (
-    <div
-      id="stadium"
-      className="h-full"
-    >
+    <>
       <Canvas className="rounded-lg">
         <Center>
           <SkeletonModel
@@ -209,6 +206,6 @@ export default function StadiumModel({
           info={clickedMeshInfo}
         />
       )}
-    </div>
+    </>
   );
 }
