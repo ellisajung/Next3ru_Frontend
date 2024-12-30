@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Card,
   CardContent,
@@ -14,10 +16,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/shadcn-ui/table";
-import Image from "next/image";
-import { Badge } from "../shadcn-ui/badge";
 import ReviewEditModal from "./ReviewEditModal";
-import { FaPen, FaSort } from "react-icons/fa";
+import { FaPen } from "react-icons/fa";
 import { Button } from "../shadcn-ui/button";
 import { useState } from "react";
 import * as React from "react";
@@ -33,27 +33,16 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/shadcn-ui/dropdown-menu";
-import { Input } from "@/components/shadcn-ui/input";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/shadcn-ui/pagination";
 import { Checkbox } from "../shadcn-ui/checkbox";
 import { IoFilter } from "react-icons/io5";
 import Link from "next/link";

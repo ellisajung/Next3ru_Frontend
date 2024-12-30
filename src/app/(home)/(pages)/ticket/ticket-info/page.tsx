@@ -1,11 +1,11 @@
-import ViewPicSwiper from "@/components/elisa/ViewPicSwiper";
-import Link from "next/link";
+// import ViewPicSwiper from "@/components/elisa/ViewPicSwiper";
+// import Link from "next/link";
 import "@/styles/elisa.css";
 
 const TicketInfoPage = () => {
   return (
     <>
-      <div
+      {/* <div
         id="page-content-header"
         className="mt-60"
       >
@@ -14,7 +14,7 @@ const TicketInfoPage = () => {
           <Link href="/">할인 혜택</Link>
           <ViewPicSwiper zone="z-113" />
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

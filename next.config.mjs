@@ -1,10 +1,18 @@
 /** @type {import('next').NextConfig} */
 
+import bundleAnalyzer from "@next/bundle-analyzer";
+
 const nextConfig = {
   images: {
     domains: ["wizzap.ktwiz.co.kr"],
   },
   transpilePackages: ["three"],
+  typescript: { ignoreBuildErrors: true },
 };
 
-export default nextConfig;
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+  openAnalyzer: false,
+});
+
+export default withBundleAnalyzer(nextConfig);

@@ -189,8 +189,11 @@ const ReviewEditModal: FC<ModalProps> = ({ isOpen, onClose }) => {
                         {/* Filtered based on selected area name */}
                         {filteredZones &&
                           "zones" in filteredZones &&
-                          filteredZones.zones.map((zone) => (
-                            <SelectItem value={zone.zone}>
+                          filteredZones.zones.map((zone, i) => (
+                            <SelectItem
+                              key={i}
+                              value={zone.zone}
+                            >
                               {zone.zone}
                             </SelectItem>
                           ))}
