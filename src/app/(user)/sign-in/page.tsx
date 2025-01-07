@@ -13,8 +13,12 @@ import { Input } from "@/components/shadcn-ui/input";
 import { Label } from "@/components/shadcn-ui/label";
 import Image from "next/image";
 import { signIn } from "../actions";
+import { useSearchParams } from "next/navigation";
 
 const LoginPage = () => {
+  const errorMsg = useSearchParams().get("error-message");
+  const confirmMsg = useSearchParams().get("confirm-message");
+
   return (
     <form>
       <Card className="w-96 mx-auto max-w-sm">
@@ -36,6 +40,16 @@ const LoginPage = () => {
                 required
               />
             </div>
+            {errorMsg && (
+              <div className="text-sm text-red-700">
+                {decodeURIComponent(errorMsg)}
+              </div>
+            )}
+            {confirmMsg && (
+              <div className="text-sm text-green-700">
+                {decodeURIComponent(confirmMsg)}
+              </div>
+            )}
             <Button formAction={signIn}>이메일 로그인</Button>
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
@@ -84,7 +98,7 @@ const LoginPage = () => {
           <div className="mt-4 text-center text-sm">
             계정이 없으신가요?&nbsp;
             <Link
-              href="/signup"
+              href="/sign-up"
               className="underline font-semibold"
             >
               가입하기
