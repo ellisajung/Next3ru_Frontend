@@ -5,10 +5,28 @@ import Link from "next/link";
 import NavBarSub from "@/components/NavBarSub";
 import "@/styles/jaemin.css";
 import { ThemeToggle } from "./elisa/ThemeChanger";
+import { getUser, signOut } from "@/app/(user)/actions";
+import { Button } from "./shadcn-ui/button";
 
 const NavBar = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [username, setUsername] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const fetchedUser = await getUser();
+      if (fetchedUser) {
+        setUsername(fetchedUser.user_metadata.username);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  const handleSignOut = async () => {
+    signOut();
+    setUsername(null);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,36 +64,44 @@ const NavBar = () => {
       <div
         className={`gnb_header ${
           isScrolled ? "slide-up" : "slide-down"
-        } text-[#ffffff] gap-2 font-['KT'] xl:flex xl:justify-end xl:items-center xl:pr-3 xl:h-[39px] xl:bg-gradient-to-r xl:from-[#F69AA9] xl:via-[#E1ADED] xl:via-[#AAC6E5] xl:to-[#97D5E0] hidden`}
+        } text-[#ffffff] gap-2 font-['KT'] xl:flex xl:justify-end xl:items-center xl:pr-3 xl:h-[46px] xl:bg-gradient-to-r xl:from-[#F69AA9] xl:via-[#E1ADED] xl:via-[#AAC6E5] xl:to-[#97D5E0] hidden`}
       >
         <div className="mr-2">
           <ThemeToggle />
         </div>
-        <a
-          className="hover:text-black transition-color"
-          href="/"
-        >
-          로그인
-        </a>
-        &nbsp;
-        <b>|</b>&nbsp;
-        <a
-          className="hover:text-black transition-color"
-          href="/"
-        >
-          회원가입
-        </a>
+        {!username ? (
+          <>
+            <Link
+              className="hover:text-black transition-color"
+              href="/sign-in"
+            >
+              로그인
+            </Link>
+            &nbsp;
+            <b>|</b>&nbsp;
+            <Link
+              className="hover:text-black transition-color"
+              href="/sign-up"
+            >
+              회원가입
+            </Link>
+          </>
+        ) : (
+          <form className="flex gap-3 items-center">
+            <p className="hover:text-black transition-color">{username} 님</p>
+            <Button onClick={handleSignOut}>로그아웃</Button>
+          </form>
+        )}
         &nbsp;
         <b>
-          <a
+          <Link
             href="https://www.ktwizstore.co.kr/"
             className="text-[#FF0000] hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-[#ff71d9] hover:to-[#e09797] transition-color"
           >
             KT SHOP
-          </a>
+          </Link>
         </b>
       </div>
-
       <div
         className={`lnb_header group relative w-full h-[100px] bg-black text-center shadow-lg xl:h-[80px] xl:bg-black xl:shadow-xl ${
           isScrolled ? "slide-up" : "slide-down"
@@ -86,7 +112,7 @@ const NavBar = () => {
           <ul className="left_nav font-['KT']  xl:flex xl:w-1/3 xl:text-right xl:pl-2 xl:pr-[50px]  xl:text-base hidden">
             <div className="flex justify-center items-center"></div>
             <li className="">
-              <a href="http://kt-sports.co.kr/sports/site/main.do">
+              <Link href="http://kt-sports.co.kr/sports/site/main.do">
                 <Image
                   src={
                     isHovered
@@ -104,7 +130,7 @@ const NavBar = () => {
                   width={40}
                   height={40}
                 />
-              </a>
+              </Link>
             </li>
             <li className="mt-1">
               <Link href="/KT_wiz">KT wiz</Link>
@@ -148,7 +174,7 @@ const NavBar = () => {
               >
                 티켓구매
               </Link>
-            </li>{" "}
+            </li>
             <li>
               <Link
                 href="/ticket"
@@ -174,7 +200,7 @@ const NavBar = () => {
               />
             </button>
           </div>
-          <div className="right_nav  flex ml-auto xl:hidden ">
+          {/* <div className="right_nav  flex ml-auto xl:hidden ">
             <button className="flex items-center">
               <Image
                 src={"images/navbar/Mypage.svg"}
@@ -184,8 +210,8 @@ const NavBar = () => {
                 height={40} // height 추가
               />
             </button>
-          </div>
-        </div>{" "}
+          </div> */}
+        </div>
         <NavBarSub />
       </div>
     </header>

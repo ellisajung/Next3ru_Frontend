@@ -24,7 +24,7 @@ const LoginLayout = ({
       >
         <div>
           <div className="flex justify-between m-4">
-            <div>로고</div>
+            <Link href="/">로고</Link>
           </div>
           <div className="min-h-screen flex justify-center items-center">
             {children}
