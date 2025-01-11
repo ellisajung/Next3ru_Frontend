@@ -12,47 +12,38 @@ import {
 import { Input } from "@/components/shadcn-ui/input";
 import { Label } from "@/components/shadcn-ui/label";
 import Image from "next/image";
-import { checkUsername, signUp } from "../actions";
-import { useRouter, useSearchParams } from "next/navigation";
+import { signUp } from "../actions";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
+import CheckUsernameBtn from "@/components/elisa/CheckUsernameBtn";
+import { createClient } from "@/utils/supabase/server";
 
 const SignUpPage = () => {
   const [username, setUsername] = useState("");
   const [isValidUsername, setIsValidUsername] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const errorMsg = searchParams.get("error-message");
-  const confirmMsg = searchParams.get("confirm-message");
-  const refuseMsg = searchParams.get("refuse-message");
+  const errorMsg = useSearchParams().get("error-message");
+  const confirmMsg = useSearchParams().get("confirm-message");
 
-  // useEffect(() => {
-  //   if (
-  //     searchParams.has("error-message") ||
-  //     searchParams.has("confirm-message")
-  //   ) {
-  //     router.replace("/sign-up");
-  //   }
-  // }, [searchParams]);
+  const checkUsername = async () => {
+    const supabase = await createClient();
 
-  const onCheckUsername = async () => {
-    const users = await checkUsername(username);
-    if (users?.length === 0) {
-      setIsValidUsername(true);
-    } else {
-      setIsValidUsername(false);
+    let { data: users, error } = await supabase
+      .from("users")
+      .select()
+      .eq("username", username);
+
+    if (error) {
+      console.log(error.details);
+      return;
     }
-    setIsSubmitted(true);
+    return users;
   };
 
-  // console.log(
-  //   "isSubmitted:",
-  //   isSubmitted,
-  //   "isValidUsername:",
-  //   isValidUsername,
-  //   "username:",
-  //   username,
-  // );
+  const onCheckUsername = async () => {
+    const users = await checkUsername();
+    console.log(username, users);
+    // setIsValidUsername(true);
+  };
 
   return (
     <form>
@@ -77,9 +68,6 @@ const SignUpPage = () => {
                   type="text"
                   value={username}
                   onChange={(e) => {
-                    if (isSubmitted) {
-                      setIsSubmitted(false);
-                    } // 중복확인 후 수정 시 제출 초기화
                     setUsername(e.currentTarget.value);
                   }}
                   required
@@ -92,16 +80,6 @@ const SignUpPage = () => {
                   중복확인
                 </Button>
               </div>
-              {isSubmitted && isValidUsername && username && (
-                <p className="text-sm text-green-700">
-                  사용 가능한 이름입니다.
-                </p>
-              )}
-              {isSubmitted && !isValidUsername && (
-                <p className="text-sm text-red-700">
-                  사용할 수 없는 아름입니다.
-                </p>
-              )}
             </div>
             {/* email field */}
             <div className="grid gap-2">
@@ -116,19 +94,14 @@ const SignUpPage = () => {
             </div>
             {/* error msg field */}
             {errorMsg && (
-              <p className="text-sm text-red-700">
+              <div className="text-sm text-red-700">
                 {decodeURIComponent(errorMsg)}
-              </p>
+              </div>
             )}
             {confirmMsg && (
-              <p className="text-sm text-green-700">
+              <div className="text-sm text-green-700">
                 {decodeURIComponent(confirmMsg)}
-              </p>
-            )}
-            {refuseMsg && (
-              <p className="text-sm text-red-700">
-                {decodeURIComponent(refuseMsg)}
-              </p>
+              </div>
             )}
             {/* signup button */}
             <Button
