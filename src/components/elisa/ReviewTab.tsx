@@ -218,10 +218,10 @@ const ReviewTab = () => {
           <CardDescription>구역별 좌석리뷰를 확인해 보세요.</CardDescription>
         </CardHeader>
       </div>
-      <ReviewEditModal
+      {/* <ReviewEditModal
         isOpen={edit}
         onClose={() => setEdit(false)}
-      />
+      /> */}
       <CardContent>
         <div className="w-full">
           <div className="flex justify-end mb-4">

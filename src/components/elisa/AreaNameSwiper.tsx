@@ -1,3 +1,5 @@
+"use client";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Scrollbar, Mousewheel } from "swiper/modules";
 import "swiper/css";
@@ -6,8 +8,8 @@ import "swiper/css/scrollbar";
 import { IoEyeOffOutline } from "react-icons/io5";
 import { IoEyeOutline } from "react-icons/io5";
 import "../../styles/elisa-copy.css";
-import { seatInfo } from "@/components/elisa/seatInfo";
 import { useEffect, useState } from "react";
+import { useSupabaseStore } from "@/store/SupabaseStore";
 
 interface AreaNameSwiperProps {
   hides: { [key: string]: boolean };
@@ -18,6 +20,13 @@ const AreaNameSwiper: React.FC<AreaNameSwiperProps> = ({
   hides,
   onToggleHide,
 }) => {
+  const { seats } = useSupabaseStore((state) => state.data);
+  const fetchSeatsData = useSupabaseStore((state) => state.fetchdata);
+
+  useEffect(() => {
+    fetchSeatsData("seats");
+  }, [fetchSeatsData]);
+
   return (
     <Swiper
       className="area-name-swiper"
@@ -28,7 +37,7 @@ const AreaNameSwiper: React.FC<AreaNameSwiperProps> = ({
       scrollbar={true}
       modules={[FreeMode, Scrollbar, Mousewheel]}
     >
-      {seatInfo.areas.map(({ area_name, area_color }) => (
+      {seats.map(({ area_name, area_color }: any) => (
         <SwiperSlide key={area_name}>
           <div
             className="group relative flex justify-between items-center py-1"

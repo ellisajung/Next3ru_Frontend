@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import {
   Tabs,
@@ -8,7 +6,7 @@ import {
   TabsTrigger,
 } from "@/components/shadcn-ui/tabs";
 import ReviewTab from "@/components/elisa/ReviewTab";
-import StadiumModelTab from "@/components/elisa/StadiumModelTab";
+import StadiumTab from "@/components/elisa/StadiumTab";
 
 const SeatInfoPage = () => {
   return (
@@ -49,7 +47,7 @@ const SeatInfoPage = () => {
           value="account"
           className="grow"
         >
-          <StadiumModelTab />
+          <StadiumTab />
         </TabsContent>
         <TabsContent value="password">
           <ReviewTab />

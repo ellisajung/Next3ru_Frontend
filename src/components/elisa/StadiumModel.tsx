@@ -8,7 +8,6 @@ import {
   PerspectiveCamera,
   Center,
 } from "@react-three/drei";
-import Floor from "./Floor";
 import { SkeletonModel } from "./SkeletonModel";
 import { CenterModel } from "./CenterModel";
 import { Cheering1RuModel } from "./Cheering1RuModel";

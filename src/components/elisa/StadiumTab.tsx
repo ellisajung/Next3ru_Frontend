@@ -1,21 +1,28 @@
+"use client";
+
 import { Card } from "@/components/shadcn-ui/card";
-import Image from "next/image";
 import AreaNameSwiper from "./AreaNameSwiper";
 import StadiumModel from "./StadiumModel";
 import { GrPowerReset } from "react-icons/gr";
 import { Button } from "../shadcn-ui/button";
-import { seatInfo } from "./seatInfo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SeatMapImg from "./SeatMapImg";
+import { useSupabaseStore } from "@/store/SupabaseStore";
 
-const StadiumModelTab = () => {
-  // const [hide, setHide] = useState(true);
+const StadiumTab = () => {
+  const { seats } = useSupabaseStore((state) => state.data);
+  console.log("seats: ", seats);
+  const fetchSeatsData = useSupabaseStore((state) => state.fetchdata);
   const [hides, setHides] = useState<{ [key: string]: boolean }>(
-    seatInfo.areas.reduce(
-      (acc, curr) => ({ ...acc, [curr.area_name]: true }),
+    seats.area_name.reduce(
+      (acc: any, curr: any) => ({ ...acc, [curr]: true }),
       {},
     ),
   ); // 동적 상태관리
+
+  useEffect(() => {
+    fetchSeatsData("seats");
+  }, []);
 
   const handleToggleHide = (area: string) => {
     setHides((prevHides) => ({
@@ -26,8 +33,8 @@ const StadiumModelTab = () => {
 
   const handleReset = () => {
     setHides(
-      seatInfo.areas.reduce(
-        (acc, curr) => ({ ...acc, [curr.area_name]: true }),
+      seats.area_name.reduce(
+        (acc: any, curr: any) => ({ ...acc, [curr]: true }),
         {},
       ),
     );
@@ -76,4 +83,4 @@ const StadiumModelTab = () => {
   );
 };
 
-export default StadiumModelTab;
+export default StadiumTab;
