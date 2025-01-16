@@ -1,4 +1,4 @@
-import { buttonVariants } from "@/components/shadcn-ui/button";
+import { Button, buttonVariants } from "@/components/shadcn-ui/button";
 import Link from "next/link";
 
 const HomePage = () => {

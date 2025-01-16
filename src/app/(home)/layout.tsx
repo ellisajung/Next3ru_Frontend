@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
 import { Inter as FontSans, Inter } from "next/font/google";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import "../../styles/globals.css";
 import { cn } from "@/lib/utils";
 import { EdgeStoreProvider } from "@/lib/edgestore";
 import NavBar from "@/components/NavBar";
-import MyChatbot from "../chatbot/page";
 import { ThemeProvider } from "@/components/elisa/theme-provider";
 
 const fontSans = FontSans({
