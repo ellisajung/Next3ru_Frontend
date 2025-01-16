@@ -1,9 +1,13 @@
-import { createClient } from "@/utils/supabase/server";
+// "use server"
+
+// import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/client";
 import { create } from "zustand";
 
 interface SupabaseStore {
   data: any;
-  fetchdata: (table: string) => Promise<void>;
+  fetchData: any;
+  // setData: any;
 }
 
 export async function fetchSupabaseData(table: string) {
@@ -15,14 +19,17 @@ export async function fetchSupabaseData(table: string) {
     console.log(error.message);
   }
 
-  console.log(data);
+  console.log("supabase: ", data);
   return data;
 }
 
-export const useSupabaseStore = create<SupabaseStore>((set) => ({
+export const useSupabseStore = create<SupabaseStore>((set) => ({
   data: null,
-  fetchdata: async (table) => {
-    const fetchedData = await fetchSupabaseData(table);
+  fetchData: async () => {
+    const fetchedData = await fetchSupabaseData("seats");
     set({ data: fetchedData });
   },
+  // setData: (newData: any) => {
+  //   set({ data: newData });
+  // },
 }));

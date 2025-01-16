@@ -9,7 +9,7 @@ import { IoEyeOffOutline } from "react-icons/io5";
 import { IoEyeOutline } from "react-icons/io5";
 import "../../styles/elisa-copy.css";
 import { useEffect, useState } from "react";
-import { useSupabaseStore } from "@/store/SupabaseStore";
+import { fetchSupabaseData, useSupabseStore } from "@/store/SupabaseStore";
 
 interface AreaNameSwiperProps {
   hides: { [key: string]: boolean };
@@ -20,24 +20,22 @@ const AreaNameSwiper: React.FC<AreaNameSwiperProps> = ({
   hides,
   onToggleHide,
 }) => {
-  const { seats } = useSupabaseStore((state) => state.data);
-  const fetchSeatsData = useSupabaseStore((state) => state.fetchdata);
+  const { data } = useSupabseStore();
+  if (!data) return null;
 
-  useEffect(() => {
-    fetchSeatsData("seats");
-  }, [fetchSeatsData]);
+  console.log("AreaNameSwiper: ", data);
 
   return (
     <Swiper
       className="area-name-swiper"
       direction={"vertical"}
-      slidesPerView={"auto"}
+      slidesPerView={8}
       freeMode={true}
       mousewheel={true}
       scrollbar={true}
       modules={[FreeMode, Scrollbar, Mousewheel]}
     >
-      {seats.map(({ area_name, area_color }: any) => (
+      {data.map(({ area_name, area_color }: any) => (
         <SwiperSlide key={area_name}>
           <div
             className="group relative flex justify-between items-center py-1"

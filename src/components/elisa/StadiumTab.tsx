@@ -7,22 +7,45 @@ import { GrPowerReset } from "react-icons/gr";
 import { Button } from "../shadcn-ui/button";
 import { useEffect, useState } from "react";
 import SeatMapImg from "./SeatMapImg";
-import { useSupabaseStore } from "@/store/SupabaseStore";
+import { fetchSupabaseData, useSupabseStore } from "@/store/SupabaseStore";
 
 const StadiumTab = () => {
-  const { seats } = useSupabaseStore((state) => state.data);
-  console.log("seats: ", seats);
-  const fetchSeatsData = useSupabaseStore((state) => state.fetchdata);
-  const [hides, setHides] = useState<{ [key: string]: boolean }>(
-    seats.area_name.reduce(
-      (acc: any, curr: any) => ({ ...acc, [curr]: true }),
-      {},
-    ),
-  ); // 동적 상태관리
+  const { data, fetchData } = useSupabseStore();
+  const [hides, setHides] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {
-    fetchSeatsData("seats");
+    fetchData();
   }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const fetchedData = await fetchSupabaseData("seats");
+  //     setData(fetchedData); // 이 시점에서 fetchedData가 undefined?
+  //   };
+  //   fetchData();
+  // }, []);
+
+  console.log("StadiumTab: ", data);
+
+  useEffect(() => {
+    if (data) {
+      setHides(
+        data.reduce(
+          (acc: any, curr: any) => ({ ...acc, [curr.area_name]: true }),
+          {},
+        ),
+      );
+    }
+  }, [data]);
+  // useEffect(() => {
+  //   if (data && data.length > 0) {
+  //     setHides(
+  //       data.reduce(
+  //         (acc: any, curr: any) => ({ ...acc, [curr.area_name]: true }),
+  //         {},
+  //       ),
+  //     );
+  //   }
+  // }, [data]);
 
   const handleToggleHide = (area: string) => {
     setHides((prevHides) => ({
@@ -33,14 +56,20 @@ const StadiumTab = () => {
 
   const handleReset = () => {
     setHides(
-      seats.area_name.reduce(
-        (acc: any, curr: any) => ({ ...acc, [curr]: true }),
+      data.reduce(
+        (acc: any, curr: any) => ({ ...acc, [curr.area_name]: true }),
         {},
       ),
     );
   };
 
   console.log(hides);
+
+  // const kkk = async () => {
+  //   const ddd = await fetchSupabaseData();
+  //   return ddd;
+  // };
+  // console.log(kkk());
 
   return (
     <Card className="relative border-none w-full h-full flex flex-col dark:bg-black">

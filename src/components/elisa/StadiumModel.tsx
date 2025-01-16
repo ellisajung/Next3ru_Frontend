@@ -32,11 +32,7 @@ export type TClickedMeshInfo = {
   zone: string | null;
 };
 
-export default function StadiumModel({
-  hides,
-}: {
-  hides: { [key: string]: boolean };
-}) {
+export default function StadiumModel({ hides }: any) {
   const cameraRef = useRef(null);
   const [showModal, setShowModal] = useState(false);
   const [clickedMeshInfo, setClickedMeshInfo] = useState<
@@ -72,14 +68,14 @@ export default function StadiumModel({
             handleMeshClick={handleMeshClick}
           />
           <Cheering1RuModel
-            areaName="1루 응원지정석"
+            areaName="응원지정석(1루)"
             hides={hides}
             showModal={showModal}
             handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <Cheering3RuModel
-            areaName="3루 응원지정석"
+            areaName="응원지정석(3루)"
             hides={hides}
             showModal={showModal}
             handleMeshHover={handleMeshHover}
@@ -114,28 +110,28 @@ export default function StadiumModel({
             handleMeshClick={handleMeshClick}
           />
           <Grass1RuModel
-            areaName="외야잔디/자유석"
+            areaName="외야잔디(자유석)"
             hides={hides}
             showModal={showModal}
             handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <Grass3RuModel
-            areaName="외야잔디/자유석"
+            areaName="외야잔디(자유석)"
             hides={hides}
             showModal={showModal}
             handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <Kidsland4thModel
-            areaName="키즈랜드 캠핑존"
+            areaName="키즈랜드존"
             hides={hides}
             showModal={showModal}
             handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <Kidsland5thModel
-            areaName="키즈랜드 캠핑존"
+            areaName="키즈랜드존"
             hides={hides}
             showModal={showModal}
             handleMeshHover={handleMeshHover}
@@ -149,14 +145,14 @@ export default function StadiumModel({
             handleMeshClick={handleMeshClick}
           />
           <Sky1RuModel
-            areaName="1루 스카이존"
+            areaName="스카이존(1루)"
             hides={hides}
             showModal={showModal}
             handleMeshHover={handleMeshHover}
             handleMeshClick={handleMeshClick}
           />
           <Sky3RuModel
-            areaName="3루 스카이존"
+            areaName="스카이존(3루)"
             hides={hides}
             showModal={showModal}
             handleMeshHover={handleMeshHover}
