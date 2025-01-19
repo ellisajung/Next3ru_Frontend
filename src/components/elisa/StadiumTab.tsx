@@ -7,10 +7,11 @@ import { GrPowerReset } from "react-icons/gr";
 import { Button } from "../shadcn-ui/button";
 import { useEffect, useState } from "react";
 import SeatMapImg from "./SeatMapImg";
-import { fetchSupabaseData, useSupabseStore } from "@/store/SupabaseStore";
+import { useSeatsStore } from "@/store/SupabaseStore";
 
 const StadiumTab = () => {
-  const { data, fetchData } = useSupabseStore();
+  const data = useSeatsStore((state) => state.data);
+  const fetchData = useSeatsStore((state) => state.fetchData);
   const [hides, setHides] = useState<{ [key: string]: boolean }>({});
 
   useEffect(() => {

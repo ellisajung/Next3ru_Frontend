@@ -9,7 +9,7 @@ import { IoEyeOffOutline } from "react-icons/io5";
 import { IoEyeOutline } from "react-icons/io5";
 import "../../styles/elisa-copy.css";
 import { useEffect, useState } from "react";
-import { fetchSupabaseData, useSupabseStore } from "@/store/SupabaseStore";
+import { useSeatsStore } from "@/store/SupabaseStore";
 
 interface AreaNameSwiperProps {
   hides: { [key: string]: boolean };
@@ -20,7 +20,7 @@ const AreaNameSwiper: React.FC<AreaNameSwiperProps> = ({
   hides,
   onToggleHide,
 }) => {
-  const { data } = useSupabseStore();
+  const { data } = useSeatsStore();
   if (!data) return null;
 
   console.log("AreaNameSwiper: ", data);

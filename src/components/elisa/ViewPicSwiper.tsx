@@ -5,7 +5,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import Image from "next/image";
-import "@/styles/elisa.css";
+import "../../styles/elisa.css";
 
 interface IViewPics {
   [key: string]: string[];
