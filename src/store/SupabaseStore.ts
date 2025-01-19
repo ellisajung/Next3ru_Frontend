@@ -23,10 +23,21 @@ export async function fetchSupabaseData(table: string) {
   return data;
 }
 
-export const useSupabseStore = create<SupabaseStore>((set) => ({
+export const useSeatsStore = create<SupabaseStore>((set) => ({
   data: null,
   fetchData: async () => {
     const fetchedData = await fetchSupabaseData("seats");
+    set({ data: fetchedData });
+  },
+  // setData: (newData: any) => {
+  //   set({ data: newData });
+  // },
+}));
+
+export const useReviewsStore = create<SupabaseStore>((set) => ({
+  data: null,
+  fetchData: async () => {
+    const fetchedData = await fetchSupabaseData("reviews");
     set({ data: fetchedData });
   },
   // setData: (newData: any) => {
