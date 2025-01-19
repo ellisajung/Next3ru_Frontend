@@ -6,6 +6,10 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
+export type UserRow = Database['public']['Tables']['users']['Row'];
+export type SeatRow = Database['public']['Tables']['seats']['Row'];
+export type ReviewRow = Database['public']['Tables']['reviews']['Row'];
+
 export type Database = {
   public: {
     Tables: {
