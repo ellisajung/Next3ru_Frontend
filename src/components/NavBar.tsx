@@ -1,10 +1,10 @@
 "use client";
+
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import NavBarSub from "@/components/NavBarSub";
-import "@/styles/jaemin.css";
-import { ThemeToggle } from "./elisa/ThemeChanger";
+import { ThemeToggle } from "./elisa/ThemeToggle";
 import { getUser, signOut } from "@/app/(user)/actions";
 import { Button } from "./shadcn-ui/button";
 
@@ -60,7 +60,7 @@ const NavBar = () => {
   }, []);
 
   return (
-    <header className={`block fixed top-0 w-full z-50 `}>
+    <header className="navbar block fixed top-0 w-full z-50">
       <div
         className={`gnb_header ${
           isScrolled ? "slide-up" : "slide-down"
