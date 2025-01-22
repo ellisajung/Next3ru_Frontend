@@ -11,22 +11,36 @@ import {
 import ReviewEditModal from "./ReviewEditModal";
 import { useState, useEffect } from "react";
 import * as React from "react";
-// import ReviewTable from "./ReviewTable";
-import ReviewTableHeader from "./ReviewTableHeader";
-import ReviewTableFooter from "./ReviewTableFooter";
+import ReviewContentHeader from "./ReviewContentHeader";
 import ReviewCard from "./ReviewCard";
 import { useReviewsStore } from "@/store/SupabaseStore";
+import ReviewPagination from "./ReviewPagination";
 
 const ReviewTab = () => {
   const reviews = useReviewsStore((state) => state.data);
-  const fetchData = useReviewsStore((state) => state.fetchData);
+  const totalPages = useReviewsStore((state) => state.totalPages);
+  const currentPage = useReviewsStore((state) => state.currentPage);
+  const sortByDate = useReviewsStore((state) => state.sortByDate);
+  const setSortByDate = useReviewsStore((state) => state.setSortByDate);
+  const fetchDataByDate = useReviewsStore((state) => state.fetchDataByDate);
+  const fetchDataByLikes = useReviewsStore((state) => state.fetchDataByLikes);
+  const fetchZoneDataByDate = useReviewsStore(
+    (state) => state.fetchZoneDataByDate,
+  );
+  const fetchZoneDataByLikes = useReviewsStore(
+    (state) => state.fetchZoneDataByLikes,
+  );
 
   const [edit, setEdit] = useState(false);
 
   useEffect(() => {
-    fetchData();
+    fetchDataByDate(currentPage);
   }, []);
-  console.log("reviews: ", reviews);
+
+  // useEffect(() => {
+  //   sortByDate ? fetchDataByDate(currentPage) : fetchDataByLikes(currentPage);
+  // }, [sortByDate]);
+  // console.log("reviews: ", reviews);
 
   return (
     <Card className="border-none">
@@ -41,12 +55,12 @@ const ReviewTab = () => {
         onClose={() => setEdit(false)}
       />
       <CardContent>
-        <ReviewTableHeader setEdit={setEdit} />
+        <ReviewContentHeader setEdit={setEdit} />
         <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-5">
           {reviews?.map((review: any, i: number) => (
             <ReviewCard key={i} />
           ))}
-          {/* <ReviewTable /> */}
+          <ReviewPagination />
         </div>
       </CardContent>
       <CardFooter className="flex justify-between">

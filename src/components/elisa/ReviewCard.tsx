@@ -12,7 +12,7 @@ const ReviewCard = () => {
     <Card className="rounded-xl">
       <CardHeader>
         <div className="flex justify-between">
-          <span>@username</span>
+          <span className="font-semibold">@username</span>
           <span>작성일</span>
         </div>
       </CardHeader>
@@ -21,12 +21,16 @@ const ReviewCard = () => {
       </div>
       <CardContent>
         <div className="flex flex-col gap-3">
+          <div className="flex gap-14">
+            <span className="font-semibold">좌석</span>
+            <span>응원지정석 402</span>
+          </div>
           {/* 별평점 영역 */}
           <div className="flex justify-between">
             <div className="flex flex-col justify-between">
-              <span>거리</span>
-              <span>시야</span>
-              <span>응원열기</span>
+              <span className="font-semibold">거리</span>
+              <span className="font-semibold">시야</span>
+              <span className="font-semibold">응원열기</span>
             </div>
             <div className="flex flex-col justify-around">
               <Rating
