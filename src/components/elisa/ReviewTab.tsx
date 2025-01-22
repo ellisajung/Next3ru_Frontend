@@ -60,11 +60,10 @@ const ReviewTab = () => {
           {reviews?.map((review: any, i: number) => (
             <ReviewCard key={i} />
           ))}
-          <ReviewPagination />
         </div>
       </CardContent>
-      <CardFooter className="flex justify-between">
-        {/* <ReviewTableFooter /> */}
+      <CardFooter>
+        <ReviewPagination />
       </CardFooter>
     </Card>
   );
