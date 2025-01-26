@@ -1,13 +1,6 @@
-// "use server"
-
-// import { createClient } from "@/utils/supabase/server";
 import { createClient } from "@/utils/supabase/client";
 import { create } from "zustand";
 
-interface SeatsStore {
-  data: any;
-  fetchData: any;
-}
 
 interface ReviewsStore {
   data: any;
@@ -24,26 +17,18 @@ interface ReviewsStore {
   // setRenderedPages: any;
 }
 
-export async function fetchSeatsData() {
+export async function fetchReviewsData() {
   const supabase = createClient();
 
-  let { data, error } = await supabase.from("seats").select();
+  let { data, error } = await supabase.from("reviews").select();
 
   if (error) {
     console.log(error.message);
   }
 
-  // console.log("seats: ", data);
+  // console.log("reviews: ", data);
   return data;
 }
-
-export const useSeatsStore = create<SeatsStore>((set) => ({
-  data: null,
-  fetchData: async () => {
-    const fetchedData = await fetchSeatsData();
-    set({ data: fetchedData });
-  },
-}));
 
 export const useReviewsStore = create<ReviewsStore>((set) => ({
   data: null,
