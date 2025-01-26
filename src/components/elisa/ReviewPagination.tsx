@@ -16,79 +16,87 @@ import { useEffect, useState } from "react";
 import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
 
 interface ReviewPaginationProps {
-  searchParams: ReadonlyURLSearchParams;
+  updateSearchParams: (key: string, value: string) => void;
 }
 
-const ReviewPagination = ({ searchParams }: ReviewPaginationProps) => {
+const ReviewPagination = ({ updateSearchParams }: ReviewPaginationProps) => {
   // const searchParams = useSearchParams();
 
   // 전체 페이지, 한번에 렌더링할 페이지 수, 현재 페이지
   const totalPages = useReviewsStore((state) => state.totalPages);
   const pagesPerRender = 5;
   const [renderedPages, setRenderedPages] = useState<number[]>([]);
-  const currentPage = Number(searchParams.get("page")); // url 읽기
+  const currentPage = Number(useSearchParams().get("page")); // url 읽기
+
+  const startPg =
+    Math.floor((currentPage - 1) / pagesPerRender) * pagesPerRender + 1;
+  const endPg = Math.min(startPg + pagesPerRender - 1, totalPages);
 
   useEffect(() => {
     // 18 => 16 ~ 20 페이지
     // (Math.floor(18 / 5) * 5 + 1) ~ (Math.floor(18 / 5) * 5 + 1) + 5 - 1 // 틀림
     // 5 => 1 ~ 5 페이지
     // 6 => 6 ~ 10 페이지
-    const startPg =
-      Math.floor((currentPage - 1) / pagesPerRender) * pagesPerRender + 1;
-    // const endPg = Math.min(startPg + pagesPerRender - 1, totalPages);
 
     const newRenderedPages = Array.from(
-      { length: pagesPerRender },
+      { length: endPg - startPg + 1 },
       (_, i) => startPg + i,
     );
 
     setRenderedPages(newRenderedPages);
   }, [currentPage, totalPages]);
 
-  const updateSearchParams = (key: string, value: string) => {
-    const urlSearchParams = new URLSearchParams(searchParams + "");
-    urlSearchParams.set(key, value);
-    return urlSearchParams + "";
-  };
+  // const updateSearchParams = (key: string, value: string) => {
+  //   const urlSearchParams = new URLSearchParams(searchParams + "");
+  //   urlSearchParams.set(key, value);
+  //   return urlSearchParams + "";
+  // };
 
   return (
     <Pagination>
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
-            href={updateSearchParams("page", currentPage - 1 + "")}
+            onClick={() =>
+              updateSearchParams("page", Math.max(currentPage - 1, 1) + "")
+            }
           />
         </PaginationItem>
         {/* 보여줄 페이지 범위 */}
         {renderedPages.map((page, i) => (
           <PaginationItem key={i}>
             <PaginationLink
-              href={updateSearchParams("page", page + "")} // url 푸시
+              onClick={() => updateSearchParams("page", page + "")}
               isActive={page === currentPage ? true : false}
             >
-              {page + ""}
+              {page}
             </PaginationLink>
           </PaginationItem>
         ))}
-
-        {/* 페이지 생략 */}
-        <PaginationItem>
-          <PaginationEllipsis />
-        </PaginationItem>
-        {/* 마지막 페이지 */}
-        <PaginationItem>
-          <PaginationLink
-            href={updateSearchParams("page", totalPages + "")}
-            isActive
-          >
-            {totalPages}
-          </PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationNext
-            href={updateSearchParams("page", currentPage + 1 + "")}
-          />
-        </PaginationItem>
+        {endPg !== totalPages && (
+          <>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink
+                onClick={() => updateSearchParams("page", totalPages + "")}
+                isActive={totalPages === currentPage ? true : false}
+              >
+                {totalPages}
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem></PaginationItem>
+          </>
+        )}
+        <PaginationNext
+          onClick={() =>
+            updateSearchParams(
+              "page",
+              Math.min(currentPage + 1, totalPages) + "",
+            )
+          }
+        />
       </PaginationContent>
     </Pagination>
   );

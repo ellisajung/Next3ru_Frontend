@@ -45,25 +45,32 @@ const ReviewTab = () => {
   // }, [sortByDate]);
   // console.log("reviews: ", reviews);
 
-  // 여기부터!!!
+  // 여기부터!!!!!
   const router = useRouter();
   const searchParams = useSearchParams();
-  const urlSearchParams = new URLSearchParams(searchParams + "");
 
   // const areaParam = searchParams.get("area");
   // const zoneParam = searchParams.get("zone");
-  const sortParam = searchParams.get("sort") || "created-at";
-  const ascParam = searchParams.get("asc") || false;
-  const pageParam = searchParams.get("page") || "1";
+  // const sortParam = searchParams.get("sort") || "created-at";
+  // const ascParam = searchParams.get("asc") || false;
+  // const pageParam = searchParams.get("page") || "1";
 
   useEffect(() => {
-    router.push(`?sort=${sortParam}&asc=${ascParam}&page=${pageParam}`);
+    router.replace("?sort=created-at&asc=false&page=1");
   }, []);
-  // console.log("searchParams:", searchParams + "");
+  // // console.log("searchParams:", searchParams + "");
+
+  // useEffect(() => {
+  // router.push(`/ticket/reviews?${urlSearchParams}`);
+  // }, [urlSearchParams]);
 
   const updateSearchParams = (key: string, value: string) => {
+    const urlSearchParams = new URLSearchParams(searchParams + ""); // 기존 쿼리를 기준으로 업데이트
+
     urlSearchParams.set(key, value);
-    return urlSearchParams + "";
+    // return urlSearchParams + "";
+    router.push(`/ticket/reviews?${urlSearchParams}`);
+    // console.log("urlSearchParams:", decodeURI(urlSearchParams + ""));
   };
 
   return (
@@ -80,7 +87,7 @@ const ReviewTab = () => {
       />
       <CardContent>
         <ReviewContentHeader
-          searchParams={searchParams}
+          updateSearchParams={updateSearchParams}
           setEdit={setEdit}
         />
         <div className="mt-8 grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-8">
@@ -90,7 +97,7 @@ const ReviewTab = () => {
         </div>
       </CardContent>
       <CardFooter>
-        <ReviewPagination searchParams={searchParams} />
+        <ReviewPagination updateSearchParams={updateSearchParams} />
       </CardFooter>
     </Card>
   );

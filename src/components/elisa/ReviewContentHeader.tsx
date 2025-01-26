@@ -28,12 +28,12 @@ import Link from "next/link";
 
 interface ReviewContentHeaderProps {
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
-  searchParams: ReadonlyURLSearchParams;
+  updateSearchParams: (key: string, value: string) => void;
 }
 
 const ReviewContentHeader = ({
   setEdit,
-  searchParams,
+  updateSearchParams,
 }: ReviewContentHeaderProps) => {
   // 좌석 콤보 박스
   const seats = useSeatsStore((state) => state.data);
@@ -44,10 +44,6 @@ const ReviewContentHeader = ({
   const [zoneOpen, setZoneOpen] = useState(false);
   const [zoneValue, setZoneValue] = useState("");
 
-  // 여기부터
-  const router = useRouter();
-  const sortParam = searchParams.get("sort");
-
   useEffect(() => {
     if (areaNameValue) {
       const zones = seats.find(
@@ -56,6 +52,9 @@ const ReviewContentHeader = ({
       setZones(zones);
     }
   }, [areaNameValue]);
+
+  // 여기부터
+  const sortParam = useSearchParams().get("sort");
 
   // const urlSearchParams = new URLSearchParams(searchParams + "");
   // const updateSearchParams = (key: string, value: string) => {
@@ -108,12 +107,8 @@ const ReviewContentHeader = ({
                               : currentValue, // 같은거 다시 클릭시 초기화
                           );
                           setAreaNameOpen(false);
-                          // router.push(
-                          //   `?area=${seat.area_name}&sort=${sortParam}&asc=${ascParam}&page=${pageParam}`,
-                          // );
-                          const newUrlSearchParams =
-                            updateSearchParams("area", seat.area_name) + "";
-                          router.push(`?${newUrlSearchParams}`);
+
+                          updateSearchParams("area", seat.area_name);
                         }}
                       >
                         {seat.area_name}
@@ -170,12 +165,8 @@ const ReviewContentHeader = ({
                               : currentValue,
                           );
                           setZoneOpen(false);
-                          // router.push(
-                          //   `?area=${areaParam}&zone=${zone}&sort=${sortParam}&asc=${ascParam}&page=${pageParam}`,
-                          // );
-                          const newUrlSearchParams =
-                            updateSearchParams("zone", zone) + "";
-                          router.push(`?${newUrlSearchParams}`);
+
+                          updateSearchParams("zone", zone);
                         }}
                       >
                         {zone}
@@ -197,21 +188,16 @@ const ReviewContentHeader = ({
           <Button
             className="rounded-full"
             variant={sortParam === "created-at" ? "secondary" : "outline"}
-            asChild
+            onClick={() => updateSearchParams("sort", "created-at")}
           >
-            <Link
-              // href={`?area=${areaParam}&zone=${zoneParam}&sort=created-at&asc=false`}
-              href={updateSearchParams("sort", "created_at")}
-            >
-              작성일순
-            </Link>
+            작성일순
           </Button>
           <Button
             className="rounded-full"
             variant={sortParam === "likes" ? "secondary" : "outline"}
-            asChild
+            onClick={() => updateSearchParams("sort", "likes")}
           >
-            <Link href={updateSearchParams("sort", "likes")}>추천순</Link>
+            추천순
           </Button>
         </div>
       </div>
