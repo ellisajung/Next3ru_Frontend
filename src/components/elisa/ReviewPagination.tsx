@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 import {
@@ -9,70 +11,60 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/shadcn-ui/pagination";
-import { useReviewsStore } from "@/store/SupabaseStore";
+import { useReviewsStore } from "@/store/ReviewsStore";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
 
-const ReviewPagination = () => {
-  // 전체 페이지 수, 처음 보여줄 페이지 숫자 범위
-  // 클릭 시 이벤트
-  // 현재 페이지 UI 및 상태 동기화
-  // 해당하는 페이지 범위
+interface ReviewPaginationProps {
+  searchParams: ReadonlyURLSearchParams;
+}
+
+const ReviewPagination = ({ searchParams }: ReviewPaginationProps) => {
+  // const searchParams = useSearchParams();
+
+  // 전체 페이지, 한번에 렌더링할 페이지 수, 현재 페이지
   const totalPages = useReviewsStore((state) => state.totalPages);
-  const currentPage = useReviewsStore((state) => state.currentPage);
-  const setCurrentPage = useReviewsStore((state) => state.setCurrentPage);
-  const page = Number(useSearchParams().get("page"));
-
-  const [renderedPages, setRenderedPages] = useState<Number[]>([]);
-
   const pagesPerRender = 5;
-  // 18 => 16 ~ 20 페이지
-  // (Math.floor(18 / 5) * 5 + 1) ~ (Math.floor(18 / 5) * 5 + 1) + 5 - 1 // 틀림
-  // 5 => 1 ~ 5 페이지
-  // 6 => 6 ~ 10 페이지
-
-  // Math.floor(currentPage / pagesPerRender) * pagesPerRender + 1; // 버그
-  // const endPg = startPg + pagesPerRender - 1; // 버그
+  const [renderedPages, setRenderedPages] = useState<number[]>([]);
+  const currentPage = Number(searchParams.get("page")); // url 읽기
 
   useEffect(() => {
+    // 18 => 16 ~ 20 페이지
+    // (Math.floor(18 / 5) * 5 + 1) ~ (Math.floor(18 / 5) * 5 + 1) + 5 - 1 // 틀림
+    // 5 => 1 ~ 5 페이지
+    // 6 => 6 ~ 10 페이지
     const startPg =
       Math.floor((currentPage - 1) / pagesPerRender) * pagesPerRender + 1;
-    const endPg = Math.min(startPg + pagesPerRender - 1, totalPages);
+    // const endPg = Math.min(startPg + pagesPerRender - 1, totalPages);
 
-    const newRenderedPages = [];
-    for (let i = startPg; i <= endPg; i++) {
-      newRenderedPages.push(i);
-    }
-    setRenderedPages(newRenderedPages);
-    // console.log("function called");
-    console.log(
-      "current page: ",
-      currentPage,
-      "start: ",
-      startPg,
-      "end: ",
-      endPg,
+    const newRenderedPages = Array.from(
+      { length: pagesPerRender },
+      (_, i) => startPg + i,
     );
-  }, [currentPage]);
 
-  useEffect(() => {
-    setCurrentPage(page);
-  }, [page]);
+    setRenderedPages(newRenderedPages);
+  }, [currentPage, totalPages]);
+
+  const updateSearchParams = (key: string, value: string) => {
+    const urlSearchParams = new URLSearchParams(searchParams + "");
+    urlSearchParams.set(key, value);
+    return urlSearchParams + "";
+  };
 
   return (
     <Pagination>
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
-            href={`/ticket/seat-info?page=${currentPage - 1}`}
+            href={updateSearchParams("page", currentPage - 1 + "")}
           />
         </PaginationItem>
         {/* 보여줄 페이지 범위 */}
         {renderedPages.map((page, i) => (
           <PaginationItem key={i}>
             <PaginationLink
-              href={`/ticket/seat-info?page=${page}`}
-              isActive
+              href={updateSearchParams("page", page + "")} // url 푸시
+              isActive={page === currentPage ? true : false}
             >
               {page + ""}
             </PaginationLink>
@@ -86,14 +78,16 @@ const ReviewPagination = () => {
         {/* 마지막 페이지 */}
         <PaginationItem>
           <PaginationLink
-            href={`/ticket/seat-info?page=${totalPages}`}
+            href={updateSearchParams("page", totalPages + "")}
             isActive
           >
             {totalPages}
           </PaginationLink>
         </PaginationItem>
         <PaginationItem>
-          <PaginationNext href={`/ticket/seat-info?page=${currentPage + 1}`} />
+          <PaginationNext
+            href={updateSearchParams("page", currentPage + 1 + "")}
+          />
         </PaginationItem>
       </PaginationContent>
     </Pagination>

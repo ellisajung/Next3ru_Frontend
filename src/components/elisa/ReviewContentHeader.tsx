@@ -18,9 +18,24 @@ import {
 } from "@/components/shadcn-ui/popover";
 import { FaPen } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { useSeatsStore } from "@/store/SupabaseStore";
+import { useSeatsStore } from "@/store/SeatsStore";
+import {
+  ReadonlyURLSearchParams,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
+import Link from "next/link";
 
-const ReviewContentHeader = ({ setEdit }: any) => {
+interface ReviewContentHeaderProps {
+  setEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  searchParams: ReadonlyURLSearchParams;
+}
+
+const ReviewContentHeader = ({
+  setEdit,
+  searchParams,
+}: ReviewContentHeaderProps) => {
+  // 좌석 콤보 박스
   const seats = useSeatsStore((state) => state.data);
   const [zones, setZones] = useState([]);
 
@@ -28,6 +43,10 @@ const ReviewContentHeader = ({ setEdit }: any) => {
   const [areaNameValue, setAreaNameValue] = useState("");
   const [zoneOpen, setZoneOpen] = useState(false);
   const [zoneValue, setZoneValue] = useState("");
+
+  // 여기부터
+  const router = useRouter();
+  const sortParam = searchParams.get("sort");
 
   useEffect(() => {
     if (areaNameValue) {
@@ -38,20 +57,13 @@ const ReviewContentHeader = ({ setEdit }: any) => {
     }
   }, [areaNameValue]);
 
-  //   const zonesd = seats.find(
-  //     (seat: any) => seat.area_name === areaNameValue,
-  //   )?.zones;
+  // const urlSearchParams = new URLSearchParams(searchParams + "");
+  // const updateSearchParams = (key: string, value: string) => {
+  //   urlSearchParams.set(key, value);
+  //   return urlSearchParams + "";
+  // };
 
-  //   console.log("kkk:", zonesd);
-
-  //   console.log(
-  //     "seats: ",
-  //     seats,
-  //     "zones: ",
-  //     zones,
-  //     "areaNameValue: ",
-  //     areaNameValue,
-  //   );
+  // console.log("searchParams: ", searchParams);
 
   return (
     <div className="flex justify-between mb-4">
@@ -76,21 +88,32 @@ const ReviewContentHeader = ({ setEdit }: any) => {
                 <ChevronsUpDown className="opacity-50" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[180px] p-0">
+            <PopoverContent
+              className="w-[200px] p-0"
+              align="start"
+            >
               <Command>
                 <CommandInput placeholder="구역 이름 검색..." />
                 <CommandList>
                   <CommandEmpty>일치하는 구역 이름이 없습니다.</CommandEmpty>
                   <CommandGroup>
-                    {seats.map((seat: any) => (
+                    {seats.map((seat: any, i: number) => (
                       <CommandItem
-                        key={seat.id}
+                        key={i}
                         value={seat.area_name}
-                        onSelect={(currentValue) => {
+                        onSelect={(currentValue: string) => {
                           setAreaNameValue(
-                            currentValue === areaNameValue ? "" : currentValue,
+                            currentValue === areaNameValue
+                              ? "구역 이름 선택"
+                              : currentValue, // 같은거 다시 클릭시 초기화
                           );
                           setAreaNameOpen(false);
+                          // router.push(
+                          //   `?area=${seat.area_name}&sort=${sortParam}&asc=${ascParam}&page=${pageParam}`,
+                          // );
+                          const newUrlSearchParams =
+                            updateSearchParams("area", seat.area_name) + "";
+                          router.push(`?${newUrlSearchParams}`);
                         }}
                       >
                         {seat.area_name}
@@ -127,7 +150,10 @@ const ReviewContentHeader = ({ setEdit }: any) => {
                 <ChevronsUpDown className="opacity-50" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[180px] p-0">
+            <PopoverContent
+              className="w-[200px] p-0"
+              align="start"
+            >
               <Command>
                 <CommandInput placeholder="Search framework..." />
                 <CommandList>
@@ -139,9 +165,17 @@ const ReviewContentHeader = ({ setEdit }: any) => {
                         value={zone}
                         onSelect={(currentValue) => {
                           setZoneValue(
-                            currentValue === zoneValue ? "" : currentValue,
+                            currentValue === zoneValue
+                              ? "구역 번호 선택"
+                              : currentValue,
                           );
                           setZoneOpen(false);
+                          // router.push(
+                          //   `?area=${areaParam}&zone=${zone}&sort=${sortParam}&asc=${ascParam}&page=${pageParam}`,
+                          // );
+                          const newUrlSearchParams =
+                            updateSearchParams("zone", zone) + "";
+                          router.push(`?${newUrlSearchParams}`);
                         }}
                       >
                         {zone}
@@ -162,15 +196,22 @@ const ReviewContentHeader = ({ setEdit }: any) => {
         <div className="flex gap-2">
           <Button
             className="rounded-full"
-            variant="outline"
+            variant={sortParam === "created-at" ? "secondary" : "outline"}
+            asChild
           >
-            작성일순
+            <Link
+              // href={`?area=${areaParam}&zone=${zoneParam}&sort=created-at&asc=false`}
+              href={updateSearchParams("sort", "created_at")}
+            >
+              작성일순
+            </Link>
           </Button>
           <Button
             className="rounded-full"
-            variant="outline"
+            variant={sortParam === "likes" ? "secondary" : "outline"}
+            asChild
           >
-            추천순
+            <Link href={updateSearchParams("sort", "likes")}>추천순</Link>
           </Button>
         </div>
       </div>
