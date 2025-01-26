@@ -60,27 +60,26 @@ const NavBar = () => {
   }, []);
 
   return (
-    <header className="navbar block fixed top-0 w-full z-50">
+    <header className="block fixed top-0 w-full z-50">
       <div
         className={`gnb_header ${
           isScrolled ? "slide-up" : "slide-down"
-        } text-[#ffffff] gap-2 font-['KT'] xl:flex xl:justify-end xl:items-center xl:pr-3 xl:h-[46px] xl:bg-gradient-to-r xl:from-[#F69AA9] xl:via-[#E1ADED] xl:via-[#AAC6E5] xl:to-[#97D5E0] hidden`}
+        } gap-4 font-['KT'] xl:flex xl:justify-end xl:items-center xl:pr-3 xl:h-[46px] xl:bg-gradient-to-r xl:from-[#F69AA9] xl:via-[#E1ADED] xl:via-[#AAC6E5] xl:to-[#97D5E0] hidden`}
       >
-        <div className="mr-2">
+        <div className="flex justify-center items-center text-black dark:text-white">
           <ThemeToggle />
         </div>
         {!username ? (
           <>
             <Link
-              className="hover:text-black transition-color"
+              className="text-[#ffffff] hover:text-black transition-color"
               href="/sign-in"
             >
               로그인
             </Link>
-            &nbsp;
-            <b>|</b>&nbsp;
+            <b className="text-[#ffffff]">|</b>
             <Link
-              className="hover:text-black transition-color"
+              className="text-[#ffffff] hover:text-black transition-color"
               href="/sign-up"
             >
               회원가입
@@ -92,7 +91,6 @@ const NavBar = () => {
             <Button onClick={handleSignOut}>로그아웃</Button>
           </form>
         )}
-        &nbsp;
         <b>
           <Link
             href="https://www.ktwizstore.co.kr/"
@@ -103,7 +101,7 @@ const NavBar = () => {
         </b>
       </div>
       <div
-        className={`lnb_header group relative w-full h-[100px] bg-black text-center shadow-lg xl:h-[80px] xl:bg-black xl:shadow-xl ${
+        className={`navbar lnb_header group relative w-full h-[100px] bg-black text-center shadow-lg xl:h-[80px] xl:bg-black xl:shadow-xl ${
           isScrolled ? "slide-up" : "slide-down"
         }`}
       >
