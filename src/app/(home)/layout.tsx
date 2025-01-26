@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { EdgeStoreProvider } from "@/lib/edgestore";
 import NavBar from "@/components/NavBar";
 import { ThemeProvider } from "@/components/elisa/theme-provider";
+import ReactQueryClientProvider from "@/components/elisa/ReactQueryClientProvider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -38,12 +39,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <NavBar />
-          <EdgeStoreProvider>
-            <div className="h-screen pt-[110px]">{children}</div>
-          </EdgeStoreProvider>
-          {/* <MyChatbot /> */}
-          {/* <Footer /> */}
+          <ReactQueryClientProvider>
+            <EdgeStoreProvider>
+              <NavBar />
+              <div className="h-screen pt-[110px]">{children}</div>
+              {/* <MyChatbot /> */}
+              {/* <Footer /> */}
+            </EdgeStoreProvider>
+          </ReactQueryClientProvider>
         </ThemeProvider>
       </body>
     </html>
