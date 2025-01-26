@@ -4,6 +4,7 @@
 
 /* AreaNameSwiper 컴포넌트 */
 .swiper-scrollbar {
+  margin-left: 3px;
   display: block !important;
   /* position: absolute;
   z-index: 50 !important; */
@@ -18,17 +19,18 @@
   --swiper-scrollbar-size: 7px;
 }
 
-.dark .swiper-scrollbar {
+.dark.swiper-scrollbar {
   --swiper-scrollbar-bg-color: rgba(255, 255, 255, 0.2);
   --swiper-scrollbar-drag-bg-color: rgb(255, 255, 255, 0.6);
 }
 
-.swiper {
+.area-name.swiper {
   width: 100% !important;
   height: 100% !important;
+  padding-right: 2%;
 }
 
-.swiper-slide {
+area-name.swiper-slide {
   height: auto;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;

@@ -7,7 +7,7 @@ import { GrPowerReset } from "react-icons/gr";
 import { Button } from "../shadcn-ui/button";
 import { useEffect, useState } from "react";
 import SeatMapImg from "./SeatMapImg";
-import { useSeatsStore } from "@/store/SupabaseStore";
+import { useSeatsStore } from "@/store/SeatsStore";
 
 const StadiumTab = () => {
   const data = useSeatsStore((state) => state.data);
@@ -25,7 +25,7 @@ const StadiumTab = () => {
   //   fetchData();
   // }, []);
 
-  console.log("StadiumTab: ", data);
+  // console.log("StadiumTab: ", data);
 
   useEffect(() => {
     if (data) {
@@ -98,15 +98,10 @@ const StadiumTab = () => {
               <GrPowerReset className="text-lg" />
             </Button>
           </div>
-          <div
-            id="area-name-swiper"
-            className="w-full h-full max-h-96"
-          >
-            <AreaNameSwiper
-              hides={hides}
-              onToggleHide={handleToggleHide}
-            />
-          </div>
+          <AreaNameSwiper
+            hides={hides}
+            onToggleHide={handleToggleHide}
+          />
         </Card>
       </div>
     </Card>
