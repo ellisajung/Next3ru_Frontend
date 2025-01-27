@@ -13,11 +13,7 @@ import { useState, useEffect } from "react";
 import * as React from "react";
 import ReviewContentHeader from "./ReviewContentHeader";
 import ReviewCard from "./ReviewCard";
-import {
-  fetchAllReviewsData,
-  fetchFilteredReviewsData,
-  useReviewsStore,
-} from "@/store/ReviewsStore";
+import { fetchReviewsData } from "@/store/ReviewsStore";
 import ReviewPagination from "./ReviewPagination";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
@@ -50,15 +46,10 @@ const ReviewTab = () => {
   const { data } = useQuery({
     queryKey: ["reviews", sortParam, ascParam, pageParam, zoneParam],
     queryFn: async () =>
-      await fetchFilteredReviewsData(sortParam, ascParam, pageParam, zoneParam),
+      await fetchReviewsData(sortParam, ascParam, pageParam, zoneParam),
   });
 
-  console.log("react query fetch: ", data);
-
-  // useEffect(() => {
-  //   fetchAllReviewsData(sortParam, ascParam, pageParam);
-  //   console.log("function is running");
-  // }, []);
+  // console.log("react query fetch: ", data);
 
   return (
     <Card className="border-none">
