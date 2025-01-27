@@ -31,7 +31,16 @@ const ReviewTab = () => {
   const updateSearchParams = (key: string, value: string) => {
     const urlSearchParams = new URLSearchParams(searchParams + ""); // 기존 쿼리를 기준으로 업데이트
 
+    // 키가 존재할 경우 기존 벨류 업데이트, 안할 경우 전달값으로 키-벨류 생성
     urlSearchParams.set(key, value);
+
+    // 필터, 정렬 옵션이 변할 경우 페이지를 1로 초기화
+    // (데이터 패칭 이전 시점에 이뤄져야)
+    if (key === "sort" || key === "asc" || key === "zone") {
+      urlSearchParams.set("page", "1");
+      console.log(key, "is running!!");
+    }
+
     router.push(`/ticket/reviews?${urlSearchParams}`);
     // console.log("urlSearchParams:", decodeURI(urlSearchParams + ""));
   };
@@ -42,6 +51,15 @@ const ReviewTab = () => {
   const pageParam = searchParams.get("page") || "1";
   // const areaParam = searchParams.get("area");
   const zoneParam = searchParams.get("zone");
+
+  // // 필터, 정렬 옵션이 변할 경우 페이지를 1로 초기화
+  // // 데이터 패칭 이전 시점에 이뤄져야
+  // useEffect(() => {
+  //   const urlSearchParams = new URLSearchParams(searchParams + ""); // 기존 쿼리를 기준으로 업데이트
+
+  //   urlSearchParams.set("page", "1"); // 키가 존재할 경우 기존 벨류 업데이트, 안할 경우 전달값으로 키-벨류 생성
+  //   router.push(`/ticket/reviews?${urlSearchParams}`);
+  // }, [sortParam, ascParam, zoneParam]);
 
   const { data } = useQuery({
     queryKey: ["reviews", sortParam, ascParam, pageParam, zoneParam],
