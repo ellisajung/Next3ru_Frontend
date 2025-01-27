@@ -13,65 +13,52 @@ import { useState, useEffect } from "react";
 import * as React from "react";
 import ReviewContentHeader from "./ReviewContentHeader";
 import ReviewCard from "./ReviewCard";
-import { useReviewsStore } from "@/store/ReviewsStore";
+import {
+  fetchAllReviewsData,
+  fetchFilteredReviewsData,
+  useReviewsStore,
+} from "@/store/ReviewsStore";
 import ReviewPagination from "./ReviewPagination";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 
 const ReviewTab = () => {
-  // search params:
-  // area, zone, sort, asc, page
-  const reviews = useReviewsStore((state) => state.data);
-  const totalPages = useReviewsStore((state) => state.totalPages);
-  const currentPage = useReviewsStore((state) => state.currentPage);
-  const sortByDate = useReviewsStore((state) => state.sortByDate);
-  const setSortByDate = useReviewsStore((state) => state.setSortByDate);
-  const fetchDataByDate = useReviewsStore((state) => state.fetchDataByDate);
-  const fetchDataByLikes = useReviewsStore((state) => state.fetchDataByLikes);
-  const fetchZoneDataByDate = useReviewsStore(
-    (state) => state.fetchZoneDataByDate,
-  );
-  const fetchZoneDataByLikes = useReviewsStore(
-    (state) => state.fetchZoneDataByLikes,
-  );
-
   const [edit, setEdit] = useState(false);
 
-  useEffect(() => {
-    fetchDataByDate(currentPage);
-  }, []);
-
-  // useEffect(() => {
-  //   sortByDate ? fetchDataByDate(currentPage) : fetchDataByLikes(currentPage);
-  // }, [sortByDate]);
-  // console.log("reviews: ", reviews);
-
-  // 여기부터!!!!!
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // const areaParam = searchParams.get("area");
-  // const zoneParam = searchParams.get("zone");
-  // const sortParam = searchParams.get("sort") || "created-at";
-  // const ascParam = searchParams.get("asc") || false;
-  // const pageParam = searchParams.get("page") || "1";
-
   useEffect(() => {
-    router.replace("?sort=created-at&asc=false&page=1");
+    router.replace(`?sort=${sortParam}&asc=${ascParam}&page=${pageParam}`);
   }, []);
-  // // console.log("searchParams:", searchParams + "");
-
-  // useEffect(() => {
-  // router.push(`/ticket/reviews?${urlSearchParams}`);
-  // }, [urlSearchParams]);
 
   const updateSearchParams = (key: string, value: string) => {
     const urlSearchParams = new URLSearchParams(searchParams + ""); // 기존 쿼리를 기준으로 업데이트
 
     urlSearchParams.set(key, value);
-    // return urlSearchParams + "";
     router.push(`/ticket/reviews?${urlSearchParams}`);
     // console.log("urlSearchParams:", decodeURI(urlSearchParams + ""));
   };
+
+  // 여기부터!!!
+  const sortParam = searchParams.get("sort") || "created_at";
+  const ascParam = searchParams.get("asc") || "false";
+  const pageParam = searchParams.get("page") || "1";
+  // const areaParam = searchParams.get("area");
+  const zoneParam = searchParams.get("zone");
+
+  const { data } = useQuery({
+    queryKey: ["reviews", sortParam, ascParam, pageParam, zoneParam],
+    queryFn: async () =>
+      await fetchFilteredReviewsData(sortParam, ascParam, pageParam, zoneParam),
+  });
+
+  console.log("react query fetch: ", data);
+
+  // useEffect(() => {
+  //   fetchAllReviewsData(sortParam, ascParam, pageParam);
+  //   console.log("function is running");
+  // }, []);
 
   return (
     <Card className="border-none">
@@ -91,13 +78,19 @@ const ReviewTab = () => {
           setEdit={setEdit}
         />
         <div className="mt-8 grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-8">
-          {reviews?.map((review: any, i: number) => (
-            <ReviewCard key={i} />
+          {data?.reviews?.map((review: any, i: number) => (
+            <ReviewCard
+              key={i}
+              review={review}
+            />
           ))}
         </div>
       </CardContent>
       <CardFooter>
-        <ReviewPagination updateSearchParams={updateSearchParams} />
+        <ReviewPagination
+          updateSearchParams={updateSearchParams}
+          totalPages={data?.totalPages}
+        />
       </CardFooter>
     </Card>
   );

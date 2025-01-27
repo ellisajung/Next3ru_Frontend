@@ -187,8 +187,8 @@ const ReviewContentHeader = ({
         <div className="flex gap-2">
           <Button
             className="rounded-full"
-            variant={sortParam === "created-at" ? "secondary" : "outline"}
-            onClick={() => updateSearchParams("sort", "created-at")}
+            variant={sortParam === "created_at" ? "secondary" : "outline"}
+            onClick={() => updateSearchParams("sort", "created_at")}
           >
             작성일순
           </Button>

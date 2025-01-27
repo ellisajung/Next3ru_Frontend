@@ -17,20 +17,23 @@ import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
 
 interface ReviewPaginationProps {
   updateSearchParams: (key: string, value: string) => void;
+  totalPages: number | undefined;
 }
 
-const ReviewPagination = ({ updateSearchParams }: ReviewPaginationProps) => {
+const ReviewPagination = ({
+  updateSearchParams,
+  totalPages,
+}: ReviewPaginationProps) => {
   // const searchParams = useSearchParams();
 
   // 전체 페이지, 한번에 렌더링할 페이지 수, 현재 페이지
-  const totalPages = useReviewsStore((state) => state.totalPages);
   const pagesPerRender = 5;
   const [renderedPages, setRenderedPages] = useState<number[]>([]);
   const currentPage = Number(useSearchParams().get("page")); // url 읽기
 
   const startPg =
     Math.floor((currentPage - 1) / pagesPerRender) * pagesPerRender + 1;
-  const endPg = Math.min(startPg + pagesPerRender - 1, totalPages);
+  const endPg = Math.min(startPg + pagesPerRender - 1, totalPages || 1);
 
   useEffect(() => {
     // 18 => 16 ~ 20 페이지
@@ -93,7 +96,7 @@ const ReviewPagination = ({ updateSearchParams }: ReviewPaginationProps) => {
           onClick={() =>
             updateSearchParams(
               "page",
-              Math.min(currentPage + 1, totalPages) + "",
+              Math.min(currentPage + 1, totalPages || 1) + "",
             )
           }
         />
