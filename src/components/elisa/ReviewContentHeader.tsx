@@ -19,12 +19,7 @@ import {
 import { FaPen } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useSeatsStore } from "@/store/SeatsStore";
-import {
-  ReadonlyURLSearchParams,
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
-import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 interface ReviewContentHeaderProps {
   setEdit: React.Dispatch<React.SetStateAction<boolean>>;
@@ -35,7 +30,7 @@ const ReviewContentHeader = ({
   setEdit,
   updateSearchParams,
 }: ReviewContentHeaderProps) => {
-  // 좌석 콤보 박스
+  // 좌석 콤보박스 로직
   const seats = useSeatsStore((state) => state.data);
   const [zones, setZones] = useState([]);
 
@@ -50,6 +45,10 @@ const ReviewContentHeader = ({
         (seat: any) => seat.area_name === areaNameValue,
       )?.zones;
       setZones(zones);
+      setZoneValue("");
+    } else {
+      setZones([]);
+      setZoneValue("");
     }
   }, [areaNameValue]);
 
@@ -102,11 +101,11 @@ const ReviewContentHeader = ({
                         value={seat.area_name}
                         onSelect={(currentValue: string) => {
                           setAreaNameValue(
-                            currentValue === areaNameValue
-                              ? "구역 이름 선택"
-                              : currentValue, // 같은거 다시 클릭시 초기화
+                            currentValue === areaNameValue ? "" : currentValue,
                           );
                           setAreaNameOpen(false);
+
+                          console.log("hhhh", currentValue, areaNameValue);
 
                           updateSearchParams("area", seat.area_name);
                         }}
@@ -140,7 +139,7 @@ const ReviewContentHeader = ({
                 className="w-[180px] justify-between"
               >
                 {zoneValue
-                  ? zones.find((zone) => zone === zoneValue)
+                  ? zones?.find((zone) => zone === zoneValue)
                   : "구역 번호 선택"}
                 <ChevronsUpDown className="opacity-50" />
               </Button>
@@ -154,15 +153,13 @@ const ReviewContentHeader = ({
                 <CommandList>
                   <CommandEmpty>일치하는 구역 번호가 없습니다.</CommandEmpty>
                   <CommandGroup>
-                    {zones.map((zone, i) => (
+                    {zones?.map((zone, i) => (
                       <CommandItem
                         key={i}
                         value={zone}
                         onSelect={(currentValue) => {
                           setZoneValue(
-                            currentValue === zoneValue
-                              ? "구역 번호 선택"
-                              : currentValue,
+                            currentValue === zoneValue ? "" : currentValue,
                           );
                           setZoneOpen(false);
 
