@@ -70,8 +70,8 @@ const ReviewTab = () => {
   // console.log("react query fetch: ", data);
 
   return (
-    <Card className="border-none">
-      <div className="mb-10">
+    <Card className="flex flex-col h-full border-none">
+      <div className="mb-8">
         <CardHeader>
           <CardTitle>좌석 리뷰</CardTitle>
           <CardDescription>구역별 좌석 리뷰를 확인해 보세요.</CardDescription>
@@ -81,7 +81,7 @@ const ReviewTab = () => {
         isOpen={edit}
         onClose={() => setEdit(false)}
       />
-      <CardContent>
+      <CardContent className="grow">
         <ReviewContentHeader
           updateSearchParams={updateSearchParams}
           setEdit={setEdit}
