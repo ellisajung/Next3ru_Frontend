@@ -9,14 +9,14 @@ interface SeatsStore {
 export async function fetchSeatsData() {
   const supabase = createClient();
 
-  let { data, error } = await supabase.from("seats").select();
+  let { data:seats, error } = await supabase.from("seats").select();
 
   if (error) {
     console.log(error.message);
   }
 
   // console.log("seats: ", data);
-  return data;
+  return seats;
 }
 
 export const useSeatsStore = create<SeatsStore>((set) => ({
