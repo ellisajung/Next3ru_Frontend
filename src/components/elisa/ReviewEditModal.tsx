@@ -27,7 +27,7 @@ import MultiFileDropzoneUsage from "./MultiFileDropzoneUsage";
 import { Input } from "../shadcn-ui/input";
 import { Search } from "lucide-react";
 import { FC, useEffect } from "react";
-import { seatInfo } from "./seatInfo";
+import { useSeatsStore } from "@/store/SeatsStore";
 
 export interface ModalProps {
   isOpen: boolean;
@@ -40,16 +40,46 @@ interface TArea {
   zones: TZone[];
 }
 
-const labels: { [index: string]: string } = {
-  1: "(1점) 너무 아쉬워요",
-  2: "(2점) 보통이에요",
-  3: "(3점) 좋아요",
-  4: "(4점) 너무 좋아요",
-  5: "(5점) 최고예요",
+export const RATING_LABELS = {
+  distance: [
+    "너무 멀어요",
+    "조금 멀어요",
+    "적당한 거리예요",
+    "꽤 가까워요",
+    "바로 앞이에요",
+  ],
+  view: [
+    "거의 안보여요",
+    "조금 답답해요",
+    "무난한 시야예요",
+    "뷰가 좋아요",
+    "완벽한 뷰예요",
+  ],
+  energy: [
+    "응원이 거의 들리지 않아요",
+    "좀 조용해요",
+    "적당히 즐거워요",
+    "흥이 넘쳐요",
+    "열정이 폭발해요",
+  ],
 };
 
-function getLabelText(value: number) {
-  return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
+export function getDistanceLabels(value: number) {
+  return `${value} Star${value !== 1 ? "s" : ""}, ${
+    RATING_LABELS.distance[value - 1]
+  }`;
+}
+
+export function getViewLabels(value: number) {
+  return `${value} Star${value !== 1 ? "s" : ""}, ${
+    RATING_LABELS.view[value - 1]
+  }`;
+}
+
+export function getEnergyLabels(value: number) {
+  return `${value} Star${value !== 1 ? "s" : ""}, ${
+    RATING_LABELS.energy[value - 1]
+  }`;
 }
 
 const ReviewEditModal: FC<ModalProps> = ({ isOpen, onClose }) => {
@@ -57,8 +87,8 @@ const ReviewEditModal: FC<ModalProps> = ({ isOpen, onClose }) => {
   const [viewHover, setViewHover] = useState(-1);
   const [distanceValue, setDistanceValue] = useState<number | null>(0);
   const [distanceHover, setDistanceHover] = useState(-1);
-  const [cheeringValue, setCheeringValue] = useState<number | null>(0);
-  const [cheeringHover, setCheeringHover] = useState(-1);
+  const [energyValue, setenergyValue] = useState<number | null>(0);
+  const [energyHover, setenergyHover] = useState(-1);
   const [searchInput, setSearchInput] = useState("");
   const [zoneSearchInput, setZoneSearchInput] = useState("");
   const [selectedAreaName, setSelectedAreaName] = useState<string | null>();
@@ -67,19 +97,21 @@ const ReviewEditModal: FC<ModalProps> = ({ isOpen, onClose }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isCancelled, setIsCancelled] = useState(false);
 
+  const data = useSeatsStore((state) => state.data);
+
   const maxChars = 49;
 
   const filteredAreas = searchInput
     ? // 입력하면 해당하는 입력값(글자 단위)을 포함하는 목록만 보여주고
-      seatInfo.areas.filter((area) =>
+      data.filter((area: any) =>
         area.area_name.toLowerCase().includes(searchInput.toLowerCase()),
       )
     : // 검색창에 아무것도 입력하지 않으면 목록 다 보여주기
-      seatInfo.areas;
+      data.map((area: any) => area.area_name);
 
   const filteredZones =
     selectedAreaName &&
-    seatInfo.areas.find((area) => area.area_name === selectedAreaName);
+    data.find((area: any) => area.area_name === selectedAreaName);
 
   // const filteredZoneItems =
   //   zoneSearchInput && filteredZones
@@ -156,7 +188,7 @@ const ReviewEditModal: FC<ModalProps> = ({ isOpen, onClose }) => {
                             />
                           </div>
                         </form>
-                        {filteredAreas.map((area) => (
+                        {filteredAreas.map((area: any) => (
                           <SelectItem
                             key={area.area_name}
                             value={area.area_name}
@@ -189,7 +221,7 @@ const ReviewEditModal: FC<ModalProps> = ({ isOpen, onClose }) => {
                         {/* Filtered based on selected area name */}
                         {filteredZones &&
                           "zones" in filteredZones &&
-                          filteredZones.zones.map((zone, i) => (
+                          filteredZones.zones.map((zone: any, i: any) => (
                             <SelectItem
                               key={i}
                               value={zone.zone}
@@ -222,11 +254,15 @@ const ReviewEditModal: FC<ModalProps> = ({ isOpen, onClose }) => {
                       onChangeActive={(event, newHover) => {
                         setViewHover(newHover);
                       }}
-                      getLabelText={getLabelText}
+                      getLabelText={getDistanceLabels}
                     />
                     {viewValue !== null && (
                       <p className="text-md text-muted-foreground">
-                        {labels[viewHover !== -1 ? viewHover : viewValue]}
+                        {
+                          RATING_LABELS.distance[
+                            viewHover !== -1 ? viewHover : viewValue
+                          ]
+                        }
                       </p>
                     )}
                   </div>
@@ -247,12 +283,12 @@ const ReviewEditModal: FC<ModalProps> = ({ isOpen, onClose }) => {
                       onChangeActive={(event, newHover) => {
                         setDistanceHover(newHover);
                       }}
-                      getLabelText={getLabelText}
+                      getLabelText={getViewLabels}
                     />
                     {distanceValue !== null && (
                       <p className="text-md text-muted-foreground">
                         {
-                          labels[
+                          RATING_LABELS.view[
                             distanceHover !== -1 ? distanceHover : distanceValue
                           ]
                         }
@@ -269,20 +305,20 @@ const ReviewEditModal: FC<ModalProps> = ({ isOpen, onClose }) => {
                     <Rating
                       name="simple-controlled"
                       className="mr-3"
-                      value={cheeringValue}
+                      value={energyValue}
                       onChange={(event, newValue) => {
-                        setCheeringValue(newValue);
+                        setenergyValue(newValue);
                       }}
                       onChangeActive={(event, newHover) => {
-                        setCheeringHover(newHover);
+                        setenergyHover(newHover);
                       }}
-                      getLabelText={getLabelText}
+                      getLabelText={getEnergyLabels}
                     />
-                    {cheeringValue !== null && (
+                    {energyValue !== null && (
                       <p className="text-md text-muted-foreground">
                         {
-                          labels[
-                            cheeringHover !== -1 ? cheeringHover : cheeringValue
+                          RATING_LABELS.energy[
+                            energyHover !== -1 ? energyHover : energyValue
                           ]
                         }
                       </p>

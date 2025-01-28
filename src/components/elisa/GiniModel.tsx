@@ -73,7 +73,12 @@ export function GiniModel({
 
   const meshes = meshesData.map(({ name, position }) => {
     const mesh = nodes[name];
-    const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
+    const zone =
+      mesh.name.split("-")[1] === "right"
+        ? "우"
+        : mesh.name.split("-")[1] === "left"
+        ? "좌"
+        : "중앙";
     const meshInfo: TClickedMeshInfo = {
       area_name: areaName,
       zone: zone,

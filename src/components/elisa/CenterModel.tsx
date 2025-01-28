@@ -104,12 +104,13 @@ export function CenterModel({
   };
 
   const getColor = (info: TClickedMeshInfo) =>
+    // 아레아가 히든 상태가 아니거나, 아레아가 호버 상태이거나, 존이 클릭되어 있는 상태일 경우
     !hides[areaName] || isHovered || info.zone === clickedMesh?.zone
       ? hoverColor
       : defaultColor;
 
   useEffect(() => {
-    if (showModal == false) {
+    if (showModal === false) {
       setClickedMesh(null);
     }
   }, [showModal]);
@@ -117,10 +118,12 @@ export function CenterModel({
   const meshes = meshesData.map(({ name, position }) => {
     const mesh = nodes[name];
     const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
+
     const meshInfo: TClickedMeshInfo = {
       area_name: areaName,
       zone: zone,
     };
+
     return (
       <mesh
         key={name}

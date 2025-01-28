@@ -1,5 +1,4 @@
 import { Button } from "@/components/shadcn-ui/button";
-import ViewPicSwiper from "./ViewPicSwiper";
 import {
   Card,
   CardContent,
@@ -8,15 +7,9 @@ import {
   CardTitle,
 } from "../shadcn-ui/card";
 import "../../styles/elisa.css";
-import { TClickedMeshInfo } from "./StadiumModel";
-import { useSeatsStore } from "@/store/SeatsStore";
 import { useQuery } from "@tanstack/react-query";
-import {
-  fetchFilteredReviewsData,
-  fetchReviewsData,
-} from "@/store/ReviewsStore";
+import { fetchFilteredReviewsData } from "@/store/ReviewsStore";
 import ImageSwiper from "./ImageSwiper";
-import { useEffect } from "react";
 import { Rating } from "@mui/material";
 import Link from "next/link";
 import {
@@ -28,24 +21,39 @@ import {
 
 type SeatInfoModalProps = {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  info: TClickedMeshInfo | undefined;
+  areaName: string;
+  zone: string;
 };
 
 const SeatInfoModal: React.FC<SeatInfoModalProps> = ({
   setShowModal,
-  info,
+  areaName,
+  zone,
 }) => {
-  const { data: reviews } = useQuery({
-    queryKey: ["reviews", info?.zone],
-    queryFn: async () =>
-      fetchFilteredReviewsData("created_at", false, info?.zone),
+  const { data } = useQuery({
+    queryKey: ["reviews", zone],
+    queryFn: async () => fetchFilteredReviewsData("created_at", false, zone),
   });
 
-  const imgUrls = reviews?.reduce(
+  const imgUrls = data?.reviews?.reduce(
     (acc, curr) => [...acc, ...curr.img_urls],
     [],
   );
-  console.log("imgUrls: ", imgUrls);
+  // console.log("imgUrls: ", imgUrls);
+
+  // 전체 데이터 배열 순회하며
+  // 각 데이터의 rates 객체 내 key의 value 취득 후
+  // 다 더함
+  // 더한 값을 데이터의 길이 count 만큼 나눈 후
+  // 반올림 (일단 평점 precision 1이라서)
+  const getAvgRate = (key: string) => {
+    const total = data?.reviews?.reduce(
+      (acc, curr) => acc + curr.rates[key],
+      0,
+    );
+    const avgRate = Math.round(total / Number(data?.count));
+    return avgRate;
+  };
 
   return (
     <>
@@ -57,7 +65,7 @@ const SeatInfoModal: React.FC<SeatInfoModalProps> = ({
         <CardHeader>
           <CardTitle className="flex gap-2">
             <span className="text-lg">
-              {info?.area_name} {info?.zone}구역
+              {areaName} {zone} 구역
             </span>
             <span className="text-lg">좌석 정보</span>
           </CardTitle>
@@ -92,7 +100,11 @@ const SeatInfoModal: React.FC<SeatInfoModalProps> = ({
               <div className="row-span-1 flex flex-col gap-4">
                 <div className="flex gap-2">
                   <span className="font-semibold">별 평점</span>
-                  <Link href="#">(리뷰 N개 &rarr;)</Link>
+                  <Link
+                    href={`/ticket/reviews/?sort=created_at&asc=false&page=1&area=${areaName}&zone=${zone}`}
+                  >
+                    (리뷰 {`${data?.count}`}개 &rarr;)
+                  </Link>
                 </div>
                 <div className="flex justify-between pl-4">
                   <div className="flex flex-col gap-1">
@@ -103,7 +115,7 @@ const SeatInfoModal: React.FC<SeatInfoModalProps> = ({
                   <div className="flex flex-col justify-around">
                     <Rating
                       name="read-only"
-                      value={3}
+                      value={getAvgRate("distance")}
                       size="small"
                       getLabelText={getDistanceLabels}
                       readOnly
@@ -111,7 +123,7 @@ const SeatInfoModal: React.FC<SeatInfoModalProps> = ({
 
                     <Rating
                       name="read-only"
-                      value={3}
+                      value={getAvgRate("view")}
                       size="small"
                       getLabelText={getViewLabels}
                       readOnly
@@ -119,29 +131,33 @@ const SeatInfoModal: React.FC<SeatInfoModalProps> = ({
 
                     <Rating
                       name="read-only"
-                      value={3}
+                      value={getAvgRate("energy")}
                       size="small"
                       getLabelText={getEnergyLabels}
                       readOnly
                     />
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex gap-3">
                     <div className="flex flex-col gap-1">
-                      <span>3</span>
-                      <span>3</span>
-                      <span>3</span>
+                      <span>{getAvgRate("distance")} 점</span>
+                      <span>{getAvgRate("view")} 점</span>
+                      <span>{getAvgRate("energy")} 점</span>
                     </div>
                     <div className="flex flex-col gap-1">
-                      {3 !== null && (
+                      {getAvgRate("distance") !== null && (
                         <p className="text-md">
-                          {RATING_LABELS.distance[3 - 1]}
+                          {RATING_LABELS.distance[getAvgRate("distance") - 1]}
                         </p>
                       )}
-                      {3 !== null && (
-                        <p className="text-md">{RATING_LABELS.view[3 - 1]}</p>
+                      {getAvgRate("view") !== null && (
+                        <p className="text-md">
+                          {RATING_LABELS.view[getAvgRate("view") - 1]}
+                        </p>
                       )}
-                      {3 !== null && (
-                        <p className="text-md">{RATING_LABELS.energy[3 - 1]}</p>
+                      {getAvgRate("energy") !== null && (
+                        <p className="text-md">
+                          {RATING_LABELS.energy[getAvgRate("energy") - 1]}
+                        </p>
                       )}
                     </div>
                   </div>

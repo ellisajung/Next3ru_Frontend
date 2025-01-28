@@ -73,7 +73,12 @@ export function KtAlphaModel({
 
   const meshes = meshesData.map(({ name, position }) => {
     const mesh = nodes[name];
-    const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
+    const zone =
+      mesh.name.split("-")[2] === "right"
+        ? "우"
+        : mesh.name.split("-")[2] === "left"
+        ? "좌"
+        : "중앙";
     const meshInfo: TClickedMeshInfo = {
       area_name: areaName,
       zone: zone,
@@ -92,7 +97,6 @@ export function KtAlphaModel({
         rotation={[-3.141, -1.305, -3.141]}
         scale={0.292}
       >
-        {" "}
         {hoveredMesh?.zone === zone && (
           <Html distanceFactor={500}>
             <MeshLabel {...hoveredMesh} />
