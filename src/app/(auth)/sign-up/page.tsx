@@ -15,25 +15,16 @@ import Image from "next/image";
 import { checkUsername, signUp } from "../actions";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import UsernameField from "@/components/elisa/AccountForm";
 
 const SignUpPage = () => {
   const [username, setUsername] = useState("");
   const [isValidUsername, setIsValidUsername] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const router = useRouter();
   const searchParams = useSearchParams();
   const errorMsg = searchParams.get("error-message");
   const confirmMsg = searchParams.get("confirm-message");
   const refuseMsg = searchParams.get("refuse-message");
-
-  // useEffect(() => {
-  //   if (
-  //     searchParams.has("error-message") ||
-  //     searchParams.has("confirm-message")
-  //   ) {
-  //     router.replace("/sign-up");
-  //   }
-  // }, [searchParams]);
 
   const onCheckUsername = async () => {
     const users = await checkUsername(username);
@@ -44,15 +35,6 @@ const SignUpPage = () => {
     }
     setIsSubmitted(true);
   };
-
-  // console.log(
-  //   "isSubmitted:",
-  //   isSubmitted,
-  //   "isValidUsername:",
-  //   isValidUsername,
-  //   "username:",
-  //   username,
-  // );
 
   return (
     <form>
