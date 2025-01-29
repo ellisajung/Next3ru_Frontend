@@ -6,6 +6,7 @@ import { EdgeStoreProvider } from "@/lib/edgestore";
 import NavBar from "@/components/NavBar";
 import { ThemeProvider } from "@/components/elisa/theme-provider";
 import ReactQueryClientProvider from "@/components/elisa/ReactQueryClientProvider";
+import { Toaster } from "@/components/shadcn-ui/toaster";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -43,6 +44,7 @@ export default function RootLayout({
             <EdgeStoreProvider>
               <NavBar />
               <div className="h-screen pt-[110px]">{children}</div>
+              <Toaster />
               {/* <MyChatbot /> */}
               {/* <Footer /> */}
             </EdgeStoreProvider>
