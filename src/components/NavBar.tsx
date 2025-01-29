@@ -5,28 +5,36 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import NavBarSub from "@/components/NavBarSub";
 import { ThemeToggle } from "./elisa/ThemeToggle";
-import { getUser, signOut } from "@/app/(auth)/actions";
+import { fetchUserData, signOut } from "@/app/(auth)/actions";
 import { Button } from "./shadcn-ui/button";
 import MyPageDropdown from "./elisa/MyPageDropdown";
+import { useQuery } from "@tanstack/react-query";
 
 const NavBar = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [username, setUsername] = useState(null);
+  // const [username, setUsername] = useState(null);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const fetchedUser = await getUser();
-      if (fetchedUser) {
-        setUsername(fetchedUser.user_metadata.username);
-      }
-    };
-    fetchUser();
-  }, []);
+  const { data: user, error } = useQuery({
+    queryKey: ["user"],
+    queryFn: fetchUserData,
+  });
+
+  console.log(user);
+
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const fetchedUser = await fetchUserData();
+  //     if (fetchedUser) {
+  //       setUsername(fetchedUser.user_metadata.username);
+  //     }
+  //   };
+  //   fetchUser();
+  // }, []);
 
   const handleSignOut = async () => {
     signOut();
-    setUsername(null);
+    // setUsername(null);
   };
 
   useEffect(() => {
@@ -70,7 +78,7 @@ const NavBar = () => {
         <div className="flex justify-center items-center text-black dark:text-white">
           <ThemeToggle />
         </div>
-        {!username ? (
+        {!user ? (
           <>
             <Link
               className="text-[#ffffff] hover:text-black transition-color"

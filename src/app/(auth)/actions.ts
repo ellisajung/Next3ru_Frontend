@@ -100,7 +100,7 @@ export const checkEmail = async (email: string) => {
   return users;
 };
 
-export const getUser = async () => {
+export const fetchUserData = async () => {
   const supabase = await createClient();
 
   const {

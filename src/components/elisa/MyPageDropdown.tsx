@@ -1,49 +1,35 @@
-import {
-  Cloud,
-  CreditCard,
-  Github,
-  Keyboard,
-  LifeBuoy,
-  LogOut,
-  Mail,
-  MessageSquare,
-  Plus,
-  PlusCircle,
-  Settings,
-  User,
-  UserPlus,
-  Users,
-} from "lucide-react";
-
+import { LogOut } from "lucide-react";
 import { Button } from "@/components/shadcn-ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/shadcn-ui/dropdown-menu";
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
+import { fetchUserData } from "@/app/(auth)/actions";
+import { use } from "react";
 
 interface MyPageDropdownProps {
   handleSignOut: () => void;
 }
 
 const MyPageDropdown = ({ handleSignOut }: MyPageDropdownProps) => {
+  const { data: user, error } = useQuery({
+    queryKey: ["user"],
+    queryFn: fetchUserData,
+  });
+
+  const username = user?.user_metadata.username;
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         {/* <Button variant="ghost"> */}
         {/* <p className="hover:text-black transition-color">{username} 님</p> */}
         <div className="h-9 flex justify-center items-center text-white hover:text-black transition-color">
-          반가워요, eli 님
+          반가워요, {username} 님
         </div>
         {/* </Button> */}
       </DropdownMenuTrigger>
