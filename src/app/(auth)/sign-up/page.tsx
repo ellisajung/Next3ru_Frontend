@@ -13,9 +13,8 @@ import { Input } from "@/components/shadcn-ui/input";
 import { Label } from "@/components/shadcn-ui/label";
 import Image from "next/image";
 import { checkUsername, signUp } from "../actions";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-import UsernameField from "@/components/elisa/AccountForm";
 
 const SignUpPage = () => {
   const [username, setUsername] = useState("");

@@ -37,27 +37,27 @@ const MyPageDropdown = ({ handleSignOut }: MyPageDropdownProps) => {
         className="w-36"
         align="end"
       >
-        <DropdownMenuItem>
-          <Link href="/user/account">내 계정</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Link href="/user/reviews">내 리뷰</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <LogOut
-            className="mr-1"
-            size={14}
-          />
-          <form>
+        <Link href="/user/account">
+          <DropdownMenuItem>내 계정</DropdownMenuItem>
+        </Link>
+        <Link href="/user/reviews">
+          <DropdownMenuItem>내 리뷰</DropdownMenuItem>
+        </Link>
+        <form>
+          <DropdownMenuItem>
             <Button
-              className="p-0 h-5"
+              className="flex justify-start items-center w-full p-0 h-5"
               variant="ghost"
               onClick={handleSignOut}
             >
+              <LogOut
+                className="mr-1"
+                size={14}
+              />
               로그아웃
             </Button>
-          </form>
-        </DropdownMenuItem>
+          </DropdownMenuItem>
+        </form>
       </DropdownMenuContent>
     </DropdownMenu>
   );

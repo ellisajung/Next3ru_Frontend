@@ -1,5 +1,10 @@
+"use client";
+
+import { fetchUserData } from "@/app/(auth)/actions";
 import { SidebarNav } from "@/components/elisa/SidebarNav";
 import { Separator } from "@/components/shadcn-ui/separator";
+import { useQuery } from "@tanstack/react-query";
+import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
 const sidebarNavItems = [
@@ -14,6 +19,20 @@ const sidebarNavItems = [
 ];
 
 const MyPageLayout = ({ children }: { children: ReactNode }) => {
+  const { data: user, error } = useQuery({
+    queryKey: ["user"],
+    queryFn: fetchUserData,
+    // queryFn: async () => await fetchUserData(),
+  });
+
+  // console.log(user);
+
+  // useEffect(() => {
+  //   if (!user) {
+  //     redirect("/sign-in");
+  //   }
+  // }, []); // 이러면 화면 보여진 후 리다이렉트
+
   return (
     <div className="h-5/6 hidden space-y-6 p-24 pb-30 md:block">
       <div className="space-y-0.5">

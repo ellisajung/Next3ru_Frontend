@@ -1,6 +1,8 @@
-import UsernameField from "@/components/elisa/AccountForm";
+import { fetchUserData } from "@/app/(auth)/actions";
+import UsernameForm from "@/components/elisa/UsernameForm";
 import { Button } from "@/components/shadcn-ui/button";
 import { Separator } from "@/components/shadcn-ui/separator";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 const MyAccountPage = () => {
   return (
@@ -14,17 +16,8 @@ const MyAccountPage = () => {
       <div>
         <Separator className="mb-10" />
       </div>
-      <div className="grow">
-        <UsernameField />
-      </div>
-      <div>
-        <Button
-          className="rounded-xl"
-          // formAction={isValidUsername ? signUp : undefined}
-          // disabled={!isValidUsername}
-        >
-          변경하기
-        </Button>
+      <div className="grow flex flex-col justify-between">
+        <UsernameForm />
       </div>
     </div>
   );

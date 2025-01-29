@@ -17,10 +17,11 @@ const NavBar = () => {
 
   const { data: user, error } = useQuery({
     queryKey: ["user"],
-    queryFn: fetchUserData,
+    queryFn: async () => await fetchUserData(),
+    // queryFn: fetchUserData, // 이렇게 하면 안됨. 첫 요청에만?
   });
 
-  console.log(user);
+  console.log("client user", user);
 
   // useEffect(() => {
   //   const fetchUser = async () => {

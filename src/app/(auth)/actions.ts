@@ -3,12 +3,12 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
-import { User } from "@supabase/supabase-js";
+import { error } from "console";
 
 export async function signIn(formData: FormData) {
   const supabase = await createClient();
 
-  const { data, error } = await supabase.auth.signInWithOtp({
+  let { data, error } = await supabase.auth.signInWithOtp({
     email: formData.get("email") as string,
     options: {
       // set this to false if you do not want the user to be automatically signed up
@@ -35,7 +35,7 @@ export async function signUp(formData: FormData) {
   const users = await checkEmail(email);
 
   if (users?.length === 0) {
-    const { data, error } = await supabase.auth.signInWithOtp({
+    let { data, error } = await supabase.auth.signInWithOtp({
       email: email,
       options: {
         data: {
@@ -86,7 +86,7 @@ export const checkUsername = async (username: string) => {
 export const checkEmail = async (email: string) => {
   const supabase = await createClient();
 
-  const { data: users, error } = await supabase
+  let { data: users, error } = await supabase
     .from("users")
     .select()
     .eq("email", email);
@@ -104,9 +104,34 @@ export const fetchUserData = async () => {
   const supabase = await createClient();
 
   const {
-    data: { user },
+    data: { user }, error
   } = await supabase.auth.getUser();
 
-  // console.log(user);
+  if (error) {
+    console.log("fetching error: ", error.message);
+    return;
+  }
+
+  console.log("server user: ", user);
+  return user;
+};
+
+export const updateUserData = async (username: string) => {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.updateUser({
+    data: { username: username },
+  });
+
+  if (error) {
+    console.log(error);
+    return;
+  }
+
+  // console.log("user: ", user);
+
   return user;
 };
