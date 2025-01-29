@@ -5,8 +5,9 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import NavBarSub from "@/components/NavBarSub";
 import { ThemeToggle } from "./elisa/ThemeToggle";
-import { getUser, signOut } from "@/app/(user)/actions";
+import { getUser, signOut } from "@/app/(auth)/actions";
 import { Button } from "./shadcn-ui/button";
+import MyPageDropdown from "./elisa/MyPageDropdown";
 
 const NavBar = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -86,10 +87,7 @@ const NavBar = () => {
             </Link>
           </>
         ) : (
-          <form className="flex gap-3 items-center">
-            <p className="hover:text-black transition-color">{username} 님</p>
-            <Button onClick={handleSignOut}>로그아웃</Button>
-          </form>
+          <MyPageDropdown handleSignOut={handleSignOut} />
         )}
         <b>
           <Link

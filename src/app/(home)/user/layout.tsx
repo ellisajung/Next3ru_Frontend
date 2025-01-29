@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 
 const sidebarNavItems = [
   {
-    title: "내 프로필",
+    title: "내 계정",
     href: "/user/account",
   },
   {
