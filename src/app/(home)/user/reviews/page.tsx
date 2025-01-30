@@ -10,12 +10,17 @@ import {
 } from "@/components/elisa/ReviewEditModal";
 import { Button } from "@/components/shadcn-ui/button";
 import { Separator } from "@/components/shadcn-ui/separator";
-import { fetchUserReviewsData } from "@/store/ReviewsStore";
+import {
+  deleteUserReviewsData,
+  fetchUserReviewsData,
+} from "@/store/ReviewsStore";
 import { Rating } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect } from "react";
 
 const MyReviewsPage = () => {
+  const queryClient = useQueryClient();
+
   const { data: user, error: userError } = useQuery({
     queryKey: ["user"],
     queryFn: fetchUserData,
@@ -29,8 +34,8 @@ const MyReviewsPage = () => {
     enabled: !!userId, // userId가 있을 때만 실행
   });
 
-  console.log("user id: ", userId);
-  console.log("user review: ", data?.reviews);
+  // console.log("user id: ", userId);
+  // console.log("user review: ", data?.reviews);
 
   // const { data, error } = useQuery({
   //   queryKey: ["reviews", user],
@@ -42,6 +47,14 @@ const MyReviewsPage = () => {
   //     fetchUserReviewsData(user?.id);
   //   }
   // }, [user]);
+
+  const mutation = useMutation({
+    mutationFn: deleteUserReviewsData,
+    onSuccess: () => {
+      console.log("successfully deleted!");
+      queryClient.invalidateQueries({ queryKey: ["reviews"] });
+    },
+  });
 
   return (
     <div className="h-full flex flex-col space-y-6">
@@ -211,7 +224,15 @@ const MyReviewsPage = () => {
                 >
                   수정하기
                 </Button>
-                <Button className="px-10 rounded-xl">삭제하기</Button>
+                <Button
+                  className="px-10 rounded-xl"
+                  onClick={() => {
+                    console.log("review id: ", review.review_id);
+                    mutation.mutate(review.review_id);
+                  }}
+                >
+                  삭제하기
+                </Button>
               </div>
             </div>
           </div>

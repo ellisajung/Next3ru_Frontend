@@ -1,53 +1,6 @@
 import { createClient } from "@/utils/supabase/client";
 // import { create } from "zustand";
 
-export const fetchUserReviewsData = async (userId:string) =>{
-  const supabase = createClient();
-
-  // 페이지가 없을 경우 (좌석정보 탭 - 모달창)
-  const {
-    data: reviews,
-    error,
-    count,
-  } = await supabase
-    .from("reviews")
-    .select("*", { count: "exact" })
-    .eq("user_id", userId)
-
-  if (error) {
-    console.log(error.message);
-    return
-  }
-
-  return { reviews, count };
-};
-
-export const fetchFilteredReviewsData = async (
-  sort: string,
-  asc: boolean,
-  zone: string,
-) => {
-  const supabase = createClient();
-
-  // 페이지가 없을 경우 (좌석정보 탭 - 모달창)
-  const {
-    data: reviews,
-    error,
-    count,
-  } = await supabase
-    .from("reviews")
-    .select("*", { count: "exact" })
-    .eq("zone", zone)
-    .order(sort, { ascending: asc });
-
-  if (error) {
-    console.log(error.message);
-  }
-
-  console.log("reviews: ", reviews, "filtered count: ", count);
-  return { reviews, count };
-};
-
 export const fetchReviewsData = async (
   sort: string,
   asc: string,
@@ -126,3 +79,84 @@ export const fetchReviewsData = async (
 
 // export const useReviewsStore = create<ReviewsStore>((set) => ({
 // }));
+
+export const fetchFilteredReviewsData = async (
+  sort: string,
+  asc: boolean,
+  zone: string,
+) => {
+  const supabase = createClient();
+
+  // 페이지가 없을 경우 (좌석정보 탭 - 모달창)
+  const {
+    data: reviews,
+    error,
+    count,
+  } = await supabase
+    .from("reviews")
+    .select("*", { count: "exact" })
+    .eq("zone", zone)
+    .order(sort, { ascending: asc });
+
+  if (error) {
+    console.log(error.message);
+  }
+
+  console.log("reviews: ", reviews, "filtered count: ", count);
+  return { reviews, count };
+};
+
+export const fetchUserReviewsData = async (userId: string) => {
+  const supabase = createClient();
+
+  // 페이지가 없을 경우 (좌석정보 탭 - 모달창)
+  const {
+    data: reviews,
+    error,
+    count,
+  } = await supabase
+    .from("reviews")
+    .select("*", { count: "exact" })
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.log(error.message);
+    return;
+  }
+
+  return { reviews, count };
+};
+
+// export const updateUserReviewsData = async (
+//   reviewId: string,
+//   newContent: string,
+// ) => {
+//   const supabase = createClient();
+
+//   const { data, error } = await supabase
+//     .from("reviews")
+//     .update({ content: newContent })
+//     .eq("review_id", reviewId)
+//     .select(); // 업데이트된 리뷰만 셀렉트
+
+//   if (error) {
+//     console.log(error.message);
+//     return;
+//   }
+
+//   return data;
+// };
+
+export const deleteUserReviewsData = async (reviewId: string) => {
+  const supabase = createClient();
+
+  const { error } = await supabase
+    .from("reviews")
+    .delete()
+    .eq("review_id", reviewId);
+
+  if (error) {
+    console.log("deleting error: ", error.message);
+  }
+};
