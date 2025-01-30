@@ -16,18 +16,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/shadcn-ui/popover";
-import { FaPen } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useSeatsStore } from "@/store/SeatsStore";
 import { useSearchParams } from "next/navigation";
 
 interface ReviewContentHeaderProps {
-  setEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  // setEdit: React.Dispatch<React.SetStateAction<boolean>>;
   updateSearchParams: (key: string, value: string) => void;
 }
 
 const ReviewContentHeader = ({
-  setEdit,
   updateSearchParams,
 }: ReviewContentHeaderProps) => {
   // 좌석 콤보박스 로직
@@ -64,147 +62,138 @@ const ReviewContentHeader = ({
   // console.log("searchParams: ", searchParams);
 
   return (
-    <div className="flex justify-between mb-4">
-      <div className="flex gap-5">
-        <div className="flex gap-2">
-          {/* 구역 이름 선택*/}
-          <Popover
-            open={areaNameOpen}
-            onOpenChange={setAreaNameOpen}
-          >
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                role="combobox"
-                aria-expanded={areaNameOpen}
-                className="w-[180px] justify-between"
-              >
-                {areaNameValue
-                  ? seats.find((seat: any) => seat.area_name === areaNameValue)
-                      ?.area_name
-                  : "구역 이름 선택"}
-                <ChevronsUpDown className="opacity-50" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent
-              className="w-[200px] p-0"
-              align="start"
+    <div className="flex gap-5">
+      <div className="flex gap-2">
+        {/* 구역 이름 선택*/}
+        <Popover
+          open={areaNameOpen}
+          onOpenChange={setAreaNameOpen}
+        >
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              role="combobox"
+              aria-expanded={areaNameOpen}
+              className="w-[180px] justify-between"
             >
-              <Command>
-                <CommandInput placeholder="구역 이름 검색..." />
-                <CommandList>
-                  <CommandEmpty>일치하는 구역 이름이 없습니다.</CommandEmpty>
-                  <CommandGroup>
-                    {seats.map((seat: any, i: number) => (
-                      <CommandItem
-                        key={i}
-                        value={seat.area_name}
-                        onSelect={(currentValue: string) => {
-                          setAreaNameValue(
-                            currentValue === areaNameValue ? "" : currentValue,
-                          );
-                          setAreaNameOpen(false);
-
-                          console.log("hhhh", currentValue, areaNameValue);
-
-                          updateSearchParams("area", seat.area_name);
-                        }}
-                      >
-                        {seat.area_name}
-                        <Check
-                          className={cn(
-                            "ml-auto",
-                            areaNameValue === seat.area_name
-                              ? "opacity-100"
-                              : "opacity-0",
-                          )}
-                        />
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                </CommandList>
-              </Command>
-            </PopoverContent>
-          </Popover>
-          {/* 구역 번호 선택 */}
-          <Popover
-            open={zoneOpen}
-            onOpenChange={setZoneOpen}
+              {areaNameValue
+                ? seats.find((seat: any) => seat.area_name === areaNameValue)
+                    ?.area_name
+                : "구역 이름 선택"}
+              <ChevronsUpDown className="opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent
+            className="w-[200px] p-0"
+            align="start"
           >
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                role="combobox"
-                aria-expanded={zoneOpen}
-                className="w-[180px] justify-between"
-              >
-                {zoneValue
-                  ? zones?.find((zone) => zone === zoneValue)
-                  : "구역 번호 선택"}
-                <ChevronsUpDown className="opacity-50" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent
-              className="w-[200px] p-0"
-              align="start"
+            <Command>
+              <CommandInput placeholder="구역 이름 검색..." />
+              <CommandList>
+                <CommandEmpty>일치하는 구역 이름이 없습니다.</CommandEmpty>
+                <CommandGroup>
+                  {seats.map((seat: any, i: number) => (
+                    <CommandItem
+                      key={i}
+                      value={seat.area_name}
+                      onSelect={(currentValue: string) => {
+                        setAreaNameValue(
+                          currentValue === areaNameValue ? "" : currentValue,
+                        );
+                        setAreaNameOpen(false);
+
+                        console.log("hhhh", currentValue, areaNameValue);
+
+                        updateSearchParams("area", seat.area_name);
+                      }}
+                    >
+                      {seat.area_name}
+                      <Check
+                        className={cn(
+                          "ml-auto",
+                          areaNameValue === seat.area_name
+                            ? "opacity-100"
+                            : "opacity-0",
+                        )}
+                      />
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+        {/* 구역 번호 선택 */}
+        <Popover
+          open={zoneOpen}
+          onOpenChange={setZoneOpen}
+        >
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              role="combobox"
+              aria-expanded={zoneOpen}
+              className="w-[180px] justify-between"
             >
-              <Command>
-                <CommandInput placeholder="Search framework..." />
-                <CommandList>
-                  <CommandEmpty>일치하는 구역 번호가 없습니다.</CommandEmpty>
-                  <CommandGroup>
-                    {zones?.map((zone, i) => (
-                      <CommandItem
-                        key={i}
-                        value={zone}
-                        onSelect={(currentValue) => {
-                          setZoneValue(
-                            currentValue === zoneValue ? "" : currentValue,
-                          );
-                          setZoneOpen(false);
+              {zoneValue
+                ? zones?.find((zone) => zone === zoneValue)
+                : "구역 번호 선택"}
+              <ChevronsUpDown className="opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent
+            className="w-[200px] p-0"
+            align="start"
+          >
+            <Command>
+              <CommandInput placeholder="Search framework..." />
+              <CommandList>
+                <CommandEmpty>일치하는 구역 번호가 없습니다.</CommandEmpty>
+                <CommandGroup>
+                  {zones?.map((zone, i) => (
+                    <CommandItem
+                      key={i}
+                      value={zone}
+                      onSelect={(currentValue) => {
+                        setZoneValue(
+                          currentValue === zoneValue ? "" : currentValue,
+                        );
+                        setZoneOpen(false);
 
-                          updateSearchParams("zone", zone);
-                        }}
-                      >
-                        {zone}
-                        <Check
-                          className={cn(
-                            "ml-auto",
-                            zoneValue === zone ? "opacity-100" : "opacity-0",
-                          )}
-                        />
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                </CommandList>
-              </Command>
-            </PopoverContent>
-          </Popover>
-        </div>
-        <div className="flex gap-2">
-          <Button
-            className="rounded-full"
-            variant={sortParam === "created_at" ? "outline" : "secondary"}
-            onClick={() => updateSearchParams("sort", "created_at")}
-          >
-            작성일순
-          </Button>
-          <Button
-            className="rounded-full"
-            variant={sortParam === "likes" ? "outline" : "secondary"}
-            onClick={() => updateSearchParams("sort", "likes")}
-          >
-            추천순
-          </Button>
-        </div>
+                        updateSearchParams("zone", zone);
+                      }}
+                    >
+                      {zone}
+                      <Check
+                        className={cn(
+                          "ml-auto",
+                          zoneValue === zone ? "opacity-100" : "opacity-0",
+                        )}
+                      />
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
       </div>
-      <Button
-        className="rounded-xl"
-        onClick={() => setEdit(true)}
-      >
-        <FaPen className="mr-2 size-3" />
-        리뷰 쓰기
-      </Button>
+      <div className="flex gap-2">
+        <Button
+          className="rounded-full"
+          variant={sortParam === "created_at" ? "outline" : "secondary"}
+          onClick={() => updateSearchParams("sort", "created_at")}
+        >
+          작성일순
+        </Button>
+        <Button
+          className="rounded-full"
+          variant={sortParam === "likes" ? "outline" : "secondary"}
+          onClick={() => updateSearchParams("sort", "likes")}
+        >
+          추천순
+        </Button>
+      </div>
     </div>
   );
 };

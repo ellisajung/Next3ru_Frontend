@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/shadcn-ui/card";
 import ReviewEditModal from "./ReviewEditModal";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import * as React from "react";
 import ReviewContentHeader from "./ReviewContentHeader";
 import ReviewCard from "./ReviewCard";
@@ -17,9 +17,10 @@ import { fetchReviewsData } from "@/store/ReviewsStore";
 import ReviewPagination from "./ReviewPagination";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
+import ReviewEditDialog from "./ReviewEditDialog";
 
 const ReviewTab = () => {
-  const [edit, setEdit] = useState(false);
+  // const [edit, setEdit] = useState(false);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -77,15 +78,18 @@ const ReviewTab = () => {
           <CardDescription>구역별 좌석 리뷰를 확인해 보세요.</CardDescription>
         </CardHeader>
       </div>
-      <ReviewEditModal
+      {/* <ReviewEditModal
         isOpen={edit}
         onClose={() => setEdit(false)}
-      />
+      /> */}
       <CardContent className="grow">
-        <ReviewContentHeader
-          updateSearchParams={updateSearchParams}
-          setEdit={setEdit}
-        />
+        <div className="flex items-center justify-between">
+          <ReviewContentHeader
+            updateSearchParams={updateSearchParams}
+            // setEdit={setEdit}
+          />
+          <ReviewEditDialog />
+        </div>
         <div className="mt-8 grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-8">
           {data?.reviews?.map((review: any, i: number) => (
             <ReviewCard

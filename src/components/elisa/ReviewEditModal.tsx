@@ -18,7 +18,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/shadcn-ui/select";
-import "../../styles/elisa.css";
 import { Label } from "../shadcn-ui/label";
 import { Rating } from "@mui/material";
 import { useState } from "react";
@@ -260,7 +259,7 @@ const ReviewEditModal: FC<ModalProps> = ({ isOpen, onClose }) => {
                       <p className="text-md text-muted-foreground">
                         {
                           RATING_LABELS.distance[
-                            viewHover !== -1 ? viewHover : viewValue
+                            viewHover !== -1 ? viewHover - 1 : viewValue - 1
                           ]
                         }
                       </p>
@@ -289,7 +288,9 @@ const ReviewEditModal: FC<ModalProps> = ({ isOpen, onClose }) => {
                       <p className="text-md text-muted-foreground">
                         {
                           RATING_LABELS.view[
-                            distanceHover !== -1 ? distanceHover : distanceValue
+                            distanceHover !== -1
+                              ? distanceHover - 1
+                              : distanceValue - 1
                           ]
                         }
                       </p>
@@ -304,7 +305,7 @@ const ReviewEditModal: FC<ModalProps> = ({ isOpen, onClose }) => {
                     </Label>
                     <Rating
                       name="simple-controlled"
-                      className="mr-3"
+                      className="mr-3 dark:stroke-zinc-500"
                       value={energyValue}
                       onChange={(event, newValue) => {
                         setenergyValue(newValue);
@@ -318,7 +319,9 @@ const ReviewEditModal: FC<ModalProps> = ({ isOpen, onClose }) => {
                       <p className="text-md text-muted-foreground">
                         {
                           RATING_LABELS.energy[
-                            energyHover !== -1 ? energyHover : energyValue
+                            energyHover !== -1
+                              ? energyHover - 1
+                              : energyValue - 1
                           ]
                         }
                       </p>
