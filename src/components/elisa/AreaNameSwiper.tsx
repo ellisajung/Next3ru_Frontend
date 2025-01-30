@@ -7,7 +7,7 @@ import "swiper/css/free-mode";
 import "swiper/css/scrollbar";
 import { IoEyeOffOutline } from "react-icons/io5";
 import { IoEyeOutline } from "react-icons/io5";
-import "../../styles/elisa-copy.css";
+import "../../styles/area-name-swiper.css";
 import { useEffect, useState } from "react";
 import { useSeatsStore } from "@/store/SeatsStore";
 
