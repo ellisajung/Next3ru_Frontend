@@ -27,161 +27,161 @@ export default function NavBarSub() {
             <ul className="left_nav font-['KT'] xl:flex xl:w-1/3 xl:text-right xl:pl-2 xl:pr-[50px]  xl:text-base hidden">
               <li className="text-[12px]"> </li>
               <li className="text-[12px]">
-                <a href="#">kt wiz는?</a>
-                <a
+                <Link href="#">kt wiz는?</Link>
+                <Link
                   href="#"
                   className="mt-2"
                 >
                   구단 BI
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="mt-2"
                 >
                   회원 정책
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="mt-2"
                 >
                   스폰서
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="mt-2"
                 >
                   월페이퍼
-                </a>
+                </Link>
               </li>
               <li className="wiz_park text-[12px]">
-                <a href="#">kt wiz park</a>
-                <a
+                <Link href="#">kt wiz park</Link>
+                <Link
                   href="#"
                   className="mt-2"
                 >
                   주차 예약
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="mt-2"
                 >
                   찾아오기
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="mt-2"
                 >
                   익산야구장
-                </a>
+                </Link>
               </li>
               <li className="Game text-[12px]">
-                <a href="#">정규 리그</a>
-                <a
+                <Link href="#">정규 리그</Link>
+                <Link
                   href="#"
                   className="mt-2"
                 >
                   퓨처스 리그
-                </a>
+                </Link>
               </li>
             </ul>
 
             <ul className="right_nav font-['KT'] xl:flex xl:w-1/3 xl:text-left xl:pr-1 xl:pl-[62px] xl:justify-between xl:text-base hidden">
               <li className="text-[12px] ">
-                <a
+                <Link
                   href="#"
                   className="mt-7"
                 >
                   코칭 스텝
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="mt-2"
                 >
                   투수
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="mt-2"
                 >
                   타자
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="mt-2"
                 >
                   응원단
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="mt-2"
                 >
                   응원가
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="mt-2"
                 >
                   저작권
-                </a>
+                </Link>
               </li>
               <li className="text-[12px]">
-                <a
+                <Link
                   href="#"
                   className="mt-7"
                 >
                   wiz 뉴스
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="mt-2"
                 >
                   wiz 스토리
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="mt-2"
                 >
                   시구자 정보
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="mt-2"
                 >
                   wiz 포토
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="mt-2"
                 >
                   하이라이트
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="mt-2"
                 >
                   영상모음
-                </a>
+                </Link>
               </li>
               <li></li>
               <li className="text-[12px] ">
-                <a
+                <Link
                   href="#"
                   className="mt-7 text-[#FF0000]"
                 >
                   티켓 예매
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="mt-2"
                 >
                   단체 관람
-                </a>
-                <a
-                  href="#"
+                </Link>
+                <Link
+                  href="/ticket/seat-info"
                   className="mt-2"
                 >
                   좌석 정보
-                </a>
+                </Link>
               </li>
               <li className="text-[12px]">
                 <Link

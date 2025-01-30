@@ -6,7 +6,6 @@ import Link from "next/link";
 import NavBarSub from "@/components/NavBarSub";
 import { ThemeToggle } from "./elisa/ThemeToggle";
 import { fetchUserData, signOut } from "@/app/(auth)/actions";
-import { Button } from "./shadcn-ui/button";
 import MyPageDropdown from "./elisa/MyPageDropdown";
 import { useQuery } from "@tanstack/react-query";
 

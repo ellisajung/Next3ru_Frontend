@@ -16,7 +16,6 @@ import {
 } from "@/store/ReviewsStore";
 import { Rating } from "@mui/material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import React, { useEffect } from "react";
 
 const MyReviewsPage = () => {
   const queryClient = useQueryClient();

@@ -1,6 +1,5 @@
 "use client";
 
-import { useToast } from "@/components/hooks/use-toast";
 import {
   Toast,
   ToastClose,
@@ -9,6 +8,7 @@ import {
   ToastTitle,
   ToastViewport,
 } from "@/components/shadcn-ui/toast";
+import { useToast } from "@/hooks/use-toast";
 import { FaRegCircleCheck } from "react-icons/fa6";
 
 export function Toaster() {
