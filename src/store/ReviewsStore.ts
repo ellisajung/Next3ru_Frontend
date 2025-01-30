@@ -1,6 +1,27 @@
 import { createClient } from "@/utils/supabase/client";
 // import { create } from "zustand";
 
+export const fetchUserReviewsData = async (userId:string) =>{
+  const supabase = createClient();
+
+  // 페이지가 없을 경우 (좌석정보 탭 - 모달창)
+  const {
+    data: reviews,
+    error,
+    count,
+  } = await supabase
+    .from("reviews")
+    .select("*", { count: "exact" })
+    .eq("user_id", userId)
+
+  if (error) {
+    console.log(error.message);
+    return
+  }
+
+  return { reviews, count };
+};
+
 export const fetchFilteredReviewsData = async (
   sort: string,
   asc: boolean,
