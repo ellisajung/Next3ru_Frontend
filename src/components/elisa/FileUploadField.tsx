@@ -4,7 +4,7 @@ import { Button } from "../shadcn-ui/button";
 import { uploadFiles } from "@/app/actions/storage";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { Progress } from "../shadcn-ui/progress";
-import { useReviewsStore } from "@/store/ReviewsStore";
+import { useCreateReviewStore } from "@/store/CreateReviewStore";
 
 type TUploadStatus = "idle" | "uploading" | "success" | "error";
 
@@ -13,7 +13,7 @@ const FileUploadField = () => {
   const [status, setStatus] = useState<TUploadStatus>("idle");
   const [uploadProgress, setUploadProgress] = useState(13);
   const inputRef = useRef<HTMLInputElement>(null);
-  const setImgUrls = useReviewsStore((state) => state.setImgUrls);
+  const setImgUrls = useCreateReviewStore((state) => state.setImgUrls);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -46,7 +46,7 @@ const FileUploadField = () => {
       );
       setStatus("success");
       setImgUrls(imgUrls);
-      //   console.log("imgUrls", imgUrls);
+      console.log("imgUrls", imgUrls);
     } catch (error) {
       console.error("File uploading error:", error);
       setStatus("error");

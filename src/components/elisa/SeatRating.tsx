@@ -1,12 +1,13 @@
 import { Rating } from "@mui/material";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 
 interface SeatRatingProps {
+  value: number;
+  setValue: any;
   labelText: { [index: string]: string };
 }
 
-const SeatRating = ({ labelText }: SeatRatingProps) => {
-  const [value, setValue] = useState<number | null>(0);
+const SeatRating = ({ value, setValue, labelText }: SeatRatingProps) => {
   const [hover, setHover] = useState(-1);
 
   const getLabelText = (value: number) => {

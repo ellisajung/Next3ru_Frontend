@@ -1,13 +1,14 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/client";
+import { UUID } from "crypto";
 
 // 리뷰 페이지
 export const fetchReviewsData = async (
   sort: string,
   asc: string,
   page: string,
-  area:string,
+  area: string,
   zone: string,
 ) => {
   const supabase = createClient();
@@ -111,19 +112,29 @@ export const fetchUserReviewsData = async (userId: string) => {
 
 // 리뷰 페이지 - 생성
 export const createReviewData = async ({
+  userId,
   username,
   areaName,
   zone,
   content,
   rates,
   imgUrls,
-}: any) => {
+}: {
+  userId: string | undefined;
+  username: string;
+  areaName: string;
+  zone: string;
+  content: string;
+  rates: { [key: string]: number };
+  imgUrls?: string[];
+}) => {
   const supabase = createClient();
 
   const { data, error } = await supabase
     .from("reviews")
     .insert([
       {
+        user_id: userId,
         username: username,
         area_name: areaName,
         zone: zone,
@@ -135,7 +146,7 @@ export const createReviewData = async ({
     .select();
 
   if (error) {
-    console.log("Creating Review Error: ", error.details);
+    console.log("Creating Review Error: ", error.message);
     return { success: false };
   }
 

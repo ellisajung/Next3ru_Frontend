@@ -14,28 +14,32 @@ import {
 import { useEffect, useState } from "react";
 import { useSeatsStore } from "@/store/SeatsStore";
 import { cn } from "@/lib/utils";
+import { useCreateReviewStore } from "@/store/CreateReviewStore";
 
 const SeatAreaCombobox = () => {
   const seats = useSeatsStore((state) => state.data);
   const [zones, setZones] = useState([]);
 
   const [areaNameOpen, setAreaNameOpen] = useState(false);
-  const [areaNameValue, setAreaNameValue] = useState("");
   const [zoneOpen, setZoneOpen] = useState(false);
-  const [zoneValue, setZoneValue] = useState("");
+
+  const areaName = useCreateReviewStore((state) => state.areaName);
+  const setAreaName = useCreateReviewStore((state) => state.setAreaName);
+  const zone = useCreateReviewStore((state) => state.zone);
+  const setZone = useCreateReviewStore((state) => state.setZone);
 
   useEffect(() => {
-    if (areaNameValue) {
+    if (areaName) {
       const zones = seats.find(
-        (seat: any) => seat.area_name === areaNameValue,
+        (seat: any) => seat.area_name === areaName,
       )?.zones;
       setZones(zones);
-      setZoneValue("");
+      setZone("");
     } else {
       setZones([]);
-      setZoneValue("");
+      setZone("");
     }
-  }, [areaNameValue]);
+  }, [areaName]);
 
   return (
     <>
@@ -51,8 +55,8 @@ const SeatAreaCombobox = () => {
             aria-expanded={areaNameOpen}
             className="w-[180px] justify-between"
           >
-            {areaNameValue
-              ? seats.find((seat: any) => seat.area_name === areaNameValue)
+            {areaName
+              ? seats.find((seat: any) => seat.area_name === areaName)
                   ?.area_name
               : "구역 이름 선택"}
             <ChevronsUpDown className="opacity-50" />
@@ -72,19 +76,19 @@ const SeatAreaCombobox = () => {
                     key={i}
                     value={seat.area_name}
                     onSelect={(currentValue: string) => {
-                      setAreaNameValue(
-                        currentValue === areaNameValue ? "" : currentValue,
+                      setAreaName(
+                        currentValue === areaName ? "" : currentValue,
                       );
                       setAreaNameOpen(false);
 
-                      console.log("hhhh", currentValue, areaNameValue);
+                      console.log("hhhh", currentValue, areaName);
                     }}
                   >
                     {seat.area_name}
                     <Check
                       className={cn(
                         "ml-auto",
-                        areaNameValue === seat.area_name
+                        areaName === seat.area_name
                           ? "opacity-100"
                           : "opacity-0",
                       )}
@@ -108,8 +112,8 @@ const SeatAreaCombobox = () => {
             aria-expanded={zoneOpen}
             className="w-[180px] justify-between"
           >
-            {zoneValue
-              ? zones?.find((zone) => zone === zoneValue)
+            {zone
+              ? zones?.find((zoneValue) => zoneValue === zone)
               : "구역 번호 선택"}
             <ChevronsUpDown className="opacity-50" />
           </Button>
@@ -123,18 +127,16 @@ const SeatAreaCombobox = () => {
             <CommandList>
               <CommandEmpty>일치하는 구역 번호가 없습니다.</CommandEmpty>
               <CommandGroup>
-                {zones?.map((zone, i) => (
+                {zones?.map((zoneValue, i) => (
                   <CommandItem
                     key={i}
-                    value={zone}
+                    value={zoneValue}
                     onSelect={(currentValue) => {
-                      setZoneValue(
-                        currentValue === zoneValue ? "" : currentValue,
-                      );
+                      setZone(currentValue === zone ? "" : currentValue);
                       setZoneOpen(false);
                     }}
                   >
-                    {zone}
+                    {zoneValue}
                     <Check
                       className={cn(
                         "ml-auto",

@@ -15,6 +15,13 @@ import SeatAreaCombobox from "./SeatAreaCombobox";
 import SeatRating from "./SeatRating";
 import { Textarea } from "../shadcn-ui/textarea";
 import MultiFileDropzoneUsage from "./MultiFileDropzoneUsage";
+import FileUploadField from "./FileUploadField";
+import { useState } from "react";
+import { useCreateReviewStore } from "@/store/CreateReviewStore";
+import { useQuery } from "@tanstack/react-query";
+import { fetchUserData } from "@/app/actions/auth";
+import { createReviewData } from "@/app/actions/review";
+import { useToast } from "@/hooks/use-toast";
 
 export const RATING_ITEMS = [
   {
@@ -53,6 +60,28 @@ export const RATING_ITEMS = [
 ];
 
 const ReviewEditDialog = () => {
+  const { toast } = useToast();
+
+  const areaName = useCreateReviewStore((state) => state.areaName);
+  const zone = useCreateReviewStore((state) => state.zone);
+  const [content, setContent] = useState("");
+  const [rates, setRates] = useState<{ [key: string]: number }>({
+    distance: 0,
+    view: 0,
+    energy: 0,
+  });
+  const imgUrls = useCreateReviewStore((state) => state.imgUrls);
+
+  const { data: user, error } = useQuery({
+    queryKey: ["user"],
+    queryFn: fetchUserData,
+  });
+
+  const userId = user?.id;
+  const username = user?.user_metadata.username;
+
+  console.log(userId, username, areaName, zone, content, rates);
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -87,7 +116,16 @@ const ReviewEditDialog = () => {
                 <>
                   <span className="col-start-1">{item.label}</span>
                   <div className="col-start-2 flex items-center gap-2">
-                    <SeatRating labelText={item.labelText} />
+                    <SeatRating
+                      value={rates[item.value]}
+                      setValue={(newValue: number) =>
+                        setRates((prev) => ({
+                          ...prev,
+                          [item.value]: newValue,
+                        }))
+                      }
+                      labelText={item.labelText}
+                    />
                   </div>
                 </>
               ))}
@@ -106,16 +144,51 @@ const ReviewEditDialog = () => {
           {/* 텍스트 에리아 필드 */}
           <span className="col-start-1 row-start-3">리뷰 내용</span>
           <div className="col-start-2 row-start-3">
-            <Textarea placeholder="내용을 입력해 주세요." />
+            <Textarea
+              placeholder="내용을 입력해 주세요."
+              onChange={(e) => {
+                setContent(e.target.value);
+              }}
+            />
           </div>
           {/* 사진 업로드 필드 */}
           <span className="col-start-1 row-start-4">사진 업로드</span>
           <div className="col-start-2 row-start-4">
-            <MultiFileDropzoneUsage />
+            {/* <MultiFileDropzoneUsage /> */}
+            <FileUploadField />
           </div>
         </div>
         <DialogFooter>
-          <Button>저장하기</Button>
+          {/* <Button
+            formAction={createReviewData({
+              username: username,
+              areaName: areaName,
+              zone: zone,
+              content: content,
+              rates: rates,
+              imgUrls: imgUrls,
+            })}
+          > */}
+          <Button
+            onClick={async () => {
+              const res = await createReviewData({
+                userId: userId,
+                username: username,
+                areaName: areaName,
+                zone: zone,
+                content: content,
+                rates: rates,
+                imgUrls: imgUrls,
+              });
+              if (res.success) {
+                toast({
+                  description: res.message,
+                });
+              }
+            }}
+          >
+            저장
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
