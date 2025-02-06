@@ -10,13 +10,40 @@ import {
 import { FaListUl } from "react-icons/fa";
 import ReviewTab from "@/components/elisa/ReviewTab";
 import StadiumTab from "@/components/elisa/StadiumTab";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 // import {ReactComponent as BaseballField} from "/icons/baseball_field.svg"
+
+// const initialSearchParams = {
+//   sort: "created_at",
+//   asc: "false",
+//   page: "1",
+//   area: "",
+//   zone: "",
+// };
 
 const SeatInfoPage = ({ params }: { params: { tab: string } }) => {
   const router = useRouter();
   const currentTab = params.tab || "seat-info";
-  // console.log(params.tab);
+  // const searchParams = useSearchParams();
+
+  // useEffect(() => {
+  //   if (currentTab === "seat-info") return;
+
+  //   const hasSearchParam = searchParams.size !== 0;
+  //   const hasCondition =
+  //     searchParams.size !== Object.keys(initialSearchParams).length;
+  //   const haveSearchParamRequired = hasSearchParam || hasCondition;
+
+  //   if (haveSearchParamRequired) return;
+
+  //   const newSearchParams = {
+  //     ...Object.fromEntries(searchParams.entries()),
+  //     ...initialSearchParams,
+  //   };
+
+  //   router.replace(`?${new URLSearchParams(newSearchParams).toString()}`);
+  // }, [currentTab]);
 
   return (
     <div
@@ -25,7 +52,13 @@ const SeatInfoPage = ({ params }: { params: { tab: string } }) => {
     >
       <Tabs // 여기에서 설정되는 벨류 값에 따라
         value={currentTab}
-        onValueChange={(value) => router.push(`${value}`)}
+        onValueChange={(value) =>
+          value === "seat-info"
+            ? router.push(`${value}`)
+            : router.push(
+                `${value}?sort=created_at&asc=false&page=1&area=&zone=`,
+              )
+        }
         className="h-full flex flex-col"
       >
         <div className="flex items-center mb-3">

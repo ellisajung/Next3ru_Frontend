@@ -38,15 +38,15 @@ const ReviewContentHeader = ({
   const [zoneValue, setZoneValue] = useState("");
 
   useEffect(() => {
+    setZoneValue("");
     if (areaNameValue) {
       const zones = seats.find(
         (seat: any) => seat.area_name === areaNameValue,
       )?.zones;
       setZones(zones);
-      setZoneValue("");
     } else {
-      setZones([]);
       setZoneValue("");
+      setZones([]);
     }
   }, [areaNameValue]);
 
@@ -60,6 +60,8 @@ const ReviewContentHeader = ({
   // };
 
   // console.log("searchParams: ", searchParams);
+
+  console.log("areaNameValue: ", areaNameValue);
 
   return (
     <div className="flex gap-5">
@@ -97,21 +99,23 @@ const ReviewContentHeader = ({
                       key={i}
                       value={seat.area_name}
                       onSelect={(currentValue: string) => {
-                        setAreaNameValue(
-                          currentValue === areaNameValue ? "" : currentValue,
-                        );
+                        if (currentValue === areaNameValue) {
+                          setAreaNameValue("");
+                          updateSearchParams("area", "");
+                        } else {
+                          setAreaNameValue(currentValue);
+                          updateSearchParams("area", currentValue);
+                        }
+
                         setAreaNameOpen(false);
-
-                        console.log("hhhh", currentValue, areaNameValue);
-
-                        updateSearchParams("area", seat.area_name);
+                        // console.log("currentValue: ", currentValue);
                       }}
                     >
                       {seat.area_name}
                       <Check
                         className={cn(
                           "ml-auto",
-                          areaNameValue === seat.area_name
+                          seat.area_name === areaNameValue
                             ? "opacity-100"
                             : "opacity-0",
                         )}
@@ -155,12 +159,15 @@ const ReviewContentHeader = ({
                       key={i}
                       value={zone}
                       onSelect={(currentValue) => {
-                        setZoneValue(
-                          currentValue === zoneValue ? "" : currentValue,
-                        );
-                        setZoneOpen(false);
+                        if (currentValue === zoneValue) {
+                          setZoneValue("");
+                          updateSearchParams("zone", "");
+                        } else {
+                          setZoneValue(currentValue);
+                          updateSearchParams("zone", currentValue);
+                        }
 
-                        updateSearchParams("zone", zone);
+                        setZoneOpen(false);
                       }}
                     >
                       {zone}
