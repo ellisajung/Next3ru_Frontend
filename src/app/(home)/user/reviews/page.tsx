@@ -1,6 +1,10 @@
 "use client";
 
-import { fetchUserData } from "@/app/(auth)/actions";
+import { fetchUserData } from "@/app/actions/auth";
+import {
+  deleteUserReviewsData,
+  fetchUserReviewsData,
+} from "@/app/actions/review";
 import DatePickerWithRange from "@/components/elisa/DateRangePicker";
 import {
   getEnergyLabels,
@@ -10,10 +14,6 @@ import {
 } from "@/components/elisa/ReviewEditModal";
 import { Button } from "@/components/shadcn-ui/button";
 import { Separator } from "@/components/shadcn-ui/separator";
-import {
-  deleteUserReviewsData,
-  fetchUserReviewsData,
-} from "@/store/ReviewsStore";
 import { Rating } from "@mui/material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -28,7 +28,7 @@ const MyReviewsPage = () => {
   const userId = user?.id ?? null;
 
   const { data, error } = useQuery({
-    queryKey: ["reviews", userId],
+    queryKey: ["userReviews", userId],
     queryFn: ({ queryKey }) => fetchUserReviewsData(queryKey[1] as string),
     enabled: !!userId, // userId가 있을 때만 실행
   });

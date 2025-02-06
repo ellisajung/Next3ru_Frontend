@@ -1,6 +1,6 @@
 "use client";
 
-import { fetchUserData } from "@/app/(auth)/actions";
+import { fetchUserData } from "@/app/actions/auth";
 import { SidebarNav } from "@/components/elisa/SidebarNav";
 import { Separator } from "@/components/shadcn-ui/separator";
 import { useQuery } from "@tanstack/react-query";

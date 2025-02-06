@@ -1,8 +1,5 @@
-import { fetchUserData } from "@/app/(auth)/actions";
 import UsernameForm from "@/components/elisa/UsernameForm";
-import { Button } from "@/components/shadcn-ui/button";
 import { Separator } from "@/components/shadcn-ui/separator";
-import { useMutation, useQuery } from "@tanstack/react-query";
 
 const MyAccountPage = () => {
   return (

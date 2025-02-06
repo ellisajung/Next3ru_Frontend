@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
-import { error } from "console";
+import { checkEmail } from "./user";
 
 export async function signIn(formData: FormData) {
   const supabase = await createClient();
@@ -48,7 +48,7 @@ export async function signUp(formData: FormData) {
       console.log("Sign Up Error: ", error.message);
       const query = encodeURIComponent("유효한 이메일을 입력해 주세요.");
       redirect(`/sign-up?error-message=${query}`);
-    }
+    } 
 
     revalidatePath("/", "layout");
 
@@ -63,42 +63,10 @@ export async function signUp(formData: FormData) {
 export async function signOut() {
   const supabase = await createClient();
   await supabase.auth.signOut();
+  
   redirect("/");
 }
 
-export const checkUsername = async (username: string) => {
-  const supabase = await createClient();
-
-  let { data: users, error } = await supabase
-    .from("users")
-    .select()
-    .eq("username", username);
-
-  if (error) {
-    console.log(error.details);
-    return;
-  }
-
-  console.log(users);
-  return users;
-};
-
-export const checkEmail = async (email: string) => {
-  const supabase = await createClient();
-
-  let { data: users, error } = await supabase
-    .from("users")
-    .select()
-    .eq("email", email);
-
-  if (error) {
-    console.log(error.details);
-    return;
-  }
-
-  console.log(users);
-  return users;
-};
 
 export const fetchUserData = async () => {
   const supabase = await createClient();
@@ -112,7 +80,11 @@ export const fetchUserData = async () => {
     return;
   }
 
+  const session = await supabase.auth.getSession();
+  console.log("Session:", session);
+  
   console.log("server user: ", user);
+
   return user;
 };
 

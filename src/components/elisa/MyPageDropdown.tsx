@@ -8,14 +8,9 @@ import {
 } from "@/components/shadcn-ui/dropdown-menu";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
-import { fetchUserData } from "@/app/(auth)/actions";
-import { use } from "react";
+import { fetchUserData, signOut } from "@/app/actions/auth";
 
-interface MyPageDropdownProps {
-  handleSignOut: () => void;
-}
-
-const MyPageDropdown = ({ handleSignOut }: MyPageDropdownProps) => {
+const MyPageDropdown = () => {
   const { data: user, error } = useQuery({
     queryKey: ["user"],
     queryFn: fetchUserData,
@@ -48,7 +43,7 @@ const MyPageDropdown = ({ handleSignOut }: MyPageDropdownProps) => {
             <Button
               className="flex justify-start items-center w-full p-0 h-5"
               variant="ghost"
-              onClick={handleSignOut}
+              formAction={signOut}
             >
               <LogOut
                 className="mr-1"

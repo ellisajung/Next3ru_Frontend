@@ -5,9 +5,9 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import NavBarSub from "@/components/NavBarSub";
 import { ThemeToggle } from "./elisa/ThemeToggle";
-import { fetchUserData, signOut } from "@/app/(auth)/actions";
 import MyPageDropdown from "./elisa/MyPageDropdown";
 import { useQuery } from "@tanstack/react-query";
+import { fetchUserData, signOut } from "@/app/actions/auth";
 
 const NavBar = () => {
   const [isHovered, setIsHovered] = useState(false);
@@ -20,7 +20,7 @@ const NavBar = () => {
     // queryFn: fetchUserData, // 이렇게 하면 안됨. 첫 요청에만?
   });
 
-  console.log("client user", user);
+  // console.log("client user", user);
 
   // useEffect(() => {
   //   const fetchUser = async () => {
@@ -31,11 +31,6 @@ const NavBar = () => {
   //   };
   //   fetchUser();
   // }, []);
-
-  const handleSignOut = async () => {
-    signOut();
-    // setUsername(null);
-  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -95,7 +90,7 @@ const NavBar = () => {
             </Link>
           </>
         ) : (
-          <MyPageDropdown handleSignOut={handleSignOut} />
+          <MyPageDropdown />
         )}
         <b>
           <Link

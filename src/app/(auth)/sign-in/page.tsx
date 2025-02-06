@@ -12,8 +12,8 @@ import {
 import { Input } from "@/components/shadcn-ui/input";
 import { Label } from "@/components/shadcn-ui/label";
 import Image from "next/image";
-import { signIn } from "../actions";
 import { useSearchParams } from "next/navigation";
+import { signIn } from "@/app/actions/auth";
 
 const LoginPage = () => {
   const errorMsg = useSearchParams().get("error-message");

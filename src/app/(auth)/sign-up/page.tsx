@@ -12,9 +12,10 @@ import {
 import { Input } from "@/components/shadcn-ui/input";
 import { Label } from "@/components/shadcn-ui/label";
 import Image from "next/image";
-import { checkUsername, signUp } from "../actions";
+import { checkUsername } from "../../actions/user";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { signUp } from "@/app/actions/auth";
 
 const SignUpPage = () => {
   const [username, setUsername] = useState("");
