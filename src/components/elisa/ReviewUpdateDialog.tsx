@@ -16,12 +16,16 @@ import SeatRating from "./SeatRating";
 import { Textarea } from "../shadcn-ui/textarea";
 import MultiFileDropzoneUsage from "./MultiFileDropzoneUsage";
 import FileUploadField from "./FileUploadField";
-import { useState } from "react";
-import { useCreateReviewStore } from "@/store/ReviewStore";
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import {
+  useCreateReviewStore,
+  useUpdateReviewStore,
+} from "@/store/ReviewStore";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchUserData } from "@/app/actions/auth";
-import { createReviewData } from "@/app/actions/review";
+import { createReviewData, updateUserReviewData } from "@/app/actions/review";
 import { useToast } from "@/hooks/use-toast";
+import UpdateSeatAreaCombobox from "./UpdateSeatAreaCombobox";
 
 export const RATING_ITEMS = [
   {
@@ -59,18 +63,19 @@ export const RATING_ITEMS = [
   },
 ];
 
-const ReviewEditDialog = () => {
+const ReviewUpdateDialog = ({ reviewInfo }: any) => {
+  const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const areaName = useCreateReviewStore((state) => state.areaName);
-  const zone = useCreateReviewStore((state) => state.zone);
-  const [content, setContent] = useState("");
+  const areaName = useUpdateReviewStore((state) => state.areaName);
+  const zone = useUpdateReviewStore((state) => state.zone);
+  const [content, setContent] = useState(reviewInfo.content);
   const [rates, setRates] = useState<{ [key: string]: number }>({
-    distance: 0,
-    view: 0,
-    energy: 0,
+    distance: reviewInfo.rates["distance"],
+    view: reviewInfo.rates["view"],
+    energy: reviewInfo.rates["energy"],
   });
-  const imgUrls = useCreateReviewStore((state) => state.imgUrls);
+  const imgUrls = useUpdateReviewStore((state) => state.imgUrls);
 
   const { data: user, error } = useQuery({
     queryKey: ["user"],
@@ -80,17 +85,24 @@ const ReviewEditDialog = () => {
   const userId = user?.id;
   const username = user?.user_metadata.username;
 
+  const mutation = useMutation({
+    mutationFn: async () => updateUserReviewData,
+    onSuccess: () => {
+      // console.log("successfully deleted!");
+      queryClient.invalidateQueries({ queryKey: ["reviews"] });
+    },
+  });
+
   console.log(userId, username, areaName, zone, content, rates);
 
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          className="rounded-xl"
-          //   onClick={() => setEdit(true)}
+          className="px-10 rounded-xl"
+          variant="outline"
         >
-          <FaPen className="mr-2 size-3" />
-          리뷰 쓰기
+          수정하기
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[650px]">
@@ -105,7 +117,7 @@ const ReviewEditDialog = () => {
           <span className="col-start-1 row-start-1">좌석 구역</span>
           <div className="col-start-2 row-start-1">
             <div className="flex gap-4">
-              <SeatAreaCombobox />
+              <UpdateSeatAreaCombobox reviewInfo={reviewInfo} />
             </div>
           </div>
           {/* 별점 필드 */}
@@ -146,6 +158,7 @@ const ReviewEditDialog = () => {
           <div className="col-start-2 row-start-3">
             <Textarea
               placeholder="내용을 입력해 주세요."
+              value={content}
               onChange={(e) => {
                 setContent(e.target.value);
               }}
@@ -195,4 +208,4 @@ const ReviewEditDialog = () => {
   );
 };
 
-export default ReviewEditDialog;
+export default ReviewUpdateDialog;

@@ -14,19 +14,26 @@ import {
 import { useEffect, useState } from "react";
 import { useSeatsStore } from "@/store/SeatsStore";
 import { cn } from "@/lib/utils";
-import { useCreateReviewStore } from "@/store/ReviewStore";
+import { useUpdateReviewStore } from "@/store/ReviewStore";
 
-const SeatAreaCombobox = () => {
+const UpdateSeatAreaCombobox = ({ reviewInfo }: any) => {
   const seats = useSeatsStore((state) => state.data);
   const [zones, setZones] = useState([]);
 
   const [areaNameOpen, setAreaNameOpen] = useState(false);
   const [zoneOpen, setZoneOpen] = useState(false);
 
-  const areaName = useCreateReviewStore((state) => state.areaName);
-  const setAreaName = useCreateReviewStore((state) => state.setAreaName);
-  const zone = useCreateReviewStore((state) => state.zone);
-  const setZone = useCreateReviewStore((state) => state.setZone);
+  const areaName = useUpdateReviewStore((state) => state.areaName);
+  const setAreaName = useUpdateReviewStore((state) => state.setAreaName);
+  const zone = useUpdateReviewStore((state) => state.zone);
+  const setZone = useUpdateReviewStore((state) => state.setZone);
+
+  console.log(seats);
+
+  useEffect(() => {
+    setAreaName(reviewInfo.area_name);
+    setZone(reviewInfo.zone);
+  }, [reviewInfo]);
 
   useEffect(() => {
     if (areaName) {
@@ -34,7 +41,7 @@ const SeatAreaCombobox = () => {
         (seat: any) => seat.area_name === areaName,
       )?.zones;
       setZones(zones);
-      setZone("");
+      // if (!zone) setZone("");
     } else {
       setZones([]);
       setZone("");
@@ -154,4 +161,4 @@ const SeatAreaCombobox = () => {
   );
 };
 
-export default SeatAreaCombobox;
+export default UpdateSeatAreaCombobox;

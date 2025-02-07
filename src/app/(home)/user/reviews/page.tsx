@@ -2,8 +2,9 @@
 
 import { fetchUserData } from "@/app/actions/auth";
 import {
-  deleteUserReviewsData,
+  deleteUserReviewData,
   fetchUserReviewsData,
+  updateUserReviewData,
 } from "@/app/actions/review";
 import DatePickerWithRange from "@/components/elisa/DateRangePicker";
 import {
@@ -12,6 +13,7 @@ import {
   getViewLabels,
   RATING_LABELS,
 } from "@/components/elisa/ReviewEditModal";
+import ReviewUpdateDialog from "@/components/elisa/ReviewUpdateDialog";
 import { Button } from "@/components/shadcn-ui/button";
 import { Separator } from "@/components/shadcn-ui/separator";
 import { Rating } from "@mui/material";
@@ -28,7 +30,7 @@ const MyReviewsPage = () => {
   const userId = user?.id ?? null;
 
   const { data, error } = useQuery({
-    queryKey: ["userReviews", userId],
+    queryKey: ["reviews", userId],
     queryFn: ({ queryKey }) => fetchUserReviewsData(queryKey[1] as string),
     enabled: !!userId, // userId가 있을 때만 실행
   });
@@ -48,9 +50,9 @@ const MyReviewsPage = () => {
   // }, [user]);
 
   const mutation = useMutation({
-    mutationFn: deleteUserReviewsData,
+    mutationFn: deleteUserReviewData,
     onSuccess: () => {
-      console.log("successfully deleted!");
+      // console.log("successfully deleted!");
       queryClient.invalidateQueries({ queryKey: ["reviews"] });
     },
   });
@@ -217,12 +219,7 @@ const MyReviewsPage = () => {
               </div>
               {/* mutation field */}
               <div className="col-span-1 flex flex-col items-end gap-3">
-                <Button
-                  className="px-10 rounded-xl"
-                  variant="outline"
-                >
-                  수정하기
-                </Button>
+                <ReviewUpdateDialog reviewInfo={review} />
                 <Button
                   className="px-10 rounded-xl"
                   onClick={() => {

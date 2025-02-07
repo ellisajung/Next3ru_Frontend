@@ -155,28 +155,28 @@ export const createReviewData = async ({
 };
 
 // 내 리뷰 페이지 - 업데이트
-// export const updateUserReviewsData = async (
-//   reviewId: string,
-//   newContent: string,
-// ) => {
-//   const supabase = createClient();
+export const updateUserReviewData = async (
+  reviewId: string,
+  newContent: string,
+) => {
+  const supabase = createClient();
 
-//   const { data, error } = await supabase
-//     .from("reviews")
-//     .update({ content: newContent })
-//     .eq("review_id", reviewId)
-//     .select(); // 업데이트된 리뷰만 셀렉트
+  const { data, error } = await supabase
+    .from("reviews")
+    .update({ content: newContent })
+    .eq("review_id", reviewId)
+    .select(); // 업데이트된 리뷰만 셀렉트
 
-//   if (error) {
-//     console.log(error.message);
-//     return;
-//   }
+  if (error) {
+    console.log(error.message);
+    return;
+  }
 
-//   return data;
-// };
+  return data;
+};
 
 // 내 리뷰 페이지 - 삭제
-export const deleteUserReviewsData = async (reviewId: string) => {
+export const deleteUserReviewData = async (reviewId: string) => {
   const supabase = createClient();
 
   const { error } = await supabase
@@ -187,4 +187,6 @@ export const deleteUserReviewsData = async (reviewId: string) => {
   if (error) {
     console.log("deleting error: ", error.message);
   }
+
+  console.log("delete code is running!!")
 };

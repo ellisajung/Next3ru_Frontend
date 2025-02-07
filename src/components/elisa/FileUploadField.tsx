@@ -4,7 +4,7 @@ import { Button } from "../shadcn-ui/button";
 import { uploadFiles } from "@/app/actions/storage";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { Progress } from "../shadcn-ui/progress";
-import { useCreateReviewStore } from "@/store/CreateReviewStore";
+import { useCreateReviewStore } from "@/store/ReviewStore";
 
 type TUploadStatus = "idle" | "uploading" | "success" | "error";
 
