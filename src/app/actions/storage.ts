@@ -63,12 +63,13 @@ export const deleteFiles = async (filePaths:string[]) => {
 
   const { data, error } = await supabase.storage
     .from(BUCKET)
-    .remove([...filePaths]);
+    .remove(filePaths);
+    // .remove([...filePaths]);
 
   if (error) {
     console.log("Deleting File Error: ", error.message);
   }
 
-  console.log("Deleted file data: ", data)
+  console.log("Deleted file data: ", data) // []
   return data;
 };

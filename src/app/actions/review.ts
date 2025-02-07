@@ -177,28 +177,35 @@ export const updateUserReviewData = async (
 };
 
 // 내 리뷰 페이지 - 삭제
-export const deleteUserReviewData = async (reviewInfo:any) => {
+export const deleteUserReviewData = async (reviewInfo: any) => {
   const supabase = createClient();
 
-/* storage 데이터 삭제 */
-// "https://aysfabvtaixfvuhmmmyp.supabase.co/storage/v1/object/public/review_images/2a3716b2-c258-4a07-89d7-4cfc42e16eac-zone-201-3.jpeg"
-const filePaths = reviewInfo.img_urls.map((url:string)=>{
-  const urlArr = url.split("/")
-  const filePath = urlArr[urlArr.length-1]
-  return filePath
-})
-console.log(filePaths)
-deleteFiles(filePaths)
+  /* storage 데이터 삭제 */
+  // "https://aysfabvtaixfvuhmmmyp.supabase.co/storage/v1/object/public/review_images/2a3716b2-c258-4a07-89d7-4cfc42e16eac-zone-201-3.jpeg"
+  const filePaths = reviewInfo.img_urls.map((url: string) => {
+    // const urlArr = url.split("/");
+    // const filePath = urlArr[urlArr.length-1];
+    const filePath = url.split("/").pop();
+    return filePath;
+  });
+  console.log(filePaths);
 
-/* reviews 데이터 삭제 */
-  const { error } = await supabase
-    .from("reviews")
-    .delete()
-    .eq("review_id", reviewInfo.review_id);
+  try {
+    // storage 데이터 삭제가 왼료될 때까지 기다린 후,
+    await deleteFiles(filePaths);
 
-  if (error) {
-    console.log("deleting error: ", error.message);
+    // reviews 데이터 삭제
+    const { error } = await supabase
+      .from("reviews")
+      .delete()
+      .eq("review_id", reviewInfo.review_id);
+
+    if (error) {
+      console.log("deleting error: ", error.message);
+    }
+
+    console.log("Review deleted successfully!");
+  } catch (error) {
+    console.error("Error during deletion:", error);
   }
-
-  console.log("delete code is running!!")
 };
