@@ -223,8 +223,8 @@ const MyReviewsPage = () => {
                 <Button
                   className="px-10 rounded-xl"
                   onClick={() => {
-                    console.log("review id: ", review.review_id);
-                    mutation.mutate(review.review_id);
+                    // console.log("review id: ", review.review_id);
+                    mutation.mutate(review);
                   }}
                 >
                   삭제하기

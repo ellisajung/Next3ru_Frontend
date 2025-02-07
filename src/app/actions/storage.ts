@@ -36,12 +36,12 @@ export const uploadFiles = async (formData: FormData) => {
     // redirect는 서버 액션 또는 서버 컴포넌트에서만 동작
     // 굳이 서버에서 처리한 후 클라이언트에 쿼리 형태로 전달할 필요 없이 클라이언트에서 try, catch로 처리
     // 클라이언트에서 처리하면 useRouter().replace로 처리 가능
-    return;
+    return {success: false, message: "파일 업로드에 실패하였습니다."}
   }
 
   const url = await fetchFileUrls(filePath);
 
-  return url;
+  return {url, success: true, message: "파일을 성공적으로 업로드하였습니다."};
 };
 
 // update files
@@ -58,16 +58,17 @@ export const updateFiles = async () => {
 };
 
 // delete files
-export const deleteFiles = async () => {
+export const deleteFiles = async (filePaths:string[]) => {
   const supabase = createClient();
 
   const { data, error } = await supabase.storage
     .from(BUCKET)
-    .remove(["object-path-2", "folder/avatar2.png"]);
+    .remove([...filePaths]);
 
   if (error) {
     console.log("Deleting File Error: ", error.message);
   }
 
+  console.log("Deleted file data: ", data)
   return data;
 };

@@ -2,6 +2,7 @@
 
 import { createClient } from "@/utils/supabase/client";
 import { UUID } from "crypto";
+import { deleteFiles } from "./storage";
 
 // 리뷰 페이지
 export const fetchReviewsData = async (
@@ -176,13 +177,24 @@ export const updateUserReviewData = async (
 };
 
 // 내 리뷰 페이지 - 삭제
-export const deleteUserReviewData = async (reviewId: string) => {
+export const deleteUserReviewData = async (reviewInfo:any) => {
   const supabase = createClient();
 
+/* storage 데이터 삭제 */
+// "https://aysfabvtaixfvuhmmmyp.supabase.co/storage/v1/object/public/review_images/2a3716b2-c258-4a07-89d7-4cfc42e16eac-zone-201-3.jpeg"
+const filePaths = reviewInfo.img_urls.map((url:string)=>{
+  const urlArr = url.split("/")
+  const filePath = urlArr[urlArr.length-1]
+  return filePath
+})
+console.log(filePaths)
+deleteFiles(filePaths)
+
+/* reviews 데이터 삭제 */
   const { error } = await supabase
     .from("reviews")
     .delete()
-    .eq("review_id", reviewId);
+    .eq("review_id", reviewInfo.review_id);
 
   if (error) {
     console.log("deleting error: ", error.message);
