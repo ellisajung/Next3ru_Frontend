@@ -8,24 +8,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/shadcn-ui/dialog";
-import { Input } from "@/components/shadcn-ui/input";
-import { Label } from "@/components/shadcn-ui/label";
-import { FaPen } from "react-icons/fa6";
-import SeatAreaCombobox from "./SeatAreaCombobox";
 import SeatRating from "./SeatRating";
 import { Textarea } from "../shadcn-ui/textarea";
-import MultiFileDropzoneUsage from "./MultiFileDropzoneUsage";
-import FileUploadField from "./FileUploadField";
-import { useEffect, useState } from "react";
-import {
-  useCreateReviewStore,
-  useUpdateReviewStore,
-} from "@/store/ReviewStore";
+import { useState } from "react";
+import { useUpdateReviewStore } from "@/store/ReviewStore";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchUserData } from "@/app/actions/auth";
 import { createReviewData, updateUserReviewData } from "@/app/actions/review";
 import { useToast } from "@/hooks/use-toast";
 import UpdateSeatAreaCombobox from "./UpdateSeatAreaCombobox";
+import UpdateFileUploadField from "./UpdateFileUploadField";
 
 export const RATING_ITEMS = [
   {
@@ -168,7 +160,7 @@ const ReviewUpdateDialog = ({ reviewInfo }: any) => {
           <span className="col-start-1 row-start-4">사진 업로드</span>
           <div className="col-start-2 row-start-4">
             {/* <MultiFileDropzoneUsage /> */}
-            <FileUploadField />
+            <UpdateFileUploadField ImgUrls={reviewInfo.img_urls} />
           </div>
         </div>
         <DialogFooter>
