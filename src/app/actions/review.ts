@@ -3,6 +3,7 @@
 import { createClient } from "@/utils/supabase/client";
 import { UUID } from "crypto";
 import { deleteFiles } from "./storage";
+import { AnyNsRecord } from "dns";
 
 // 리뷰 페이지
 export const fetchReviewsData = async (
@@ -156,25 +157,34 @@ export const createReviewData = async ({
 };
 
 // 내 리뷰 페이지 - 업데이트
-export const updateUserReviewData = async (
-  reviewId: string,
-  newContent: {},
-) => {
+export const updateUserReviewData = async ({
+  reviewId,
+  newData,
+}: {
+  reviewId: string;
+  newData: {
+    area_name: string;
+    zone: string;
+    content: string;
+    rates: {};
+    img_urls: string[];
+  };
+}) => {
   const supabase = createClient();
 
   const { data, error } = await supabase
     .from("reviews")
-    .update({ ...newContent })
+    .update({ ...newData })
     .eq("review_id", reviewId)
     .select(); // 업데이트된 리뷰만 셀렉트
 
   if (error) {
     console.log("Updating Review Error", error.message);
-    return { success: false, message: "리뷰 업데이트에 실패하였습니다." };
+    return;
   }
 
   console.log("Updated Review: ", data);
-  return { data, success: true, message: "리뷰가 업데이트되었습니다." };
+  return data;
 };
 
 // 내 리뷰 페이지 - 삭제
@@ -189,7 +199,7 @@ export const deleteUserReviewData = async (reviewInfo: any) => {
     const filePath = url.split("/").pop();
     return filePath;
   });
-  console.log(filePaths);
+  // console.log(filePaths);
 
   try {
     // storage 데이터 삭제가 왼료될 때까지 기다린 후,

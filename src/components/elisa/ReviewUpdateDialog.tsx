@@ -56,7 +56,7 @@ export const RATING_ITEMS = [
 ];
 
 const ReviewUpdateDialog = ({ reviewInfo }: any) => {
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
   const { toast } = useToast();
 
   const areaName = useUpdateReviewStore((state) => state.areaName);
@@ -77,13 +77,13 @@ const ReviewUpdateDialog = ({ reviewInfo }: any) => {
   const userId = user?.id;
   const username = user?.user_metadata.username;
 
-  // const mutation = useMutation({
-  //   mutationFn: updateUserReviewData,
-  //   onSuccess: () => {
-  //     // console.log("successfully deleted!");
-  //     queryClient.invalidateQueries({ queryKey: ["reviews"] });
-  //   },
-  // });
+  const mutation = useMutation({
+    mutationFn: updateUserReviewData,
+    onSuccess: () => {
+      // console.log("successfully deleted!");
+      queryClient.invalidateQueries({ queryKey: ["reviews"], userId });
+    },
+  });
 
   console.log(userId, username, areaName, zone, content, rates);
 
@@ -165,16 +165,19 @@ const ReviewUpdateDialog = ({ reviewInfo }: any) => {
         </div>
         <DialogFooter>
           <Button
-            onClick={async () => {
-              const res = await updateUserReviewData(reviewInfo.review_id, {
-                area_name: areaName,
-                zone: zone,
-                content: content,
-                rates: rates,
-                img_urls: imgUrls,
+            onClick={() => {
+              mutation.mutate({
+                reviewId: reviewInfo.review_id,
+                newData: {
+                  area_name: areaName,
+                  zone: zone,
+                  content: content,
+                  rates: rates,
+                  img_urls: imgUrls,
+                },
               });
               toast({
-                description: res.message,
+                description: "리뷰가 업데이트되었습니다.",
               });
             }}
           >

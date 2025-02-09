@@ -40,17 +40,24 @@ const FileUploadField = () => {
           const formData = new FormData();
           formData.append("file", file);
 
-          const url = await uploadFiles(formData);
-          imgUrls.push(url);
+          const res = await uploadFiles(formData);
+
+          if (res.success) {
+            imgUrls.push(res.url);
+          } else {
+            setStatus("error");
+          }
         }),
       );
-      setStatus("success");
-      setImgUrls(imgUrls);
-      console.log("imgUrls", imgUrls);
+      if (status !== "error") {
+        setStatus("success");
+        setImgUrls(imgUrls);
+      }
     } catch (error) {
-      console.error("File uploading error:", error);
+      // console.error("File uploading error:", error);
       setStatus("error");
     }
+    console.log("imgUrls", imgUrls);
   };
 
   // 기존 코드 2 - 에러 발생...

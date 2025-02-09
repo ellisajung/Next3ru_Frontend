@@ -23,12 +23,12 @@ export const uploadFiles = async (formData: FormData) => {
   const supabase = createClient();
 
   const file = formData.get("file") as File;
-  const filePath = `${uuidv4()}-${file.name}`;
+  const filePath = `${uuidv4()}-${file.name}`; // 파일 이름 충돌 방지
 
   console.log("server file: ", file);
   const { data, error } = await supabase.storage
     .from(BUCKET)
-    .upload(filePath, file); // 파일 이름 충돌 방지
+    .upload(filePath, file);
 
   if (error) {
     console.log("Uploading File Error: ", error.message);
@@ -41,21 +41,21 @@ export const uploadFiles = async (formData: FormData) => {
 
   const url = await fetchFileUrls(filePath);
 
-  return {url, success: true, message: "파일을 성공적으로 업로드하였습니다."};
+  return {url, success: true, message:"파일이 성공적으로 업로드되었습니다."};
 };
 
-// update files
-export const updateFiles = async () => {
-  const supabase = createClient();
+// // update files
+// export const updateFiles = async () => {
+//   const supabase = createClient();
 
-  const { data, error } = await supabase.storage
-    .from(BUCKET)
-    .move("public/avatar1.png", "private/avatar2.png");
+//   const { data, error } = await supabase.storage
+//     .from(BUCKET)
+//     .move("public/avatar1.png", "private/avatar2.png");
 
-  if (error) {
-    console.log("Updating File Error: ", error.message);
-  }
-};
+//   if (error) {
+//     console.log("Updating File Error: ", error.message);
+//   }
+// }; // 업데이트하는 데 쓰는 api 아님 ^^
 
 // delete files
 export const deleteFiles = async (filePaths:string[]) => {
@@ -70,6 +70,6 @@ export const deleteFiles = async (filePaths:string[]) => {
     console.log("Deleting File Error: ", error.message);
   }
 
-  console.log("Deleted file data: ", data) // []
+  console.log("Deleted file data: ", data)
   return data;
 };

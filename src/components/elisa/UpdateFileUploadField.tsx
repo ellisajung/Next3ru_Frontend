@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { Input } from "../shadcn-ui/input";
 import { Button } from "../shadcn-ui/button";
-import { uploadFiles } from "@/app/actions/storage";
+import { deleteFiles, uploadFiles } from "@/app/actions/storage";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { Progress } from "../shadcn-ui/progress";
 import { useUpdateReviewStore } from "@/store/ReviewStore";
@@ -35,6 +35,11 @@ const UpdateFileUploadField = ({ ImgUrls }: any) => {
   // blob 객체를 File 객체로 변환
   // File 객체를 React 상태에 저장
   // React 상태와 input.files 파일 목록을 동기화
+
+  /* 업데이트 시 upsert api를 활용하려면? */
+  // 기존의 uuid가 있는 url를 files 상태에 맵피하여 저장
+  // 파일을 업로드할 때 해당 url로 업로드
+
   const urlToFile = async (url: string) => {
     const res = await fetch(url);
     const blob = await res.blob();
@@ -52,11 +57,10 @@ const UpdateFileUploadField = ({ ImgUrls }: any) => {
         ImgUrls.map(async (url: string) => {
           // forEach는 안됨...?
           const file = await urlToFile(url);
-          console.log("file: ", file);
+          // console.log("file: ", file);
           initialFiles.push(file);
         }),
       );
-      console.log("initial files!!", files);
       setFiles(initialFiles);
     } catch (error) {
       console.log(error);
@@ -66,6 +70,7 @@ const UpdateFileUploadField = ({ ImgUrls }: any) => {
   useEffect(() => {
     setInitialFiles();
   }, []);
+  console.log("initial files!!", files);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -78,22 +83,32 @@ const UpdateFileUploadField = ({ ImgUrls }: any) => {
   const handleFileUpload = async () => {
     setStatus("uploading");
 
-    const imgUrls: any = [];
+    const newImgUrls: any = [];
 
     try {
+      // 기존 파일 삭제
+      const fileNames = ImgUrls.map((url: string) => url.split("/").pop());
+      await deleteFiles(fileNames);
+
+      // 새 파일 업로드
       await Promise.all(
         files.map(async (file) => {
           // map 함수 내부 async, await 추가
           const formData = new FormData();
           formData.append("file", file);
 
-          const url = await uploadFiles(formData);
-          imgUrls.push(url);
+          const res = await uploadFiles(formData);
+
+          if (res.success) {
+            newImgUrls.push(res.url);
+          } else {
+            setStatus("error");
+          }
         }),
       );
       setStatus("success");
-      setImgUrls(imgUrls);
-      console.log("imgUrls", imgUrls);
+      setImgUrls(newImgUrls);
+      console.log("newImgUrls", newImgUrls);
     } catch (error) {
       console.error("File uploading error:", error);
       setStatus("error");

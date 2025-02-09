@@ -53,7 +53,7 @@ const MyReviewsPage = () => {
     mutationFn: deleteUserReviewData,
     onSuccess: () => {
       // console.log("successfully deleted!");
-      queryClient.invalidateQueries({ queryKey: ["reviews"] });
+      queryClient.invalidateQueries({ queryKey: ["reviews"], userId });
     },
   });
 
