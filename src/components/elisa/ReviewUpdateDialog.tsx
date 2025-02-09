@@ -56,7 +56,7 @@ export const RATING_ITEMS = [
 ];
 
 const ReviewUpdateDialog = ({ reviewInfo }: any) => {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   const { toast } = useToast();
 
   const areaName = useUpdateReviewStore((state) => state.areaName);
@@ -77,13 +77,13 @@ const ReviewUpdateDialog = ({ reviewInfo }: any) => {
   const userId = user?.id;
   const username = user?.user_metadata.username;
 
-  const mutation = useMutation({
-    mutationFn: async () => updateUserReviewData,
-    onSuccess: () => {
-      // console.log("successfully deleted!");
-      queryClient.invalidateQueries({ queryKey: ["reviews"] });
-    },
-  });
+  // const mutation = useMutation({
+  //   mutationFn: updateUserReviewData,
+  //   onSuccess: () => {
+  //     // console.log("successfully deleted!");
+  //     queryClient.invalidateQueries({ queryKey: ["reviews"] });
+  //   },
+  // });
 
   console.log(userId, username, areaName, zone, content, rates);
 
@@ -164,32 +164,18 @@ const ReviewUpdateDialog = ({ reviewInfo }: any) => {
           </div>
         </div>
         <DialogFooter>
-          {/* <Button
-            formAction={createReviewData({
-              username: username,
-              areaName: areaName,
-              zone: zone,
-              content: content,
-              rates: rates,
-              imgUrls: imgUrls,
-            })}
-          > */}
           <Button
             onClick={async () => {
-              const res = await createReviewData({
-                userId: userId,
-                username: username,
-                areaName: areaName,
+              const res = await updateUserReviewData(reviewInfo.review_id, {
+                area_name: areaName,
                 zone: zone,
                 content: content,
                 rates: rates,
-                imgUrls: imgUrls,
+                img_urls: imgUrls,
               });
-              if (res.success) {
-                toast({
-                  description: res.message,
-                });
-              }
+              toast({
+                description: res.message,
+              });
             }}
           >
             저장

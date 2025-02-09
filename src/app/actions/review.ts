@@ -158,22 +158,23 @@ export const createReviewData = async ({
 // 내 리뷰 페이지 - 업데이트
 export const updateUserReviewData = async (
   reviewId: string,
-  newContent: string,
+  newContent: {},
 ) => {
   const supabase = createClient();
 
   const { data, error } = await supabase
     .from("reviews")
-    .update({ content: newContent })
+    .update({ ...newContent })
     .eq("review_id", reviewId)
     .select(); // 업데이트된 리뷰만 셀렉트
 
   if (error) {
-    console.log(error.message);
-    return;
+    console.log("Updating Review Error", error.message);
+    return { success: false, message: "리뷰 업데이트에 실패하였습니다." };
   }
 
-  return data;
+  console.log("Updated Review: ", data);
+  return { data, success: true, message: "리뷰가 업데이트되었습니다." };
 };
 
 // 내 리뷰 페이지 - 삭제
