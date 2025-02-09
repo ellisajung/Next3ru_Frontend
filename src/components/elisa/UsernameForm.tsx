@@ -4,16 +4,14 @@ import React, { useEffect, useState } from "react";
 import { Input } from "../shadcn-ui/input";
 import { Label } from "../shadcn-ui/label";
 import { Button } from "../shadcn-ui/button";
-import {
-  checkUsername,
-  fetchUserData,
-  updateUserData,
-} from "@/app/(auth)/actions";
+
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useToast } from "@/components/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
+import { fetchUserData, updateUserData } from "@/app/actions/auth";
+import { checkUsername } from "@/app/actions/user";
 
 const UsernameForm = () => {
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const { toast } = useToast();
 
@@ -34,6 +32,7 @@ const UsernameForm = () => {
     mutationFn: updateUserData,
     onSuccess: () => {
       // queryClient.invalidateQueries(["user"]); // 이거 왜 안되지
+      queryClient.invalidateQueries({ queryKey: ["user"] });
     },
   });
 

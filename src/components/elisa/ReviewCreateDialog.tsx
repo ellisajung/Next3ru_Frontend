@@ -59,7 +59,7 @@ export const RATING_ITEMS = [
   },
 ];
 
-const ReviewEditDialog = () => {
+const ReviewCreateDialog = () => {
   const { toast } = useToast();
 
   const areaName = useCreateReviewStore((state) => state.areaName);
@@ -195,4 +195,4 @@ const ReviewEditDialog = () => {
   );
 };
 
-export default ReviewEditDialog;
+export default ReviewCreateDialog;

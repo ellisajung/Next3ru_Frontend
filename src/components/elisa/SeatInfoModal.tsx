@@ -6,9 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../shadcn-ui/card";
-import "../../styles/elisa.css";
 import { useQuery } from "@tanstack/react-query";
-import { fetchFilteredReviewsData } from "@/store/ReviewsStore";
 import ImageSwiper from "./ImageSwiper";
 import { Rating } from "@mui/material";
 import Link from "next/link";
@@ -18,6 +16,7 @@ import {
   getViewLabels,
   getEnergyLabels,
 } from "./ReviewEditModal";
+import { fetchFilteredReviewsData } from "@/app/actions/review";
 
 type SeatInfoModalProps = {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -64,27 +63,29 @@ const SeatInfoModal: React.FC<SeatInfoModalProps> = ({
       <Card className="flex flex-col rounded-xl border-none w-[810px] absolute top-[20%] left-[35%] translate-x-[-50%] z-50 bg-white bg-opacity-65 dark:bg-black dark:bg-opacity-55">
         <CardHeader>
           <CardTitle className="flex gap-2">
-            <span className="text-lg">
+            <p className="text-lg">
               {areaName} {zone} 구역
-            </span>
-            <span className="text-lg">좌석 정보</span>
+            </p>
+            <p className="text-lg">좌석 정보</p>
           </CardTitle>
         </CardHeader>
-        <CardContent className="grow">
-          <div className="grid grid-cols-2 h-full gap-4">
-            <div>
+        <CardContent className="">
+          <div className="grid grid-cols-2 gap-4">
+            {/* 스와이퍼 필드 */}
+            <div className="">
               <ImageSwiper imgUrls={imgUrls} />
             </div>
-            <div className="grid grid-rows-3 gap-4">
-              <div className="row-span-2 flex flex-col gap-4">
-                <span className="font-semibold">통합 정보</span>
+            {/* 정보 필드 */}
+            <div className="grid grid-rows-2 gap-8">
+              <div className="flex flex-col gap-4">
+                <p className="font-semibold">통합 정보</p>
                 <div className="pl-4 flex flex-col gap-2">
                   <div className="flex flex-col">
-                    <span className="font-semibold">평균 가격</span>
-                    <span className="pl-4">&bull; 90000 원</span>
+                    <p className="font-semibold">평균 가격</p>
+                    <p className="pl-4">&bull; 90000 원</p>
                   </div>
                   <div>
-                    <span className="font-semibold">특징</span>
+                    <p className="font-semibold">특징</p>
                     <ul className="pl-4">
                       <li>&bull; 지니존과 유사한 시야, 가격은 약 1만원 저렴</li>
                       <li>&bull; 초대형 방수포가 바로 앞에 위치</li>
@@ -97,9 +98,9 @@ const SeatInfoModal: React.FC<SeatInfoModalProps> = ({
                   </div>
                 </div>
               </div>
-              <div className="row-span-1 flex flex-col gap-4">
+              <div className="flex flex-col gap-4">
                 <div className="flex gap-2">
-                  <span className="font-semibold">별 평점</span>
+                  <p className="font-semibold">별 평점</p>
                   <Link
                     href={`/ticket/reviews/?sort=created_at&asc=false&page=1&area=${areaName}&zone=${zone}`}
                   >
@@ -108,9 +109,9 @@ const SeatInfoModal: React.FC<SeatInfoModalProps> = ({
                 </div>
                 <div className="flex justify-between pl-4">
                   <div className="flex flex-col gap-1">
-                    <span className="font-semibold">거리</span>
-                    <span className="font-semibold">시야</span>
-                    <span className="font-semibold">응원열기</span>
+                    <p className="font-semibold">거리</p>
+                    <p className="font-semibold">시야</p>
+                    <p className="font-semibold">응원열기</p>
                   </div>
                   <div className="flex flex-col justify-around">
                     <Rating
@@ -139,9 +140,9 @@ const SeatInfoModal: React.FC<SeatInfoModalProps> = ({
                   </div>
                   <div className="flex gap-3">
                     <div className="flex flex-col gap-1">
-                      <span>{getAvgRate("distance")} 점</span>
-                      <span>{getAvgRate("view")} 점</span>
-                      <span>{getAvgRate("energy")} 점</span>
+                      <p>{getAvgRate("distance")} 점</p>
+                      <p>{getAvgRate("view")} 점</p>
+                      <p>{getAvgRate("energy")} 점</p>
                     </div>
                     <div className="flex flex-col gap-1">
                       {getAvgRate("distance") !== null && (
@@ -168,12 +169,7 @@ const SeatInfoModal: React.FC<SeatInfoModalProps> = ({
         </CardContent>
         <CardFooter>
           <div className="flex w-full justify-end">
-            <Button
-              size="icon"
-              onClick={() => setShowModal(false)}
-            >
-              닫기
-            </Button>
+            <Button onClick={() => setShowModal(false)}>닫기</Button>
           </div>
         </CardFooter>
       </Card>

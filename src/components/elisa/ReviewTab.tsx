@@ -16,8 +16,8 @@ import ReviewCard from "./ReviewCard";
 import ReviewPagination from "./ReviewPagination";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import ReviewEditDialog from "./ReviewEditDialog";
 import { fetchReviewsData } from "@/app/actions/review";
+import ReviewCreateDialog from "./ReviewCreateDialog";
 
 const ReviewTab = () => {
   const router = useRouter();
@@ -122,7 +122,7 @@ const ReviewTab = () => {
             updateSearchParams={updateSearchParams}
             // setEdit={setEdit}
           />
-          <ReviewEditDialog />
+          <ReviewCreateDialog />
         </div>
         <div className="mt-8 grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-8">
           {data?.reviews?.map((review: any, i: number) => (
