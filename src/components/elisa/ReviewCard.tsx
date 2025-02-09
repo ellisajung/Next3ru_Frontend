@@ -7,8 +7,21 @@ import { ReviewRow } from "../../../database.types";
 import { FaRegThumbsUp } from "react-icons/fa";
 import { RiThumbUpLine } from "react-icons/ri";
 import { Badge } from "../shadcn-ui/badge";
+import { RATING_ITEMS } from "./ReviewCreateDialog";
+import { Button } from "../shadcn-ui/button";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toggleLike } from "@/app/actions/reviews";
 
 const ReviewCard = ({ review }: any) => {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: toggleLike,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["reviews"] });
+    },
+  });
+
   return (
     <Card className="rounded-xl">
       <CardHeader>
@@ -19,13 +32,19 @@ const ReviewCard = ({ review }: any) => {
             </b>
             <p>구역</p>
           </div>
-          <Badge
+          <Button
             variant="secondary"
-            className="flex gap-2 justify-center items-center px-3 py-2 text-sm"
+            className="rounded-3xl flex gap-2 justify-center items-center px-4 text-sm"
+            onClick={() => {
+              mutation.mutate({
+                reviewId: review.review_id,
+                newLikes: review.likes + 1,
+              });
+            }}
           >
             <RiThumbUpLine strokeWidth="1" />
             <p>{review.likes}</p>
-          </Badge>
+          </Button>
         </div>
       </CardHeader>
       <div className="mb-4">
