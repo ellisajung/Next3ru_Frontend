@@ -8,7 +8,7 @@ import { Button } from "../shadcn-ui/button";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { fetchUserData, updateUserData } from "@/app/actions/auth";
-import { checkUsername } from "@/app/actions/user";
+import { checkUsername } from "@/app/actions/users";
 
 const UsernameForm = () => {
   const queryClient = useQueryClient();

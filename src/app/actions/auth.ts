@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
-import { checkEmail } from "./user";
+import { checkEmail } from "./users";
 
 export async function signIn(formData: FormData) {
   const supabase = await createClient();

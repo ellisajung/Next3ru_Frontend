@@ -5,7 +5,7 @@ import {
   deleteUserReviewData,
   fetchUserReviewsData,
   updateUserReviewData,
-} from "@/app/actions/review";
+} from "@/app/actions/reviews";
 import DatePickerWithRange from "@/components/elisa/DateRangePicker";
 import {
   getEnergyLabels,

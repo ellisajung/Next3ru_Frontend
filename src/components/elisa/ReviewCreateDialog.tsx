@@ -20,7 +20,7 @@ import { useState } from "react";
 import { useCreateReviewStore } from "@/store/ReviewStore";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUserData } from "@/app/actions/auth";
-import { createReviewData } from "@/app/actions/review";
+import { createReviewData } from "@/app/actions/reviews";
 import { useToast } from "@/hooks/use-toast";
 
 export const RATING_ITEMS = [

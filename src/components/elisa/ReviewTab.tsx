@@ -16,7 +16,7 @@ import ReviewCard from "./ReviewCard";
 import ReviewPagination from "./ReviewPagination";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { fetchReviewsData } from "@/app/actions/review";
+import { fetchReviewsData } from "@/app/actions/reviews";
 import ReviewCreateDialog from "./ReviewCreateDialog";
 
 const ReviewTab = () => {

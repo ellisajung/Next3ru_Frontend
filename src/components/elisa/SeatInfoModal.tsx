@@ -16,7 +16,7 @@ import {
   getViewLabels,
   getEnergyLabels,
 } from "./ReviewEditModal";
-import { fetchFilteredReviewsData } from "@/app/actions/review";
+import { fetchFilteredReviewsData } from "@/app/actions/reviews";
 
 type SeatInfoModalProps = {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;

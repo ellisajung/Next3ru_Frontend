@@ -14,7 +14,7 @@ import { useState } from "react";
 import { useUpdateReviewStore } from "@/store/ReviewStore";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchUserData } from "@/app/actions/auth";
-import { createReviewData, updateUserReviewData } from "@/app/actions/review";
+import { createReviewData, updateUserReviewData } from "@/app/actions/reviews";
 import { useToast } from "@/hooks/use-toast";
 import UpdateSeatAreaCombobox from "./UpdateSeatAreaCombobox";
 import UpdateFileUploadField from "./UpdateFileUploadField";
