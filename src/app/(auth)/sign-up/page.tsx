@@ -14,17 +14,36 @@ import { Label } from "@/components/shadcn-ui/label";
 import Image from "next/image";
 import { checkUsername } from "../../actions/users";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { signUp } from "@/app/actions/auth";
+
+const Messages = () => {
+  const searchParams = useSearchParams();
+  const errorMsg = searchParams.get("error-message");
+  const confirmMsg = searchParams.get("confirm-message");
+  const refuseMsg = searchParams.get("refuse-message");
+
+  return (
+    <>
+      {errorMsg && (
+        <p className="text-sm text-red-700">{decodeURIComponent(errorMsg)}</p>
+      )}
+      {confirmMsg && (
+        <p className="text-sm text-green-700">
+          {decodeURIComponent(confirmMsg)}
+        </p>
+      )}
+      {refuseMsg && (
+        <p className="text-sm text-red-700">{decodeURIComponent(refuseMsg)}</p>
+      )}
+    </>
+  );
+};
 
 const SignUpPage = () => {
   const [username, setUsername] = useState("");
   const [isValidUsername, setIsValidUsername] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const searchParams = useSearchParams();
-  const errorMsg = searchParams.get("error-message");
-  const confirmMsg = searchParams.get("confirm-message");
-  const refuseMsg = searchParams.get("refuse-message");
 
   const onCheckUsername = async () => {
     const users = await checkUsername(username);
@@ -97,21 +116,9 @@ const SignUpPage = () => {
               />
             </div>
             {/* error msg field */}
-            {errorMsg && (
-              <p className="text-sm text-red-700">
-                {decodeURIComponent(errorMsg)}
-              </p>
-            )}
-            {confirmMsg && (
-              <p className="text-sm text-green-700">
-                {decodeURIComponent(confirmMsg)}
-              </p>
-            )}
-            {refuseMsg && (
-              <p className="text-sm text-red-700">
-                {decodeURIComponent(refuseMsg)}
-              </p>
-            )}
+            <Suspense>
+              <Messages />
+            </Suspense>
             {/* signup button */}
             <Button
               formAction={isValidUsername ? signUp : undefined}
