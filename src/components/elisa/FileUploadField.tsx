@@ -63,7 +63,7 @@ const FileUploadField = ({
       if (status !== "error") {
         setStatus("success");
         setImgUrls(imgUrls);
-        setImgUpload(true);
+        setImgUpload(false);
       }
     } catch (error) {
       // console.error("File uploading error:", error);
