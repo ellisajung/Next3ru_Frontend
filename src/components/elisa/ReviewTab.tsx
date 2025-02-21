@@ -8,8 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/shadcn-ui/card";
-// import ReviewEditModal from "./ReviewEditModal";
-import { useEffect } from "react";
 import * as React from "react";
 import ReviewContentHeader from "./ReviewContentHeader";
 import ReviewCard from "./ReviewCard";

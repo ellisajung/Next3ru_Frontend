@@ -1,9 +1,7 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/client";
-import { UUID } from "crypto";
 import { deleteFiles } from "./storage";
-import { AnyNsRecord } from "dns";
 
 // 리뷰 페이지
 export const fetchReviewsData = async (
