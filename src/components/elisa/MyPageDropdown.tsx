@@ -7,13 +7,22 @@ import {
   DropdownMenuTrigger,
 } from "@/components/shadcn-ui/dropdown-menu";
 import Link from "next/link";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchUserData, signOut } from "@/app/actions/auth";
 
 const MyPageDropdown = () => {
+  const queryClient = useQueryClient();
+
   const { data: user, error } = useQuery({
     queryKey: ["user"],
     queryFn: fetchUserData,
+  });
+
+  const mutation = useMutation({
+    mutationFn: signOut,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+    },
   });
 
   const username = user?.user_metadata.username;
@@ -43,7 +52,9 @@ const MyPageDropdown = () => {
             <Button
               className="flex justify-start items-center w-full p-0 h-5"
               variant="ghost"
-              formAction={signOut}
+              onClick={() => {
+                mutation.mutate();
+              }}
             >
               <LogOut
                 className="mr-1"
