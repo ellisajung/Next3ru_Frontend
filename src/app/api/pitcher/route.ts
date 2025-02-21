@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import axios from 'axios';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 import puppeteer from 'puppeteer';
 
 // pcode와 sporki pcode 매핑

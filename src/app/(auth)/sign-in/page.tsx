@@ -14,11 +14,29 @@ import { Label } from "@/components/shadcn-ui/label";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { signIn } from "@/app/actions/auth";
+import { Suspense } from "react";
 
-const LoginPage = () => {
+const Messages = () => {
   const errorMsg = useSearchParams().get("error-message");
   const confirmMsg = useSearchParams().get("confirm-message");
 
+  return (
+    <>
+      {errorMsg && (
+        <div className="text-sm text-red-700">
+          {decodeURIComponent(errorMsg)}
+        </div>
+      )}
+      {confirmMsg && (
+        <div className="text-sm text-green-700">
+          {decodeURIComponent(confirmMsg)}
+        </div>
+      )}
+    </>
+  );
+};
+
+const LoginPage = () => {
   return (
     <form>
       <Card className="w-96 mx-auto max-w-sm">
@@ -40,16 +58,9 @@ const LoginPage = () => {
                 required
               />
             </div>
-            {errorMsg && (
-              <div className="text-sm text-red-700">
-                {decodeURIComponent(errorMsg)}
-              </div>
-            )}
-            {confirmMsg && (
-              <div className="text-sm text-green-700">
-                {decodeURIComponent(confirmMsg)}
-              </div>
-            )}
+            <Suspense fallback={null}>
+              <Messages />
+            </Suspense>
             <Button formAction={signIn}>이메일 로그인</Button>
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
