@@ -59,7 +59,9 @@ const NavBar = () => {
         <div className="flex justify-center items-center text-black dark:text-white">
           <ThemeToggle />
         </div>
-        {!user ? (
+        {user ? (
+          <MyPageDropdown />
+        ) : (
           <>
             <Link
               className="text-[#ffffff] hover:text-black transition-color"
@@ -75,8 +77,6 @@ const NavBar = () => {
               회원가입
             </Link>
           </>
-        ) : (
-          <MyPageDropdown />
         )}
         <b>
           <Link
