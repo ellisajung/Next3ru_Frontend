@@ -15,7 +15,7 @@ const NavBar = () => {
 
   const { data: user, error } = useQuery({
     queryKey: ["user"],
-    queryFn: fetchUserData,
+    queryFn: async () => fetchUserData,
   });
 
   useEffect(() => {
