@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 
-// 팀 순위 정보를 저장할 타입 정의
 interface TeamRanking {
   rank: number;
   team: string;
@@ -15,85 +14,82 @@ interface TeamRanking {
   runsAllowed: number;
 }
 
-// GET 요청을 처리하는 핸들러
-export async function GET(request: Request) {
-  try {
-    const fetchUrl = `https://statiz.sporki.com/`;
+// 문자열에서 숫자만 추출하는 헬퍼 함수
+function extractNumber(text: string): number {
+  const number = text.replace(/[^0-9.-]/g, '');
+  return number ? parseFloat(number) : 0;
+}
 
-    // 웹 페이지 요청
+export async function GET() {
+  try {
+    const fetchUrl = 'https://statiz.sporki.com/';
     const response = await fetch(fetchUrl);
     const data = await response.text();
-    
-    // HTML 파싱
     const $ = cheerio.load(data);
     
-    // 팀 순위를 담을 배열
     const teamRankings: TeamRanking[] = [];
     
-    // tbody의 모든 tr 태그 순회
-   // tbody의 모든 tr 태그 순회
-$('tbody tr').each((_, row) => {
-    const columns = $(row).find('td');
+    // 순위표 테이블에서 데이터 추출
+    $('.tbl_rank2024 tbody tr').each((_, row) => {
+      const columns = $(row).find('td');
+      
+      // 각 컬럼의 텍스트 데이터 추출 및 정제
+      const rankText = $(columns[0]).text().trim();
+      const teamText = $(columns[1]).text().trim();
+      const gamesPlayedText = $(columns[2]).text().trim();
+      const winsText = $(columns[3]).text().trim();
+      const drawsText = $(columns[4]).text().trim();
+      const lossesText = $(columns[5]).text().trim();
+      const gamesBehindText = $(columns[6]).text().trim();
+      const winRateText = $(columns[7]).text().trim();
+      const runsScoredText = $(columns[8]).text().trim();
+      const runsAllowedText = $(columns[9]).text().trim();
 
-    // 순위 데이터 추출
-    const rank = parseInt($(columns[0]).text().trim(), 10);
-    
-    // 팀명 데이터 추출
-    const team = $(columns[1]).find('.rank_teams a').text().trim();
+      // 데이터 파싱
+      const rank = extractNumber(rankText);
+      const gamesPlayed = extractNumber(gamesPlayedText);
+      const wins = extractNumber(winsText);
+      const draws = extractNumber(drawsText);
+      const losses = extractNumber(lossesText);
+      const gamesBehind = extractNumber(gamesBehindText);
+      const winRate = extractNumber(winRateText);
+      const runsScored = extractNumber(runsScoredText);
+      const runsAllowed = extractNumber(runsAllowedText);
 
-    // 경기수 데이터 추출
-    const gamesPlayed = parseInt($(columns[2]).text().trim(), 10);
-    
-    // 승리수 데이터 추출
-    const wins = parseInt($(columns[3]).text().trim(), 10);
-    
-    // 무승부수 데이터 추출
-    const draws = parseInt($(columns[4]).text().trim(), 10);
-    
-    // 패배수 데이터 추출
-    const losses = parseInt($(columns[5]).text().trim(), 10);
-    
-    // 승차 데이터 추출 (부동소수점)
-    const gamesBehind = parseFloat($(columns[6]).text().trim());
-    
-    // 승률 데이터 추출 (부동소수점)
-    const winRate = parseFloat($(columns[7]).text().trim());
-    
-    // 득점 데이터 추출
-    const runsScored = parseInt($(columns[8]).text().trim(), 10);
-    
-    // 실점 데이터 추출
-    const runsAllowed = parseInt($(columns[9]).text().trim(), 10);
+      // 팀 이름이 존재하고 rank가 유효한 경우에만 데이터 추가
+      if (teamText && rank > 0) {
+        const teamRanking: TeamRanking = {
+          rank,
+          team: teamText,
+          gamesPlayed,
+          wins,
+          draws,
+          losses,
+          gamesBehind,
+          winRate,
+          runsScored,
+          runsAllowed,
+        };
 
-    // 팀 순위 정보를 배열에 추가 (유효성 검사 포함)
-    if (!isNaN(rank) && team && !isNaN(gamesPlayed) && !isNaN(wins) && !isNaN(draws) && 
-        !isNaN(losses) && !isNaN(gamesBehind) && !isNaN(winRate) && 
-        !isNaN(runsScored) && !isNaN(runsAllowed)) {
-        
-        teamRankings.push({
-            rank,
-            team,
-            gamesPlayed,
-            wins,
-            draws,
-            losses,
-            gamesBehind,
-            winRate,
-            runsScored,
-            runsAllowed,
-        });
-    } else {
-        console.error('Data parsing error:', { rank, team, gamesPlayed, wins, draws, losses, gamesBehind, winRate, runsScored, runsAllowed });
+        teamRankings.push(teamRanking);
+      }
+    });
+
+    // 데이터가 없는 경우 에러 반환
+    if (teamRankings.length === 0) {
+      return NextResponse.json(
+        { error: 'No data found' },
+        { status: 404 }
+      );
     }
-});
 
-
-    // 성공적으로 결과 반환
     return NextResponse.json({ teamRankings });
     
   } catch (error) {
-    // 에러 발생 시 에러 메시지 반환
     console.error('Error fetching data:', error);
-    return NextResponse.json({ error: 'Failed to fetch data' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to fetch data' },
+      { status: 500 }
+    );
   }
 }
