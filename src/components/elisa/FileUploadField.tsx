@@ -1,4 +1,11 @@
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Input } from "../shadcn-ui/input";
 import { Button } from "../shadcn-ui/button";
 import { uploadFiles } from "@/app/actions/storage";
@@ -8,7 +15,11 @@ import { useCreateReviewStore } from "@/store/ReviewStore";
 
 type TUploadStatus = "idle" | "uploading" | "success" | "error";
 
-const FileUploadField = () => {
+const FileUploadField = ({
+  setImgUpload,
+}: {
+  setImgUpload: Dispatch<SetStateAction<boolean>>;
+}) => {
   const [files, setFiles] = useState<File[]>([]);
   const [status, setStatus] = useState<TUploadStatus>("idle");
   const [uploadProgress, setUploadProgress] = useState(13);
@@ -52,6 +63,7 @@ const FileUploadField = () => {
       if (status !== "error") {
         setStatus("success");
         setImgUrls(imgUrls);
+        setImgUpload(true);
       }
     } catch (error) {
       // console.error("File uploading error:", error);

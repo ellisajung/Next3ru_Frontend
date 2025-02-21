@@ -8,7 +8,7 @@ import { useUpdateReviewStore } from "@/store/ReviewStore";
 
 type TUploadStatus = "idle" | "uploading" | "success" | "error";
 
-const UpdateFileUploadField = ({ ImgUrls }: any) => {
+const UpdateFileUploadField = ({ ImgUrls, setImgUpload }: any) => {
   const [files, setFiles] = useState<File[]>([]);
   const [status, setStatus] = useState<TUploadStatus>("idle");
   const [uploadProgress, setUploadProgress] = useState(13);
@@ -108,6 +108,7 @@ const UpdateFileUploadField = ({ ImgUrls }: any) => {
       );
       setStatus("success");
       setImgUrls(newImgUrls);
+      setImgUpload(true);
       console.log("newImgUrls", newImgUrls);
     } catch (error) {
       console.error("File uploading error:", error);
