@@ -15,7 +15,7 @@ const NavBar = () => {
 
   const { data: user, error } = useQuery({
     queryKey: ["user"],
-    queryFn: async () => await fetchUserData(),
+    queryFn: fetchUserData,
     // queryFn: fetchUserData, // 이렇게 하면 안됨. 첫 요청에만?
   });
 
