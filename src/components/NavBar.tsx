@@ -7,30 +7,17 @@ import NavBarSub from "@/components/NavBarSub";
 import { ThemeToggle } from "./elisa/ThemeToggle";
 import MyPageDropdown from "./elisa/MyPageDropdown";
 import { useQuery } from "@tanstack/react-query";
-import { fetchUserData, signOut } from "@/app/actions/auth";
+import { fetchUserData } from "@/app/actions/auth";
 
 const NavBar = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  // const [username, setUsername] = useState(null);
 
   const { data: user, error } = useQuery({
     queryKey: ["user"],
     queryFn: async () => await fetchUserData(),
     // queryFn: fetchUserData, // 이렇게 하면 안됨. 첫 요청에만?
   });
-
-  // console.log("client user", user);
-
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     const fetchedUser = await fetchUserData();
-  //     if (fetchedUser) {
-  //       setUsername(fetchedUser.user_metadata.username);
-  //     }
-  //   };
-  //   fetchUser();
-  // }, []);
 
   useEffect(() => {
     const handleScroll = () => {
