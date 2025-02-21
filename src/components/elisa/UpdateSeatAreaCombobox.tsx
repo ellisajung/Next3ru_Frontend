@@ -12,12 +12,12 @@ import {
   CommandList,
 } from "../shadcn-ui/command";
 import { useEffect, useState } from "react";
-import { useSeatsStore } from "@/store/SeatsStore";
 import { cn } from "@/lib/utils";
 import { useUpdateReviewStore } from "@/store/ReviewStore";
+import { fetchSeatsData } from "@/app/actions/seats";
+import { useQuery } from "@tanstack/react-query";
 
 const UpdateSeatAreaCombobox = ({ reviewInfo }: any) => {
-  const seats = useSeatsStore((state) => state.data);
   const [zones, setZones] = useState([]);
 
   const [areaNameOpen, setAreaNameOpen] = useState(false);
@@ -28,7 +28,10 @@ const UpdateSeatAreaCombobox = ({ reviewInfo }: any) => {
   const zone = useUpdateReviewStore((state) => state.zone);
   const setZone = useUpdateReviewStore((state) => state.setZone);
 
-  console.log(seats);
+  const { data, error } = useQuery({
+    queryKey: ["seats"],
+    queryFn: fetchSeatsData,
+  });
 
   useEffect(() => {
     setAreaName(reviewInfo.area_name);
@@ -37,7 +40,7 @@ const UpdateSeatAreaCombobox = ({ reviewInfo }: any) => {
 
   useEffect(() => {
     if (areaName) {
-      const zones = seats.find(
+      const zones = data?.find(
         (seat: any) => seat.area_name === areaName,
       )?.zones;
       setZones(zones);
@@ -63,7 +66,7 @@ const UpdateSeatAreaCombobox = ({ reviewInfo }: any) => {
             className="w-[180px] justify-between"
           >
             {areaName
-              ? seats.find((seat: any) => seat.area_name === areaName)
+              ? data?.find((seat: any) => seat.area_name === areaName)
                   ?.area_name
               : "구역 이름 선택"}
             <ChevronsUpDown className="opacity-50" />
@@ -78,7 +81,7 @@ const UpdateSeatAreaCombobox = ({ reviewInfo }: any) => {
             <CommandList>
               <CommandEmpty>일치하는 구역 이름이 없습니다.</CommandEmpty>
               <CommandGroup>
-                {seats.map((seat: any, i: number) => (
+                {data?.map((seat: any, i: number) => (
                   <CommandItem
                     key={i}
                     value={seat.area_name}

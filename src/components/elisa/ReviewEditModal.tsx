@@ -14,7 +14,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/shadcn-ui/select";
@@ -26,7 +25,8 @@ import MultiFileDropzoneUsage from "./MultiFileDropzoneUsage";
 import { Input } from "../shadcn-ui/input";
 import { Search } from "lucide-react";
 import { FC, useEffect } from "react";
-import { useSeatsStore } from "@/store/SeatsStore";
+import { useQuery } from "@tanstack/react-query";
+import { fetchSeatsData } from "@/app/actions/seats";
 
 export interface ModalProps {
   isOpen: boolean;
@@ -96,21 +96,24 @@ const ReviewEditModal: FC<ModalProps> = ({ isOpen, onClose }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isCancelled, setIsCancelled] = useState(false);
 
-  const data = useSeatsStore((state) => state.data);
+  const { data, error } = useQuery({
+    queryKey: ["seats"],
+    queryFn: fetchSeatsData,
+  });
 
   const maxChars = 49;
 
   const filteredAreas = searchInput
     ? // 입력하면 해당하는 입력값(글자 단위)을 포함하는 목록만 보여주고
-      data.filter((area: any) =>
+      data?.filter((area: any) =>
         area.area_name.toLowerCase().includes(searchInput.toLowerCase()),
       )
     : // 검색창에 아무것도 입력하지 않으면 목록 다 보여주기
-      data.map((area: any) => area.area_name);
+      data?.map((area: any) => area.area_name);
 
   const filteredZones =
     selectedAreaName &&
-    data.find((area: any) => area.area_name === selectedAreaName);
+    data?.find((area: any) => area.area_name === selectedAreaName);
 
   // const filteredZoneItems =
   //   zoneSearchInput && filteredZones
@@ -187,7 +190,7 @@ const ReviewEditModal: FC<ModalProps> = ({ isOpen, onClose }) => {
                             />
                           </div>
                         </form>
-                        {filteredAreas.map((area: any) => (
+                        {filteredAreas?.map((area: any) => (
                           <SelectItem
                             key={area.area_name}
                             value={area.area_name}

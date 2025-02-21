@@ -17,8 +17,9 @@ import {
   PopoverTrigger,
 } from "@/components/shadcn-ui/popover";
 import { useEffect, useState } from "react";
-import { useSeatsStore } from "@/store/SeatsStore";
 import { useSearchParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { fetchSeatsData } from "@/app/actions/seats";
 
 interface ReviewContentHeaderProps {
   // setEdit: React.Dispatch<React.SetStateAction<boolean>>;
@@ -29,7 +30,6 @@ const ReviewContentHeader = ({
   updateSearchParams,
 }: ReviewContentHeaderProps) => {
   // 좌석 콤보박스 로직
-  const seats = useSeatsStore((state) => state.data);
   const [zones, setZones] = useState([]);
 
   const [areaNameOpen, setAreaNameOpen] = useState(false);
@@ -37,10 +37,15 @@ const ReviewContentHeader = ({
   const [zoneOpen, setZoneOpen] = useState(false);
   const [zoneValue, setZoneValue] = useState("");
 
+  const { data: seats, error } = useQuery({
+    queryKey: ["seats"],
+    queryFn: fetchSeatsData,
+  });
+
   useEffect(() => {
     setZoneValue("");
     if (areaNameValue) {
-      const zones = seats.find(
+      const zones = seats?.find(
         (seat: any) => seat.area_name === areaNameValue,
       )?.zones;
       setZones(zones);
@@ -79,7 +84,7 @@ const ReviewContentHeader = ({
               className="w-[180px] justify-between"
             >
               {areaNameValue
-                ? seats.find((seat: any) => seat.area_name === areaNameValue)
+                ? seats?.find((seat: any) => seat.area_name === areaNameValue)
                     ?.area_name
                 : "구역 이름 선택"}
               <ChevronsUpDown className="opacity-50" />
@@ -94,7 +99,7 @@ const ReviewContentHeader = ({
               <CommandList>
                 <CommandEmpty>일치하는 구역 이름이 없습니다.</CommandEmpty>
                 <CommandGroup>
-                  {seats.map((seat: any, i: number) => (
+                  {seats?.map((seat: any, i: number) => (
                     <CommandItem
                       key={i}
                       value={seat.area_name}
