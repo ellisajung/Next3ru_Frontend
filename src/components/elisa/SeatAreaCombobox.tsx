@@ -12,12 +12,12 @@ import {
   CommandList,
 } from "../shadcn-ui/command";
 import { useEffect, useState } from "react";
-import { useSeatsStore } from "@/store/SeatsStore";
 import { cn } from "@/lib/utils";
 import { useCreateReviewStore } from "@/store/ReviewStore";
+import { useQuery } from "@tanstack/react-query";
+import { fetchSeatsData } from "@/app/actions/seats";
 
 const SeatAreaCombobox = () => {
-  const seats = useSeatsStore((state) => state.data);
   const [zones, setZones] = useState([]);
 
   const [areaNameOpen, setAreaNameOpen] = useState(false);
@@ -28,9 +28,14 @@ const SeatAreaCombobox = () => {
   const zone = useCreateReviewStore((state) => state.zone);
   const setZone = useCreateReviewStore((state) => state.setZone);
 
+  const { data, error } = useQuery({
+    queryKey: ["seats"],
+    queryFn: fetchSeatsData,
+  });
+
   useEffect(() => {
     if (areaName) {
-      const zones = seats.find(
+      const zones = data?.find(
         (seat: any) => seat.area_name === areaName,
       )?.zones;
       setZones(zones);
@@ -56,7 +61,7 @@ const SeatAreaCombobox = () => {
             className="w-[180px] justify-between"
           >
             {areaName
-              ? seats.find((seat: any) => seat.area_name === areaName)
+              ? data?.find((seat: any) => seat.area_name === areaName)
                   ?.area_name
               : "구역 이름 선택"}
             <ChevronsUpDown className="opacity-50" />
@@ -71,7 +76,7 @@ const SeatAreaCombobox = () => {
             <CommandList>
               <CommandEmpty>일치하는 구역 이름이 없습니다.</CommandEmpty>
               <CommandGroup>
-                {seats.map((seat: any, i: number) => (
+                {data?.map((seat: any, i: number) => (
                   <CommandItem
                     key={i}
                     value={seat.area_name}
@@ -81,7 +86,7 @@ const SeatAreaCombobox = () => {
                       );
                       setAreaNameOpen(false);
 
-                      console.log("hhhh", currentValue, areaName);
+                      // console.log("hhhh", currentValue, areaName);
                     }}
                   >
                     {seat.area_name}

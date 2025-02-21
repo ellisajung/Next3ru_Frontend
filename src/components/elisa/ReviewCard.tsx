@@ -3,11 +3,7 @@
 import { Card, CardContent, CardHeader } from "../shadcn-ui/card";
 import { Rating } from "@mui/material";
 import ImageSwiper from "./ImageSwiper";
-import { ReviewRow } from "../../../database.types";
-import { FaRegThumbsUp } from "react-icons/fa";
 import { RiThumbUpLine } from "react-icons/ri";
-import { Badge } from "../shadcn-ui/badge";
-import { RATING_ITEMS } from "./ReviewCreateDialog";
 import { Button } from "../shadcn-ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toggleLike } from "@/app/actions/reviews";

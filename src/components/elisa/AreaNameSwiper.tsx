@@ -8,8 +8,9 @@ import "swiper/css/scrollbar";
 import { IoEyeOffOutline } from "react-icons/io5";
 import { IoEyeOutline } from "react-icons/io5";
 import "../../styles/area-name-swiper.css";
-import { useEffect, useState } from "react";
-import { useSeatsStore } from "@/store/SeatsStore";
+import { useQuery } from "@tanstack/react-query";
+import { fetchUserData } from "@/app/actions/auth";
+import { fetchSeatsData } from "@/app/actions/seats";
 
 interface AreaNameSwiperProps {
   hides: { [key: string]: boolean };
@@ -20,10 +21,10 @@ const AreaNameSwiper: React.FC<AreaNameSwiperProps> = ({
   hides,
   onToggleHide,
 }) => {
-  const { data } = useSeatsStore();
-  if (!data) return null;
-
-  // console.log("AreaNameSwiper: ", data);
+  const { data, error } = useQuery({
+    queryKey: ["seats"],
+    queryFn: fetchSeatsData,
+  });
 
   return (
     <Swiper
@@ -35,7 +36,7 @@ const AreaNameSwiper: React.FC<AreaNameSwiperProps> = ({
       scrollbar={true}
       modules={[FreeMode, Scrollbar, Mousewheel]}
     >
-      {data.map(({ area_name, area_color }: any) => (
+      {data?.map(({ area_name, area_color }: any) => (
         <SwiperSlide
           key={area_name}
           className="area-name bg-transparent"
