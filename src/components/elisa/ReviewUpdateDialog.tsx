@@ -59,7 +59,7 @@ const ReviewUpdateDialog = ({ reviewInfo }: any) => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const [imgUpload, setImgUpload] = useState(false);
+  const [imgUpload, setImgUpload] = useState(true);
 
   const areaName = useUpdateReviewStore((state) => state.areaName);
   const zone = useUpdateReviewStore((state) => state.zone);

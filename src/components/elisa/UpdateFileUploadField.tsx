@@ -108,7 +108,7 @@ const UpdateFileUploadField = ({ ImgUrls, setImgUpload }: any) => {
       );
       setStatus("success");
       setImgUrls(newImgUrls);
-      setImgUpload(true);
+      setImgUpload(false);
       console.log("newImgUrls", newImgUrls);
     } catch (error) {
       console.error("File uploading error:", error);

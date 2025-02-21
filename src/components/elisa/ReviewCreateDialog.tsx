@@ -62,7 +62,7 @@ export const RATING_ITEMS = [
 const ReviewCreateDialog = () => {
   const { toast } = useToast();
 
-  const [imgUpload, setImgUpload] = useState(false);
+  const [imgUpload, setImgUpload] = useState(true);
 
   const areaName = useCreateReviewStore((state) => state.areaName);
   const zone = useCreateReviewStore((state) => state.zone);
