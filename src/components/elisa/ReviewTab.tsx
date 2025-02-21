@@ -77,14 +77,8 @@ const ReviewTab = () => {
 
   const { data, error, isLoading } = useQuery({
     queryKey: ["reviews", { sortParam, ascParam, pageParam, zoneParam }],
-    queryFn: async () =>
-      await fetchReviewsData(
-        sortParam,
-        ascParam,
-        pageParam,
-        areaParam,
-        zoneParam,
-      ),
+    queryFn: () =>
+      fetchReviewsData(sortParam, ascParam, pageParam, areaParam, zoneParam),
   });
 
   console.log("queryKey:", [

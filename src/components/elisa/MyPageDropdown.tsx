@@ -47,23 +47,21 @@ const MyPageDropdown = () => {
         <Link href="/user/reviews">
           <DropdownMenuItem>내 리뷰</DropdownMenuItem>
         </Link>
-        <form>
-          <DropdownMenuItem>
-            <Button
-              className="flex justify-start items-center w-full p-0 h-5"
-              variant="ghost"
-              onClick={() => {
-                mutation.mutate();
-              }}
-            >
-              <LogOut
-                className="mr-1"
-                size={14}
-              />
-              로그아웃
-            </Button>
-          </DropdownMenuItem>
-        </form>
+        <DropdownMenuItem>
+          <Button
+            className="flex justify-start items-center w-full p-0 h-5"
+            variant="ghost"
+            onClick={() => {
+              mutation.mutate();
+            }}
+          >
+            <LogOut
+              className="mr-1"
+              size={14}
+            />
+            로그아웃
+          </Button>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

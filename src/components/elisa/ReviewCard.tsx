@@ -7,14 +7,24 @@ import { RiThumbUpLine } from "react-icons/ri";
 import { Button } from "../shadcn-ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toggleLike } from "@/app/actions/reviews";
+import { useSearchParams } from "next/navigation";
 
 const ReviewCard = ({ review }: any) => {
   const queryClient = useQueryClient();
+  const searchParams = useSearchParams();
+
+  const sortParam = searchParams.get("sort") || "created_at";
+  const ascParam = searchParams.get("asc") || "false";
+  const pageParam = searchParams.get("page") || "1";
+  const areaParam = searchParams.get("area") || "";
+  const zoneParam = searchParams.get("zone") || "";
 
   const mutation = useMutation({
     mutationFn: toggleLike,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["reviews"] });
+      queryClient.invalidateQueries({
+        queryKey: ["reviews", { sortParam, ascParam, pageParam, zoneParam }],
+      });
     },
   });
 
