@@ -7,17 +7,21 @@ import { GrPowerReset } from "react-icons/gr";
 import { Button } from "../shadcn-ui/button";
 import { useEffect, useState } from "react";
 import SeatMapImg from "./SeatMapImg";
-import { useSeatsStore } from "@/store/SeatsStore";
-import { CardHeader } from "@nextui-org/react";
+import { useQuery } from "@tanstack/react-query";
+import { fetchSeatsData } from "@/app/actions/seats";
 
 const StadiumTab = () => {
-  const data = useSeatsStore((state) => state.data);
-  const fetchData = useSeatsStore((state) => state.fetchData);
+  // const data = useSeatsStore((state) => state.data);
+  // const fetchData = useSeatsStore((state) => state.fetchData);
   const [hides, setHides] = useState<{ [key: string]: boolean }>({});
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
+  const { data, error } = useQuery({
+    queryKey: ["seats"],
+    queryFn: fetchSeatsData,
+  });
 
   useEffect(() => {
     if (data) {
@@ -39,7 +43,7 @@ const StadiumTab = () => {
 
   const handleReset = () => {
     setHides(
-      data.reduce(
+      data?.reduce(
         (acc: any, curr: any) => ({ ...acc, [curr.area_name]: true }),
         {},
       ),

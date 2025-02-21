@@ -62,6 +62,8 @@ export const RATING_ITEMS = [
 const ReviewCreateDialog = () => {
   const { toast } = useToast();
 
+  const [imgUpload, setImgUpload] = useState(false);
+
   const areaName = useCreateReviewStore((state) => state.areaName);
   const zone = useCreateReviewStore((state) => state.zone);
   const [content, setContent] = useState("");
@@ -155,7 +157,7 @@ const ReviewCreateDialog = () => {
           <span className="col-start-1 row-start-4">사진 업로드</span>
           <div className="col-start-2 row-start-4">
             {/* <MultiFileDropzoneUsage /> */}
-            <FileUploadField />
+            <FileUploadField setImgUpload={setImgUpload} />
           </div>
         </div>
         <DialogFooter>
@@ -170,6 +172,7 @@ const ReviewCreateDialog = () => {
             })}
           > */}
           <Button
+            disabled={imgUpload}
             onClick={async () => {
               const res = await createReviewData({
                 userId: userId,

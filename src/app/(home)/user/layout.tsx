@@ -4,7 +4,6 @@ import { fetchUserData } from "@/app/actions/auth";
 import { SidebarNav } from "@/components/elisa/SidebarNav";
 import { Separator } from "@/components/shadcn-ui/separator";
 import { useQuery } from "@tanstack/react-query";
-import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
 const sidebarNavItems = [

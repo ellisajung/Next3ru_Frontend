@@ -59,6 +59,8 @@ const ReviewUpdateDialog = ({ reviewInfo }: any) => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
+  const [imgUpload, setImgUpload] = useState(false);
+
   const areaName = useUpdateReviewStore((state) => state.areaName);
   const zone = useUpdateReviewStore((state) => state.zone);
   const [content, setContent] = useState(reviewInfo.content);
@@ -160,11 +162,15 @@ const ReviewUpdateDialog = ({ reviewInfo }: any) => {
           <span className="col-start-1 row-start-4">사진 업로드</span>
           <div className="col-start-2 row-start-4">
             {/* <MultiFileDropzoneUsage /> */}
-            <UpdateFileUploadField ImgUrls={reviewInfo.img_urls} />
+            <UpdateFileUploadField
+              ImgUrls={reviewInfo.img_urls}
+              setImgUpload={setImgUpload}
+            />
           </div>
         </div>
         <DialogFooter>
           <Button
+            disabled={imgUpload}
             onClick={() => {
               mutation.mutate({
                 reviewId: reviewInfo.review_id,
