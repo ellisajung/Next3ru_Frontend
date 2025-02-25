@@ -9,23 +9,27 @@ import {
 import Link from "next/link";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchUserData, signOut } from "@/app/actions/auth";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
-const MyPageDropdown = () => {
+const MyPageDropdown = ({ username }: { username: string }) => {
   const queryClient = useQueryClient();
 
-  const { data: user, error } = useQuery({
-    queryKey: ["user"],
-    queryFn: fetchUserData,
-  });
+  // const { data: user, error } = useQuery({
+  //   queryKey: ["user"],
+  //   queryFn: fetchUserData,
+  // });
 
   const mutation = useMutation({
     mutationFn: signOut,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["user"] });
+      queryClient.invalidateQueries({ queryKey: ["user"], refetchType: "all" });
+      revalidatePath("/");
+      // redirect("/");
     },
   });
 
-  const username = user?.user_metadata.username;
+  // const username = user?.user_metadata.username;
 
   return (
     <DropdownMenu>

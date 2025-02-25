@@ -62,9 +62,8 @@ export async function signUp(formData: FormData) {
 
 export async function signOut() {
   const supabase = await createClient();
-  await supabase.auth.signOut();
   
-  redirect("/");
+  return await supabase.auth.signOut();
 }
 
 
@@ -77,7 +76,7 @@ export const fetchUserData = async () => {
 
   if (error) {
     console.log("fetching error: ", error.message);
-    return;
+    return null;
   }
 
   // const session = await supabase.auth.getSession();
@@ -85,7 +84,7 @@ export const fetchUserData = async () => {
   
   console.log("server user: ", user);
 
-  return user;
+  return user ?? null;
 };
 
 export const updateUserData = async (username: string) => {

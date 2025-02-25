@@ -15,8 +15,14 @@ const NavBar = () => {
 
   const { data: user, error } = useQuery({
     queryKey: ["user"],
-    queryFn: fetchUserData,
+    // queryFn: async () => fetchUserData(),
+    queryFn: () => fetchUserData(),
+    // 왜 그냥 fetchUserData 하면 안됨?
   });
+
+  const username = user?.user_metadata.username;
+
+  console.log("user: ", user);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -60,7 +66,7 @@ const NavBar = () => {
           <ThemeToggle />
         </div>
         {user ? (
-          <MyPageDropdown />
+          <MyPageDropdown username={username} />
         ) : (
           <>
             <Link
