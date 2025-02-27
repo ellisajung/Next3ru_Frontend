@@ -23,9 +23,10 @@ const LeftNav = () => {
         <button>
           <Image
             src="images/navbar/Hambugar.svg"
-            alt="Home Icon"
-            width={23}
-            height={23}
+            className="w-[32px] h-[32px] mb_ld:w-[40px] mb_ld:h-[40px] tb:w-[48px] tb:h-[48px]"
+            alt="Menu Icon"
+            width={50}
+            height={50}
           />
         </button>
       </DrawerTrigger>

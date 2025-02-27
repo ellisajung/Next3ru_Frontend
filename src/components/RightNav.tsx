@@ -52,18 +52,20 @@ const RightNav = ({ username }: { username: string | undefined }) => {
           <button>
             <Image
               src="images/navbar/Mypage.svg"
+              className="w-[34px] h-[34px] mb_ld:w-[42px] mb_ld:h-[42px] tb:w-[50px] tb:h-[50px]"
               alt="Profile Icon"
-              width={26}
-              height={26}
+              width={50}
+              height={50}
             />
           </button>
         ) : (
           <Link href="sign-in">
             <Image
               src="images/navbar/log-in.svg"
-              alt="Profile Icon"
-              width={26}
-              height={26}
+              className="w-[34px] h-[34px] mb_ld:w-[42px] mb_ld:h-[42px] tb:w-[50px] tb:h-[50px]"
+              alt="Login Icon"
+              width={50}
+              height={50}
             />
           </Link>
         )}

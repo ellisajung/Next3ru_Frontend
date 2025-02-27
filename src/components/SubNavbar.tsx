@@ -6,12 +6,12 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
-export default function SubNavbar() {
+export default function NavBarSub() {
   const pathname = usePathname();
 
   return (
     <div className="navbar relative z-40 mt-2">
-      <ul className="subMenu w-full h-64 hidden justify-center  xl:group-hover:flex bg-opacity-80 bg-[#161616] shadow-xl slide-down">
+      <ul className="subMenu w-full h-64 hidden justify-center pc:group-hover:flex bg-opacity-80 bg-[#161616] shadow-xl slide-down">
         <div className="absolute left-[-50px] top-[-42px]">
           <Image
             src={"images/navbar/SubLogo.svg"}
@@ -22,8 +22,9 @@ export default function SubNavbar() {
           />
         </div>
         <div className="lnb_header group relative w-full text-center shadow-lg  ">
-          <div className="nav_wrap relative flex w-full items-center xl:justify-center ">
-            <ul className="left_nav font-['KT'] xl:flex xl:w-1/3 xl:text-right xl:pl-2 xl:pr-[50px]  xl:text-base hidden">
+          <div className="nav_wrap relative flex w-full items-center pc:justify-center ">
+            <ul className="left_nav font-['KT'] pc:flex pc:w-1/3 pc:text-right pc:pl-2 pc:pr-[50px] pc:text-base hidden">
+              <li className="text-[12px]"> </li>
               <li className="text-[12px]">
                 <Link href="#">kt wiz는?</Link>
                 <Link
@@ -82,7 +83,8 @@ export default function SubNavbar() {
                 </Link>
               </li>
             </ul>
-            <ul className="right_nav font-['KT'] xl:flex xl:w-1/3 xl:text-left xl:pr-1 xl:pl-[62px] xl:justify-between xl:text-base hidden">
+
+            <ul className="right_nav font-['KT'] pc:flex pc:w-1/3 pc:text-left pc:pr-1 pc:pl-[62px] pc:justify-between pc:text-base hidden">
               <li className="text-[12px] ">
                 <Link
                   href="#"
@@ -159,6 +161,7 @@ export default function SubNavbar() {
                   영상모음
                 </Link>
               </li>
+              <li></li>
               <li className="text-[12px] ">
                 <Link
                   href="#"

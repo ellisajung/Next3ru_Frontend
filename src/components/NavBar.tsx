@@ -8,13 +8,12 @@ import MyPageDropdown from "./elisa/MyPageDropdown";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUserData } from "@/app/actions/auth";
 import SubNavbar from "@/components/SubNavbar";
-import { CircleUserRound } from "lucide-react";
 import LeftNav from "./LeftNav";
 import RightNav from "./RightNav";
 import { useTheme } from "next-themes";
 
 const Navbar = () => {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   const [isHovered, setIsHovered] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -68,8 +67,7 @@ const Navbar = () => {
         <div
           className={`gnb_header ${
             isScrolled ? "slide-up" : "slide-down"
-          } gap-4 font-['KT'] pc:flex pc:justify-end pc:items-center pc:pr-3 h-[40px] pc:h-[46px] pc:bg-[linear-gradient(to_right,#F69AA9,#E1ADED,#AAC6E5,#97D5E0)]
- hidden`}
+          } gap-4 font-['KT'] pc:flex pc:justify-end pc:items-center pc:pr-3 h-[40px] pc:h-[46px] pc:bg-[linear-gradient(to_right,#F69AA9,#E1ADED,#AAC6E5,#97D5E0)] hidden`}
         >
           <div className="flex justify-center items-center text-black dark:text-white">
             <ThemeToggle />
@@ -104,12 +102,12 @@ const Navbar = () => {
         </div>
         {/* 메인 네브바 */}
         <div
-          className={`navbar lnb_header group relative w-full h-[60px] bg-black text-center shadow-lg pc:h-[80px] pc:bg-black pc:shadow-pc ${
+          className={`navbar lnb_header group relative w-full h-[100px] bg-black text-center shadow-lg pc:h-[80px] pc:bg-black pc:shadow-xl ${
             isScrolled ? "slide-up" : "slide-down"
           }`}
         >
           <div className="white_line w-full absolute inset-x-0 bottom-[6px] bg-white pc:h-[2px]"></div>
-          <div className="nav_wrap relative flex w-full text-white items-center h-[60px] pc:h-[90%] pc:justify-center ">
+          <div className="nav_wrap relative flex w-full text-white items-center h-[60px] pc:h-[90%] pc:justify-center">
             <ul className="left_nav font-['KT'] pc:flex pc:w-1/3 pc:text-right pc:pl-2 pc:pr-[50px]  pc:text-base hidden">
               <li className="">
                 <Link href="http://kt-sports.co.kr/sports/site/main.do">
@@ -191,7 +189,7 @@ const Navbar = () => {
         </div>
       </header>
       {/* 모바일 & 테블릿 네브바 */}
-      <div className="pc:hidden px-5 py-3 w-full flex justify-between items-center">
+      <header className="pc:hidden px-5 py-3 w-full h-auto min-h-[60px] flex justify-between items-center">
         <LeftNav />
         <Link href="/">
           <Image
@@ -201,13 +199,13 @@ const Navbar = () => {
                 : "/images/navbar/logo-mb.svg"
             }
             alt="logo"
-            className="w-[63px] h-[30px] tb:w-[96px] tb:h-[44px]"
+            className="w-[70px] h-[32px] mb_ld:w-[90px] mb_ld:h-[40px] tb:w-[110px] tb:h-[48px]"
             width={120}
             height={90}
           />
         </Link>
         <RightNav username={username} />
-      </div>
+      </header>
     </>
   );
 };
