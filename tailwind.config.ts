@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-const { fontFamily } = require("tailwindcss/defaultTheme");
+import { fontFamily } from "tailwindcss/defaultTheme";
 
 const config = {
   darkMode: ["class"],
@@ -10,6 +10,11 @@ const config = {
   ],
   prefix: "",
   theme: {
+  	screens: {
+		mb_ld: '640px', 
+  		tb: '768px',
+  		pc: '1280px'
+  	},
   	container: {
   		center: true,
   		padding: '2rem',
@@ -120,13 +125,13 @@ const config = {
   					opacity: '0.5',
   					transform: 'scale(1.05)'
   				}
-  			}
+  			},
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
   			'accordion-up': 'accordion-up 0.2s ease-out',
   			pulseBorder: 'pulseBorder 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-  			burningImage: 'burningImage 2s ease-in-out infinite'
+  			burningImage: 'burningImage 2s ease-in-out infinite',
   		}
   	}
   },
