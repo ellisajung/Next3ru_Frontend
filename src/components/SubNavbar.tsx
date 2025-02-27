@@ -14,8 +14,8 @@ export default function NavBarSub() {
       <ul className="subMenu w-full h-64 hidden justify-center pc:group-hover:flex bg-opacity-80 bg-[#161616] shadow-xl slide-down">
         <div className="absolute left-[-50px] top-[-42px]">
           <Image
-            src={"images/navbar/SubLogo.svg"}
-            alt="sublogo"
+            src="/images/navbar/SubLogo.svg"
+            alt="sub-logo"
             className="w-[209px] h-[203px] mt-24"
             width={10}
             height={10}

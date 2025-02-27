@@ -146,7 +146,7 @@ const Navbar = () => {
             >
               <div className="relative pc:w-[125px] pc:h-[140px]">
                 <Image
-                  src={"/images/navbar/KtLogo2.svg"}
+                  src="/images/navbar/KtLogo2.svg"
                   alt="logo"
                   layout="fill"
                   objectFit="contain"
@@ -189,7 +189,7 @@ const Navbar = () => {
         </div>
       </header>
       {/* 모바일 & 테블릿 네브바 */}
-      <header className="pc:hidden px-5 py-3 w-full h-auto min-h-[60px] flex justify-between items-center">
+      <div className="pc:hidden px-5 py-3 w-full h-auto min-h-[60px] flex justify-between items-center">
         <LeftNav />
         <Link href="/">
           <Image
@@ -205,7 +205,7 @@ const Navbar = () => {
           />
         </Link>
         <RightNav username={username} />
-      </header>
+      </div>
     </>
   );
 };

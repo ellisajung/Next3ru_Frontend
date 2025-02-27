@@ -51,7 +51,7 @@ const RightNav = ({ username }: { username: string | undefined }) => {
         {username ? (
           <button>
             <Image
-              src="images/navbar/Mypage.svg"
+              src="/images/navbar/Mypage.svg"
               className="w-[34px] h-[34px] mb_ld:w-[42px] mb_ld:h-[42px] tb:w-[50px] tb:h-[50px]"
               alt="Profile Icon"
               width={50}
@@ -61,7 +61,7 @@ const RightNav = ({ username }: { username: string | undefined }) => {
         ) : (
           <Link href="sign-in">
             <Image
-              src="images/navbar/log-in.svg"
+              src="/images/navbar/log-in.svg"
               className="w-[34px] h-[34px] mb_ld:w-[42px] mb_ld:h-[42px] tb:w-[50px] tb:h-[50px]"
               alt="Login Icon"
               width={50}

@@ -15,9 +15,9 @@ const fontSans = FontSans({
 export const metadata: Metadata = {
   title: "KT wiz | We Are Great Magic",
   description: "WINNING KT | We Are Great Magic",
-  icons: {
-    icon: "/ktwiz-bi-symbol.png",
-  },
+  // icons: {
+  //   icon: "/icon.png",
+  // },
 };
 
 export default function RootLayout({

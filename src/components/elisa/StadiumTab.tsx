@@ -50,7 +50,7 @@ const StadiumTab = () => {
     );
   };
 
-  console.log(hides);
+  // console.log(hides);
 
   return (
     <Card className="relative rounded-xl border-none w-full h-full flex flex-col dark:bg-black">

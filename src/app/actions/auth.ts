@@ -82,7 +82,7 @@ export const fetchUserData = async () => {
   // const session = await supabase.auth.getSession();
   // console.log("Session:", session);
   
-  console.log("server user: ", user);
+  // console.log("server user: ", user);
 
   return user ?? null;
 };
