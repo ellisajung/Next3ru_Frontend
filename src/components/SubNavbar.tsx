@@ -6,7 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
-export default function NavBarSub() {
+export default function SubNavbar() {
   const pathname = usePathname();
 
   return (
@@ -21,11 +21,9 @@ export default function NavBarSub() {
             height={10}
           />
         </div>
-
         <div className="lnb_header group relative w-full text-center shadow-lg  ">
           <div className="nav_wrap relative flex w-full items-center xl:justify-center ">
             <ul className="left_nav font-['KT'] xl:flex xl:w-1/3 xl:text-right xl:pl-2 xl:pr-[50px]  xl:text-base hidden">
-              <li className="text-[12px]"> </li>
               <li className="text-[12px]">
                 <Link href="#">kt wiz는?</Link>
                 <Link
@@ -84,7 +82,6 @@ export default function NavBarSub() {
                 </Link>
               </li>
             </ul>
-
             <ul className="right_nav font-['KT'] xl:flex xl:w-1/3 xl:text-left xl:pr-1 xl:pl-[62px] xl:justify-between xl:text-base hidden">
               <li className="text-[12px] ">
                 <Link
@@ -162,7 +159,6 @@ export default function NavBarSub() {
                   영상모음
                 </Link>
               </li>
-              <li></li>
               <li className="text-[12px] ">
                 <Link
                   href="#"
@@ -209,7 +205,7 @@ export default function NavBarSub() {
                 </Link>
               </li>
             </ul>
-          </div>{" "}
+          </div>
         </div>
       </ul>
     </div>

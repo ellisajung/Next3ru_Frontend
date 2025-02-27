@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import { Inter as FontSans, Inter } from "next/font/google";
+import { Inter as FontSans } from "next/font/google";
 import "../../styles/globals.css";
 import { cn } from "@/lib/utils";
-import { EdgeStoreProvider } from "@/lib/edgestore";
-import NavBar from "@/components/NavBar";
 import { ThemeProvider } from "@/components/elisa/theme-provider";
 import ReactQueryClientProvider from "@/components/elisa/ReactQueryClientProvider";
 import { Toaster } from "@/components/shadcn-ui/toaster";
+import Navbar from "@/components/Navbar";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -41,13 +40,11 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ReactQueryClientProvider>
-            <EdgeStoreProvider>
-              <NavBar />
-              <div className="h-screen pt-[110px]">{children}</div>
-              <Toaster />
-              {/* <MyChatbot /> */}
-              {/* <Footer /> */}
-            </EdgeStoreProvider>
+            <Navbar />
+            <div className="h-screen pt-[110px]">{children}</div>
+            <Toaster />
+            {/* <MyChatbot /> */}
+            {/* <Footer /> */}
           </ReactQueryClientProvider>
         </ThemeProvider>
       </body>
