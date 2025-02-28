@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import SeatMapImg from "./SeatMapImg";
 import { useQuery } from "@tanstack/react-query";
 import { fetchSeatsData } from "@/app/actions/seats";
+import { LuInfo } from "react-icons/lu";
 
 const StadiumTab = () => {
   // const data = useSeatsStore((state) => state.data);
@@ -53,39 +54,51 @@ const StadiumTab = () => {
   // console.log(hides);
 
   return (
-    <Card className="relative rounded-xl border-none w-full h-full flex flex-col dark:bg-black">
-      <StadiumModel hides={hides} />
-      <Card className="rounded-xl flex flex-col absolute min-w-min left-4 top-4 p-4 gap-2 border-none items-start bg-white bg-opacity-65 dark:bg-black dark:bg-opacity-55">
-        <CardTitle className="text-black dark:text-white">
-          3D 좌석 안내도
-        </CardTitle>
-        <CardDescription className="text-black dark:text-white">
-          구역을 선택하여 좌석 정보와 리뷰를 확인해 보세요.
-        </CardDescription>
-      </Card>
-      <div className="absolute w-[500px] inset-y-0 top-32 bottom-4 right-4 flex flex-col justify-between items-end">
-        <Card className="rounded-xl border-none flex justify-center items-center bg-white bg-opacity-65 dark:bg-black dark:bg-opacity-55">
-          <SeatMapImg />
-        </Card>
-        <Card className="rounded-xl w-[350px] h-[500px] border-none px-4 py-3 bg-white bg-opacity-65 dark:bg-black dark:bg-opacity-55">
-          <div className="mb-6 p-1 flex justify-between items-center">
-            <p className="text-lg font-semibold">구역 선택</p>
-            <Button
-              variant="outline"
-              size="icon"
-              className="border-none dark:bg-white dark:bg-opacity-20 bg-black bg-opacity-10"
-              onClick={handleReset}
-            >
-              <GrPowerReset className="text-lg" />
-            </Button>
+    <>
+      <div className="relative w-full h-full">
+        <StadiumModel hides={hides} />
+        {/* 페이지 설명 카드 */}
+        <div className="absolute top-0 left-0 px-4 pt-14 xl:pt-16">
+          <Card className="rounded-xl flex min-w-min p-4 gap-2 md:gap-10 border-none items-center bg-white bg-opacity-65 dark:bg-black dark:bg-opacity-55">
+            <CardTitle className="max-md:hidden text-lg">
+              3D 좌석 안내도
+            </CardTitle>
+            <LuInfo className="md:hidden" />
+            <CardDescription className="dark:text-white">
+              구역을 선택하여 좌석 정보를 확인해 보세요.
+            </CardDescription>
+          </Card>
+        </div>
+        {/* 지도 & 구역이름 카드 */}
+        <div className="absolute bottom-0 right-0 p-4">
+          <div className="min-w-max flex justify-center items-center md:gap-8 rounded-xl bg-white bg-opacity-65 dark:bg-black dark:bg-opacity-55 p-4">
+            {/* 2D 지도 카드 */}
+            <div className="max-md:hidden min-w-max flex justify-center items-center relative">
+              <SeatMapImg />
+            </div>
+            {/* 구역이름 스와이퍼 카드 */}
+            <div className="max-xl:w-60 xl:w-80 max-xl:h-60 xl:h-80 flex flex-col justify-start gap-3 text-sm">
+              <div className="flex justify-between items-center">
+                <p className="font-semibold">구역 선택</p>
+                <Button
+                  variant="outline"
+                  className="rounded-xl p-2 text-lg"
+                  onClick={handleReset}
+                >
+                  <GrPowerReset />
+                </Button>
+              </div>
+              <div className="w-full max-xl:h-48 xl:h-64">
+                <AreaNameSwiper
+                  hides={hides}
+                  onToggleHide={handleToggleHide}
+                />
+              </div>
+            </div>
           </div>
-          <AreaNameSwiper
-            hides={hides}
-            onToggleHide={handleToggleHide}
-          />
-        </Card>
+        </div>
       </div>
-    </Card>
+    </>
   );
 };
 

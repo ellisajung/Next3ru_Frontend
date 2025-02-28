@@ -58,9 +58,13 @@ const SeatInfoPage = ({ params }: { params: { tab: string } }) => {
                 `${value}?sort=created_at&asc=false&page=1&area=&zone=`,
               )
         }
-        className="absolute w-full h-full"
+        className="absolute w-full h-[90%]"
       >
-        <div className="min-w-fit sticky top-[70px] z-50 block px-4 py-2 xl:px-10 xl:pt-16 bg-white dark:bg-black">
+        <div
+          className={`min-w-max w-full sticky top-[60px] z-40 block px-4 py-2 xl:p-4 ${
+            currentTab === "reviews" ? "bg-white dark:bg-black" : ""
+          }`}
+        >
           <TabsList className="rounded-xl max-xl:flex xl:w-[500px]">
             <TabsTrigger // 이 탭이 트리거 되어
               value="seat-info"
@@ -91,7 +95,7 @@ const SeatInfoPage = ({ params }: { params: { tab: string } }) => {
         </div>
         <TabsContent // 해당하는 콘텐츠 렌더링
           value="seat-info"
-          className="w-full h-full"
+          className="absolute top-0 w-full h-full"
         >
           <StadiumTab />
         </TabsContent>

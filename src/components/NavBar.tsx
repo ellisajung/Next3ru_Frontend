@@ -74,7 +74,7 @@ const Navbar = () => {
         <div
           className={`gnb_header ${
             isScrolled ? "slide-up" : "slide-down"
-          } gap-4 flex justify-end items-center pr-3 h-[35px] bg-[linear-gradient(to_right,#F69AA9,#E1ADED,#AAC6E5,#97D5E0)]`}
+          } gap-4 flex justify-end items-center pr-3 h-[30px] bg-[linear-gradient(to_right,#F69AA9,#E1ADED,#AAC6E5,#97D5E0)]`}
         >
           {/* <div className="flex justify-center items-center text-black dark:text-white">
             <ThemeToggle />
@@ -115,27 +115,19 @@ const Navbar = () => {
         </div>
         {/* 메인 네브바 */}
         <div
-          className={`navbar lnb_header group relative w-full bg-black text-center h-[60px] shadow-xl ${
+          className={`navbar lnb_header group relative w-full bg-black text-center h-[54px] shadow-xl ${
             isScrolled ? "slide-up" : "slide-down"
           }`}
         >
-          <div className="white_line w-full absolute inset-x-0 bottom-[6px] bg-white pc:h-[2px]"></div>
+          <div className="white_line w-full absolute inset-x-0 bottom-0 bg-white pc:h-[2px]"></div>
           <div className="nav_wrap relative flex w-full text-white items-center h-[60px] pc:h-[90%] pc:justify-center">
             <ul className="left_nav pc:flex pc:w-1/3 pc:text-right pc:pl-2 pc:pr-[50px]  pc:text-base hidden">
               <li className="">
                 <Link href="http://kt-sports.co.kr/sports/site/main.do">
                   <Image
-                    src={
-                      isHovered
-                        ? "images/navbar/ktsports_black.svg"
-                        : "/images/navbar/ktsports.svg"
-                    }
+                    src="/images/navbar/ktsports.svg"
                     alt="스포츠로고"
-                    className={`w-[80px] rounded-[8px] p-1.5 ${
-                      isHovered
-                        ? "bg-[hsla(0,0%,100%,.7)]"
-                        : "border-[1px] border-[hsla(0,0%,100%,.7)]"
-                    } pc:w-[80px] pc:rounded-[8px] pc:p-1.5`}
+                    className="w-[80px] rounded-[8px] p-1.5 border-[1px] border-[hsla(0,0%,100%,.7)] pc:w-[80px] pc:rounded-[8px] pc:p-1.5"
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                     width={40}
@@ -155,16 +147,15 @@ const Navbar = () => {
             </ul>
             <Link
               href="/"
-              className="home_logo absolute z-50 left-1/2 transform -translate-x-1/2 top-[-37.2px] pc:top-[-28.5px]"
+              className="home_logo absolute z-50 left-1/2 transform -translate-x-1/2"
             >
-              <div className="relative pc:w-[125px] pc:h-[140px]">
-                <Image
-                  src="/images/navbar/KtLogo2.svg"
-                  alt="logo"
-                  layout="fill"
-                  objectFit="contain"
-                />
-              </div>
+              <Image
+                src="/images/navbar/KtLogo2.svg"
+                alt="kt wiz logo"
+                className="h-[86px]"
+                width={200}
+                height={200}
+              />
             </Link>
             <ul className="right_nav pc:flex pc:w-1/3 pc:text-left pc:pr-2 pc:pl-[70px] pc:justify-between pc:text-base hidden">
               <li>
@@ -202,7 +193,7 @@ const Navbar = () => {
         </div>
       </header>
       {/* 모바일 & 테블릿 네브바 */}
-      <header className="pc:hidden min-w-fit sticky top-0 block px-5 py-3 w-full h-[70px] z-50 bg-white dark:bg-black">
+      <header className="pc:hidden min-w-fit sticky top-0 block px-5 py-3 w-full h-[60px] z-50 bg-white dark:bg-black">
         <div className="flex justify-between items-center ">
           <LeftNav />
           <Link href="/">
