@@ -33,7 +33,7 @@ const MyPageLayout = ({ children }: { children: ReactNode }) => {
   // }, []); // 이러면 화면 보여진 후 리다이렉트
 
   return (
-    <div className="h-5/6 hidden space-y-6 p-24 pb-30 md:block">
+    <>
       <div className="space-y-0.5">
         <h2 className="text-2xl font-bold tracking-tight">마이 페이지</h2>
         <p className="text-muted-foreground">
@@ -49,7 +49,7 @@ const MyPageLayout = ({ children }: { children: ReactNode }) => {
         </aside>
         <div className="flex-1 lg:max-w-5xl">{children}</div>
       </div>
-    </div>
+    </>
   );
 };
 

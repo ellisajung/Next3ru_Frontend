@@ -11,9 +11,11 @@ import SubNavbar from "@/components/SubNavbar";
 import LeftNav from "./LeftNav";
 import RightNav from "./RightNav";
 import { useTheme } from "next-themes";
+import ThemeSwitch from "./elisa/ThemeSwitch";
 
 const Navbar = () => {
   const { theme } = useTheme();
+  const [rotate, setRotate] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -62,15 +64,26 @@ const Navbar = () => {
   return (
     <>
       {/* 데스크탑 네브바 */}
-      <header className="max-pc:hidden block fixed top-0 w-full z-50">
-        {/* 유저 네브바 */}
+      <header
+        onResize={() => {
+          setRotate(false);
+        }}
+        className="max-pc:hidden font-['KT'] sticky top-0 w-full z-50"
+      >
+        {/* 프로필 네브바 */}
         <div
           className={`gnb_header ${
             isScrolled ? "slide-up" : "slide-down"
-          } gap-4 font-['KT'] pc:flex pc:justify-end pc:items-center pc:pr-3 h-[40px] pc:h-[46px] pc:bg-[linear-gradient(to_right,#F69AA9,#E1ADED,#AAC6E5,#97D5E0)] hidden`}
+          } gap-4 flex justify-end items-center pr-3 h-[35px] bg-[linear-gradient(to_right,#F69AA9,#E1ADED,#AAC6E5,#97D5E0)]`}
         >
-          <div className="flex justify-center items-center text-black dark:text-white">
+          {/* <div className="flex justify-center items-center text-black dark:text-white">
             <ThemeToggle />
+          </div> */}
+          <div className="flex justify-center items-center gap-1 text-black">
+            <ThemeSwitch
+              rotate={rotate}
+              setRotate={setRotate}
+            />
           </div>
           {user ? (
             <MyPageDropdown username={username} />
@@ -102,13 +115,13 @@ const Navbar = () => {
         </div>
         {/* 메인 네브바 */}
         <div
-          className={`navbar lnb_header group relative w-full h-[100px] bg-black text-center shadow-lg pc:h-[80px] pc:bg-black pc:shadow-xl ${
+          className={`navbar lnb_header group relative w-full bg-black text-center h-[60px] shadow-xl ${
             isScrolled ? "slide-up" : "slide-down"
           }`}
         >
           <div className="white_line w-full absolute inset-x-0 bottom-[6px] bg-white pc:h-[2px]"></div>
           <div className="nav_wrap relative flex w-full text-white items-center h-[60px] pc:h-[90%] pc:justify-center">
-            <ul className="left_nav font-['KT'] pc:flex pc:w-1/3 pc:text-right pc:pl-2 pc:pr-[50px]  pc:text-base hidden">
+            <ul className="left_nav pc:flex pc:w-1/3 pc:text-right pc:pl-2 pc:pr-[50px]  pc:text-base hidden">
               <li className="">
                 <Link href="http://kt-sports.co.kr/sports/site/main.do">
                   <Image
@@ -153,7 +166,7 @@ const Navbar = () => {
                 />
               </div>
             </Link>
-            <ul className="right_nav font-['KT'] pc:flex pc:w-1/3 pc:text-left pc:pr-2 pc:pl-[70px] pc:justify-between pc:text-base hidden">
+            <ul className="right_nav pc:flex pc:w-1/3 pc:text-left pc:pr-2 pc:pl-[70px] pc:justify-between pc:text-base hidden">
               <li>
                 <Link href="/Player">Player</Link>
               </li>
@@ -189,23 +202,25 @@ const Navbar = () => {
         </div>
       </header>
       {/* 모바일 & 테블릿 네브바 */}
-      <div className="pc:hidden px-5 py-3 w-full h-auto min-h-[60px] flex justify-between items-center">
-        <LeftNav />
-        <Link href="/">
-          <Image
-            src={
-              theme === "light"
-                ? "/images/navbar/logo-mb-black.svg"
-                : "/images/navbar/logo-mb.svg"
-            }
-            alt="logo"
-            className="w-[70px] h-[32px] mb_ld:w-[90px] mb_ld:h-[40px] tb:w-[110px] tb:h-[48px]"
-            width={120}
-            height={90}
-          />
-        </Link>
-        <RightNav username={username} />
-      </div>
+      <header className="pc:hidden min-w-fit sticky top-0 block px-5 py-3 w-full h-[70px] z-50 bg-white dark:bg-black">
+        <div className="flex justify-between items-center ">
+          <LeftNav />
+          <Link href="/">
+            <Image
+              src={
+                theme === "light"
+                  ? "/images/navbar/logo-mb-black.svg"
+                  : "/images/navbar/logo-mb.svg"
+              }
+              alt="logo"
+              className="w-[70px] h-[40px]"
+              width={120}
+              height={90}
+            />
+          </Link>
+          <RightNav username={username} />
+        </div>
+      </header>
     </>
   );
 };

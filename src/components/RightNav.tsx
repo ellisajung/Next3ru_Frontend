@@ -20,9 +20,9 @@ import { useTheme } from "next-themes";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { revalidatePath } from "next/cache";
 import { signOut } from "@/app/actions/auth";
+import ThemeSwitch from "./elisa/ThemeSwitch";
 
 const RightNav = ({ username }: { username: string | undefined }) => {
-  const { theme, setTheme } = useTheme();
   const [rotate, setRotate] = useState(false);
   const queryClient = useQueryClient();
 
@@ -34,7 +34,7 @@ const RightNav = ({ username }: { username: string | undefined }) => {
       // redirect("/");
     },
   });
-  console.log("rotate: ", rotate);
+  // console.log("rotate: ", rotate);
   // console.log("username:", username);
   // console.log("theme", theme);
   return (
@@ -44,6 +44,7 @@ const RightNav = ({ username }: { username: string | undefined }) => {
         // Drawer가 닫힐 때 rotate 초기화
         // 그렇지 않으면 언마운트 되지 않는 한 true로 바뀐 후
         // 다시 열고 닫았을 때 true 상태 유지됨
+        // (따라서 useEffect로도 해결안됨)
         if (!isOpen) setRotate(false);
       }}
     >
@@ -52,7 +53,7 @@ const RightNav = ({ username }: { username: string | undefined }) => {
           <button>
             <Image
               src="/images/navbar/Mypage.svg"
-              className="w-[34px] h-[34px] mb_ld:w-[42px] mb_ld:h-[42px] tb:w-[50px] tb:h-[50px]"
+              className="w-[34px] h-[34px]"
               alt="Profile Icon"
               width={50}
               height={50}
@@ -62,7 +63,7 @@ const RightNav = ({ username }: { username: string | undefined }) => {
           <Link href="sign-in">
             <Image
               src="/images/navbar/log-in.svg"
-              className="w-[34px] h-[34px] mb_ld:w-[42px] mb_ld:h-[42px] tb:w-[50px] tb:h-[50px]"
+              className="w-[34px] h-[34px]"
               alt="Login Icon"
               width={50}
               height={50}
@@ -94,7 +95,7 @@ const RightNav = ({ username }: { username: string | undefined }) => {
         </div>
         <DrawerFooter>
           <div className="flex justify-end items-center gap-2">
-            <Sun
+            {/* <Sun
               className={`h-6 w-6 ${
                 rotate && theme === "light"
                   ? "animate-[spin_1s_ease-in-out]"
@@ -113,6 +114,10 @@ const RightNav = ({ username }: { username: string | undefined }) => {
               className={`h-6 w-6 ${
                 rotate && "dark:animate-[spin_1s_ease-in-out]"
               }`}
+            /> */}
+            <ThemeSwitch
+              rotate={rotate}
+              setRotate={setRotate}
             />
           </div>
         </DrawerFooter>

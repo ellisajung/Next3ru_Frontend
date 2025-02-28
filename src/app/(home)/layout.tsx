@@ -40,8 +40,15 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ReactQueryClientProvider>
-            <Navbar />
-            <div className="h-screen pt-[110px]">{children}</div>
+            <main className="flex flex-col min-h-screen">
+              <Navbar />
+              <div className="flex-1">
+                {/* <div className="absolute w-full h-full hidden space-y-6 p-24 pb-30 md:block"> */}
+                {/* <div className="absolute w-full h-full px-4 max-sm:py-1 sm:p-10 md:p-14 lg:p-20 xl:p-24 md:block"> */}
+                {children}
+                {/* </div> */}
+              </div>
+            </main>
             <Toaster />
             {/* <MyChatbot /> */}
             {/* <Footer /> */}
