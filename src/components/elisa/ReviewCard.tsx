@@ -29,7 +29,7 @@ const ReviewCard = ({ review }: any) => {
   });
 
   return (
-    <Card className="rounded-xl text-sm xl:text-lg">
+    <Card className="rounded-xl text-sm">
       <CardHeader className="py-2">
         <div className="flex justify-between items-center">
           <div className="flex gap-2">

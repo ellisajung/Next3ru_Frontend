@@ -55,11 +55,11 @@ const UsernameForm = () => {
 
   return (
     <>
-      <div className="grid gap-2">
+      <div className="grid gap-6 sm:gap-2">
         <Label htmlFor="username">이름</Label>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-6 sm:gap-2">
           <Input
-            className="w-1/3"
+            className="w-fit"
             id="username"
             name="username"
             type="text"
@@ -73,23 +73,25 @@ const UsernameForm = () => {
             required
             maxLength={8}
           />
-          <Button
-            className="rounded-xl"
-            variant="outline"
-            onClick={onCheckUsername}
-          >
-            중복확인
-          </Button>
-          <Button
-            className="rounded-xl"
-            variant="secondary"
-            onClick={() => {
-              setIsSubmitted(false);
-              setUsernameValue(username);
-            }}
-          >
-            초기화
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              className="rounded-xl"
+              variant="outline"
+              onClick={onCheckUsername}
+            >
+              중복확인
+            </Button>
+            <Button
+              className="rounded-xl"
+              variant="secondary"
+              onClick={() => {
+                setIsSubmitted(false);
+                setUsernameValue(username);
+              }}
+            >
+              초기화
+            </Button>
+          </div>
         </div>
         {username === usernameValue && isSubmitted && (
           <p className="text-sm text-red-700">
@@ -103,9 +105,9 @@ const UsernameForm = () => {
           <p className="text-sm text-red-700">사용할 수 없는 아름입니다.</p>
         )}
       </div>
-      <div>
+      <div className="flex justify-end">
         <Button
-          className="rounded-xl"
+          className="rounded-xl "
           onClick={() => {
             setIsSubmitted(false);
             mutation.mutate(usernameValue);
