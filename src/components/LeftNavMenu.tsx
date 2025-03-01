@@ -5,6 +5,8 @@ import {
   AccordionTrigger,
 } from "@/components/shadcn-ui/accordion";
 import Link from "next/link";
+import { Button } from "./shadcn-ui/button";
+import { DrawerClose } from "./shadcn-ui/left-drawer";
 
 const ACCORDION_ITEMS = [
   {
@@ -85,8 +87,10 @@ const LeftNavMenu = () => {
           <AccordionContent>
             <ul className="space-y-2">
               {item.contents.map((content, i) => (
-                <li>
-                  <Link href={content.href}>{content.content}</Link>
+                <li key={i}>
+                  <DrawerClose asChild>
+                    <Link href={content.href}>{content.content}</Link>
+                  </DrawerClose>
                 </li>
               ))}
             </ul>

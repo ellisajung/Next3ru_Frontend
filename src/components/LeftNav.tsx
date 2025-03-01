@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import { Button } from "@/components/shadcn-ui/button";
 import {
   Drawer,
@@ -15,6 +14,7 @@ import {
 import Image from "next/image";
 import LeftNavMenu from "./LeftNavMenu";
 import Link from "next/link";
+import { useState } from "react";
 
 const LeftNav = () => {
   return (
@@ -35,7 +35,9 @@ const LeftNav = () => {
           <DrawerTitle>메뉴</DrawerTitle>
           {/* <DrawerDescription>Set your daily activity goal.</DrawerDescription> */}
         </DrawerHeader>
+        {/* <DrawerClose asChild> */}
         <LeftNavMenu />
+        {/* </DrawerClose> */}
         <DrawerFooter>
           <Button
             variant="outline"
