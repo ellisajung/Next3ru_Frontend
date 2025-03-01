@@ -8,13 +8,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/shadcn-ui/dialog";
-import { Input } from "@/components/shadcn-ui/input";
-import { Label } from "@/components/shadcn-ui/label";
 import { FaPen } from "react-icons/fa6";
 import SeatAreaCombobox from "./SeatAreaCombobox";
 import SeatRating from "./SeatRating";
 import { Textarea } from "../shadcn-ui/textarea";
-import MultiFileDropzoneUsage from "./MultiFileDropzoneUsage";
 import FileUploadField from "./FileUploadField";
 import { useState } from "react";
 import { useCreateReviewStore } from "@/store/ReviewStore";
@@ -22,6 +19,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchUserData } from "@/app/actions/auth";
 import { createReviewData } from "@/app/actions/reviews";
 import { useToast } from "@/hooks/use-toast";
+import Link from "next/link";
 
 export const RATING_ITEMS = [
   {
@@ -84,118 +82,131 @@ const ReviewCreateDialog = () => {
 
   console.log(userId, username, areaName, zone, content, rates);
 
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button
-          className="rounded-xl"
-          //   onClick={() => setEdit(true)}
-        >
+  if (!username) {
+    return (
+      <Button
+        className="rounded-xl"
+        asChild
+      >
+        <Link href="/sign-in">
           <FaPen className="mr-2 size-3" />
           리뷰 쓰기
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[650px]">
-        <DialogHeader>
-          <DialogTitle>리뷰 작성</DialogTitle>
-          <DialogDescription>
-            좌석에 대한 리뷰를 작성해 주세요.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="grid grid-cols-[max-content_1fr] grid-rows-auto py-8 gap-x-16 gap-y-6">
-          {/* 좌석 선택 필드 */}
-          <span className="col-start-1 row-start-1">좌석 구역</span>
-          <div className="col-start-2 row-start-1">
-            <div className="flex gap-4">
-              <SeatAreaCombobox />
+        </Link>
+      </Button>
+    );
+  } else {
+    return (
+      <>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button className="rounded-xl">
+              <FaPen className="mr-2 size-3" />
+              리뷰 쓰기
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[650px]">
+            <DialogHeader>
+              <DialogTitle>리뷰 작성</DialogTitle>
+              <DialogDescription>
+                좌석에 대한 리뷰를 작성해 주세요.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid grid-cols-[max-content_1fr] grid-rows-auto py-8 gap-x-16 gap-y-6">
+              {/* 좌석 선택 필드 */}
+              <span className="col-start-1 row-start-1">좌석 구역</span>
+              <div className="col-start-2 row-start-1">
+                <div className="flex gap-4">
+                  <SeatAreaCombobox />
+                </div>
+              </div>
+              {/* 별점 필드 */}
+              <span className="col-start-1 row-start-2">별점</span>
+              <div className="col-start-2 row-start-2">
+                <div className="grid grid-cols-[max-content_1fr] gap-x-6 gap-y-2">
+                  {RATING_ITEMS.map((item, i) => (
+                    <>
+                      <span className="col-start-1">{item.label}</span>
+                      <div className="col-start-2 flex items-center gap-2">
+                        <SeatRating
+                          value={rates[item.value]}
+                          setValue={(newValue: number) =>
+                            setRates((prev) => ({
+                              ...prev,
+                              [item.value]: newValue,
+                            }))
+                          }
+                          labelText={item.labelText}
+                        />
+                      </div>
+                    </>
+                  ))}
+                </div>
+                {/* <div className="grid grid-cols-5 gap-2">
+                  {RATING_ITEMS.map((item, i) => (
+                    <>
+                      <span className="col-span-1">{item.label}</span>
+                      <div className="col-span-4 flex items-center gap-2">
+                        <SeatRating labelText={item.labelText} />
+                      </div>
+                    </>
+                  ))}
+                </div> // 이전 방법 */}
+              </div>
+              {/* 텍스트 에리아 필드 */}
+              <span className="col-start-1 row-start-3">리뷰 내용</span>
+              <div className="col-start-2 row-start-3">
+                <Textarea
+                  placeholder="내용을 입력해 주세요."
+                  onChange={(e) => {
+                    setContent(e.target.value);
+                  }}
+                />
+              </div>
+              {/* 사진 업로드 필드 */}
+              <span className="col-start-1 row-start-4">사진 업로드</span>
+              <div className="col-start-2 row-start-4">
+                {/* <MultiFileDropzoneUsage /> */}
+                <FileUploadField setImgUpload={setImgUpload} />
+              </div>
             </div>
-          </div>
-          {/* 별점 필드 */}
-          <span className="col-start-1 row-start-2">별점</span>
-          <div className="col-start-2 row-start-2">
-            <div className="grid grid-cols-[max-content_1fr] gap-x-6 gap-y-2">
-              {RATING_ITEMS.map((item, i) => (
-                <>
-                  <span className="col-start-1">{item.label}</span>
-                  <div className="col-start-2 flex items-center gap-2">
-                    <SeatRating
-                      value={rates[item.value]}
-                      setValue={(newValue: number) =>
-                        setRates((prev) => ({
-                          ...prev,
-                          [item.value]: newValue,
-                        }))
-                      }
-                      labelText={item.labelText}
-                    />
-                  </div>
-                </>
-              ))}
-            </div>
-            {/* <div className="grid grid-cols-5 gap-2">
-              {RATING_ITEMS.map((item, i) => (
-                <>
-                  <span className="col-span-1">{item.label}</span>
-                  <div className="col-span-4 flex items-center gap-2">
-                    <SeatRating labelText={item.labelText} />
-                  </div>
-                </>
-              ))}
-            </div> // 이전 방법 */}
-          </div>
-          {/* 텍스트 에리아 필드 */}
-          <span className="col-start-1 row-start-3">리뷰 내용</span>
-          <div className="col-start-2 row-start-3">
-            <Textarea
-              placeholder="내용을 입력해 주세요."
-              onChange={(e) => {
-                setContent(e.target.value);
-              }}
-            />
-          </div>
-          {/* 사진 업로드 필드 */}
-          <span className="col-start-1 row-start-4">사진 업로드</span>
-          <div className="col-start-2 row-start-4">
-            {/* <MultiFileDropzoneUsage /> */}
-            <FileUploadField setImgUpload={setImgUpload} />
-          </div>
-        </div>
-        <DialogFooter>
-          {/* <Button
-            formAction={createReviewData({
-              username: username,
-              areaName: areaName,
-              zone: zone,
-              content: content,
-              rates: rates,
-              imgUrls: imgUrls,
-            })}
-          > */}
-          <Button
-            disabled={imgUpload}
-            onClick={async () => {
-              const res = await createReviewData({
-                userId: userId,
-                username: username,
-                areaName: areaName,
-                zone: zone,
-                content: content,
-                rates: rates,
-                imgUrls: imgUrls,
-              });
-              if (res.success) {
-                toast({
-                  description: res.message,
-                });
-              }
-            }}
-          >
-            저장
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  );
+            <DialogFooter>
+              {/* <Button
+                formAction={createReviewData({
+                  username: username,
+                  areaName: areaName,
+                  zone: zone,
+                  content: content,
+                  rates: rates,
+                  imgUrls: imgUrls,
+                })}
+              > */}
+              <Button
+                disabled={imgUpload}
+                onClick={async () => {
+                  const res = await createReviewData({
+                    userId: userId,
+                    username: username,
+                    areaName: areaName,
+                    zone: zone,
+                    content: content,
+                    rates: rates,
+                    imgUrls: imgUrls,
+                  });
+                  if (res.success) {
+                    toast({
+                      description: res.message,
+                    });
+                  }
+                }}
+              >
+                저장
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </>
+    );
+  }
 };
 
 export default ReviewCreateDialog;
