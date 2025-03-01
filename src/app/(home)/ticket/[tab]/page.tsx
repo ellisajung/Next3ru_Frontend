@@ -58,10 +58,11 @@ const SeatInfoPage = ({ params }: { params: { tab: string } }) => {
                 `${value}?sort=created_at&asc=false&page=1&area=&zone=`,
               )
         }
-        className="absolute w-full h-[90%]"
+        className="absolute w-full h-full"
+        // className="absolute w-full h-[90%]" //
       >
         <div
-          className={`min-w-max w-full sticky top-[60px] z-40 block px-4 py-2 xl:p-4 ${
+          className={`min-w-max w-full sticky top-[60px] z-[90] px-4 py-2 xl:p-4 ${
             currentTab === "reviews" ? "bg-white dark:bg-black" : ""
           }`}
         >

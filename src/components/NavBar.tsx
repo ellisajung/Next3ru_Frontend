@@ -193,7 +193,7 @@ const Navbar = () => {
         </div>
       </header>
       {/* 모바일 & 테블릿 네브바 */}
-      <header className="pc:hidden min-w-fit sticky top-0 block px-5 py-3 w-full h-[60px] z-50 bg-white dark:bg-black">
+      <header className="pc:hidden min-w-fit sticky z-[100] top-0 px-5 py-3 w-full h-[60px] bg-white dark:bg-black">
         <div className="flex justify-between items-center ">
           <LeftNav />
           <Link href="/">
