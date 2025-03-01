@@ -42,7 +42,7 @@ const MyPageDropdown = ({ username }: { username: string }) => {
         {/* </Button> */}
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="w-36"
+        className="w-36 font-['KT']"
         align="end"
       >
         <Link href="/user/account">

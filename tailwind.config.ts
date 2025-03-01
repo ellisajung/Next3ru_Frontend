@@ -11,6 +11,10 @@ const config = {
   prefix: "",
   theme: {
   	screens: {
+		sm: '640px',
+		md: '768px',
+		lg:'1024px',
+		xl:'1280px',
 		mb_ld: '640px', 
   		tb: '768px',
   		pc: '1280px'
