@@ -21,14 +21,12 @@ import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { fetchSeatsData } from "@/app/actions/seats";
 
-interface ReviewContentHeaderProps {
+export interface ReviewFilterProps {
   // setEdit: React.Dispatch<React.SetStateAction<boolean>>;
   updateSearchParams: (key: string, value: string) => void;
 }
 
-const ReviewContentHeader = ({
-  updateSearchParams,
-}: ReviewContentHeaderProps) => {
+const ReviewFilter = ({ updateSearchParams }: ReviewFilterProps) => {
   // 좌석 콤보박스 로직
   const [zones, setZones] = useState([]);
 
@@ -66,11 +64,11 @@ const ReviewContentHeader = ({
 
   // console.log("searchParams: ", searchParams);
 
-  console.log("areaNameValue: ", areaNameValue);
+  // console.log("areaNameValue: ", areaNameValue);
 
   return (
-    <div className="flex gap-5">
-      <div className="flex gap-2">
+    <>
+      <div className="flex gap-2 w-full">
         {/* 구역 이름 선택*/}
         <Popover
           open={areaNameOpen}
@@ -81,7 +79,7 @@ const ReviewContentHeader = ({
               variant="outline"
               role="combobox"
               aria-expanded={areaNameOpen}
-              className="w-[180px] justify-between"
+              className="w-full rounded-xl"
             >
               {areaNameValue
                 ? seats?.find((seat: any) => seat.area_name === areaNameValue)
@@ -91,7 +89,7 @@ const ReviewContentHeader = ({
             </Button>
           </PopoverTrigger>
           <PopoverContent
-            className="w-[200px] p-0"
+            className="p-0"
             align="start"
           >
             <Command>
@@ -142,7 +140,7 @@ const ReviewContentHeader = ({
               variant="outline"
               role="combobox"
               aria-expanded={zoneOpen}
-              className="w-[180px] justify-between"
+              className="w-full rounded-xl"
             >
               {zoneValue
                 ? zones?.find((zone) => zone === zoneValue)
@@ -151,7 +149,7 @@ const ReviewContentHeader = ({
             </Button>
           </PopoverTrigger>
           <PopoverContent
-            className="w-[200px] p-0"
+            className="p-0"
             align="start"
           >
             <Command>
@@ -190,24 +188,8 @@ const ReviewContentHeader = ({
           </PopoverContent>
         </Popover>
       </div>
-      <div className="flex gap-2">
-        <Button
-          className="rounded-full"
-          variant={sortParam === "created_at" ? "outline" : "secondary"}
-          onClick={() => updateSearchParams("sort", "created_at")}
-        >
-          작성일순
-        </Button>
-        <Button
-          className="rounded-full"
-          variant={sortParam === "likes" ? "outline" : "secondary"}
-          onClick={() => updateSearchParams("sort", "likes")}
-        >
-          추천순
-        </Button>
-      </div>
-    </div>
+    </>
   );
 };
 
-export default ReviewContentHeader;
+export default ReviewFilter;

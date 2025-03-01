@@ -31,7 +31,7 @@ const DatePickerWithRange = ({
             id="date"
             variant={"outline"}
             className={cn(
-              "rounded-xl w-[300px] justify-around text-left font-normal",
+              "rounded-xl justify-around text-left font-normal gap-2",
               !date && "text-muted-foreground",
             )}
           >
@@ -39,14 +39,14 @@ const DatePickerWithRange = ({
             {date?.from ? (
               date.to ? (
                 <>
-                  {format(date.from, "y년 M월 d일", { locale: ko })} -{" "}
-                  {format(date.to, "y년 M월 d일", { locale: ko })}
+                  {format(date.from, "y.M.d", { locale: ko })} -{" "}
+                  {format(date.to, "y.M.d", { locale: ko })}
                 </>
               ) : (
-                format(date.from, "y년 M월 d일")
+                format(date.from, "y.M.d")
               )
             ) : (
-              <span>Pick a date</span>
+              <span>날짜를 선택하세요.</span>
             )}
           </Button>
         </PopoverTrigger>

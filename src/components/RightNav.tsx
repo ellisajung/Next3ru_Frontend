@@ -77,8 +77,12 @@ const RightNav = ({ username }: { username: string | undefined }) => {
           {/* <DrawerDescription>Set your daily activity goal.</DrawerDescription> */}
         </DrawerHeader>
         <div className="flex flex-col items-end p-4 gap-2">
-          <Link href="/user/account">내 계정</Link>
-          <Link href="/user/reviews">내 리뷰</Link>
+          <DrawerClose asChild>
+            <Link href="/user/account">내 계정</Link>
+          </DrawerClose>
+          <DrawerClose asChild>
+            <Link href="/user/reviews">내 리뷰</Link>
+          </DrawerClose>
           <Button
             className="flex justify-start items-center w-full p-0 h-5 text-[16px]"
             variant="ghost"

@@ -68,7 +68,7 @@ const Navbar = () => {
         onResize={() => {
           setRotate(false);
         }}
-        className="max-pc:hidden font-['KT'] sticky top-0 w-full z-50"
+        className="max-pc:hidden font-['KT'] sticky top-0 w-full z-[100]"
       >
         {/* 프로필 네브바 */}
         <div
@@ -147,7 +147,7 @@ const Navbar = () => {
             </ul>
             <Link
               href="/"
-              className="home_logo absolute z-50 left-1/2 transform -translate-x-1/2"
+              className="home_logo absolute z-[100] left-1/2 transform -translate-x-1/2"
             >
               <Image
                 src="/images/navbar/KtLogo2.svg"
