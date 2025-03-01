@@ -88,7 +88,7 @@ const ReviewTab = () => {
     pageParam,
     zoneParam,
   ]);
-  console.log("react query fetch: ", data);
+  // console.log("react query fetch: ", data);
 
   // if (error) {
   //   console.log("React Query Error:", error);
@@ -98,7 +98,7 @@ const ReviewTab = () => {
 
   return (
     <Card className="flex flex-col h-full border-none">
-      <div className="mb-8">
+      <div className="mb-8 max-md:hidden">
         <CardHeader>
           <CardTitle>좌석 리뷰</CardTitle>
           <CardDescription>구역별 좌석 리뷰를 확인해 보세요.</CardDescription>
