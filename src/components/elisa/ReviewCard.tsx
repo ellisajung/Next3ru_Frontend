@@ -29,14 +29,14 @@ const ReviewCard = ({ review }: any) => {
   });
 
   return (
-    <Card className="rounded-xl">
-      <CardHeader>
+    <Card className="rounded-xl text-sm xl:text-lg">
+      <CardHeader className="py-2">
         <div className="flex justify-between items-center">
           <div className="flex gap-2">
             <b>
               {review.area_name} {review.zone}
             </b>
-            <p>구역</p>
+            <p className="max-md:hidden">구역</p>
           </div>
           <Button
             variant="secondary"
@@ -65,7 +65,7 @@ const ReviewCard = ({ review }: any) => {
               작성일 {review.created_at.slice(0, 10).replaceAll("-", ".")}
             </span>
           </div>
-          <div>{review.content}</div>
+          <div className="h-20 overflow-y-auto p-1">{review.content}</div>
           <div className="flex justify-between">
             <div className="flex flex-col justify-between">
               <span className="font-semibold">거리</span>

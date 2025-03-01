@@ -9,13 +9,14 @@ import {
   CardTitle,
 } from "@/components/shadcn-ui/card";
 import * as React from "react";
-import ReviewContentHeader from "./ReviewContentHeader";
 import ReviewCard from "./ReviewCard";
 import ReviewPagination from "./ReviewPagination";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { fetchReviewsData } from "@/app/actions/reviews";
 import ReviewCreateDialog from "./ReviewCreateDialog";
+import ReviewFilter from "./ReviewFilter";
+import ReviewSortBtn from "./ReviewSortBtn";
 
 const ReviewTab = () => {
   const router = useRouter();
@@ -81,13 +82,13 @@ const ReviewTab = () => {
       fetchReviewsData(sortParam, ascParam, pageParam, areaParam, zoneParam),
   });
 
-  console.log("queryKey:", [
-    "reviews",
-    sortParam,
-    ascParam,
-    pageParam,
-    zoneParam,
-  ]);
+  // console.log("queryKey:", [
+  //   "reviews",
+  //   sortParam,
+  //   ascParam,
+  //   pageParam,
+  //   zoneParam,
+  // ]);
   // console.log("react query fetch: ", data);
 
   // if (error) {
@@ -98,25 +99,24 @@ const ReviewTab = () => {
 
   return (
     <Card className="flex flex-col h-full border-none">
-      <div className="mb-8 max-md:hidden">
-        <CardHeader>
-          <CardTitle>좌석 리뷰</CardTitle>
-          <CardDescription>구역별 좌석 리뷰를 확인해 보세요.</CardDescription>
-        </CardHeader>
+      <div className="flex items-center gap-10 px-8 py-2 sm:py-4 max-md:hidden">
+        <CardTitle className="text-lg">좌석 리뷰</CardTitle>
+        <CardDescription>구역별 좌석 리뷰를 확인해 보세요.</CardDescription>
       </div>
-      {/* <ReviewEditModal
-        isOpen={edit}
-        onClose={() => setEdit(false)}
-      /> */}
-      <CardContent className="grow">
-        <div className="flex items-center justify-between">
-          <ReviewContentHeader
-            updateSearchParams={updateSearchParams}
-            // setEdit={setEdit}
-          />
-          <ReviewCreateDialog />
+      <CardContent className="grow px-4">
+        <div className="flex flex-wrap items-center justify-between gap-2 py-2 sm:py-4">
+          <div className="max-sm:grow">
+            <ReviewFilter
+              updateSearchParams={updateSearchParams}
+              // setEdit={setEdit}
+            />
+          </div>
+          <div className="grow flex justify-between items-center gap-2">
+            <ReviewSortBtn updateSearchParams={updateSearchParams} />
+            <ReviewCreateDialog />
+          </div>
         </div>
-        <div className="mt-8 grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-8">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-4 md:gap-6 max-sm:px-10 sm:px-6">
           {data?.reviews?.map((review: any, i: number) => (
             <ReviewCard
               key={i}
