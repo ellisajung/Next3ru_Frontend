@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/elisa/theme-provider";
 import ReactQueryClientProvider from "@/components/elisa/ReactQueryClientProvider";
 import { Toaster } from "@/components/shadcn-ui/toaster";
-import Navbar from "@/components/Navbar";
+import NavBar from "@/components/Navbar";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -41,7 +41,7 @@ export default function RootLayout({
         >
           <ReactQueryClientProvider>
             <main className="flex flex-col min-h-screen">
-              <Navbar />
+              <NavBar />
               <div className="flex-1">
                 {/* <div className="absolute w-full h-full hidden space-y-6 p-24 pb-30 md:block"> */}
                 {/* <div className="absolute w-full h-full px-4 max-sm:py-1 sm:p-10 md:p-14 lg:p-20 xl:p-24 md:block"> */}
