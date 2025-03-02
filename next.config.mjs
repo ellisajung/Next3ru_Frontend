@@ -4,7 +4,12 @@ import bundleAnalyzer from "@next/bundle-analyzer";
 
 const nextConfig = {
   images: {
-    domains: ["wizzap.ktwiz.co.kr"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "ktwiz.co.kr",
+      },
+    ],
   },
   transpilePackages: ["three"],
   typescript: { ignoreBuildErrors: true },
