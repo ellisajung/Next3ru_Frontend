@@ -82,7 +82,10 @@ const LeftNavMenu = () => {
       className="w-full px-4"
     >
       {ACCORDION_ITEMS.map((item, i) => (
-        <AccordionItem value={`item-${i}`}>
+        <AccordionItem
+          value={`item-${i}`}
+          key={i}
+        >
           <AccordionTrigger>{item.trigger}</AccordionTrigger>
           <AccordionContent>
             <ul className="space-y-2">
