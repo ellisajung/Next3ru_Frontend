@@ -18,6 +18,7 @@ import { Button } from "@/components/shadcn-ui/button";
 import { Separator } from "@/components/shadcn-ui/separator";
 import { Rating } from "@mui/material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import Image from "next/image";
 
 const MyReviewsPage = () => {
   const queryClient = useQueryClient();
@@ -220,7 +221,7 @@ const MyReviewsPage = () => {
                 {/* 리뷰 콘텐츠 */}
                 <div className="col-span-1 bg-slate-400 relative inline-block overflow-hidden rounded-lg">
                   {/* <img src="image.png" alt="Example Image" class="block w-24 h-auto"> */}
-                  <img
+                  <Image
                     className="block object-fill w-full h-full"
                     src={review.img_urls[0]}
                     alt="Thumbnail Image"
