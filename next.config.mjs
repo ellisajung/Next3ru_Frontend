@@ -6,8 +6,7 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "ktwiz.co.kr",
+        hostname: "wizzap.ktwiz.co.kr",
       },
     ],
   },
