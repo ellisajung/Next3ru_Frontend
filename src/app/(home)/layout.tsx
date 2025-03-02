@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/elisa/theme-provider";
 import ReactQueryClientProvider from "@/components/elisa/ReactQueryClientProvider";
 import { Toaster } from "@/components/shadcn-ui/toaster";
-import NavBar from "@/components/Navbar";
+import NavBar from "@/components/NavBar";
 
 const fontSans = FontSans({
   subsets: ["latin"],
