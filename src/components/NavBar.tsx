@@ -209,7 +209,19 @@ const Navbar = () => {
               height={90}
             />
           </Link>
-          <RightNav username={username} />
+          {username ? (
+            <RightNav username={username} />
+          ) : (
+            <Link href="sign-in">
+              <Image
+                src="/images/navbar/log-in.svg"
+                className="w-[34px] h-[34px]"
+                alt="Login Icon"
+                width={50}
+                height={50}
+              />
+            </Link>
+          )}
         </div>
       </header>
     </>

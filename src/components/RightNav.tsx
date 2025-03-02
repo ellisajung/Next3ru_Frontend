@@ -21,6 +21,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { revalidatePath } from "next/cache";
 import { signOut } from "@/app/actions/auth";
 import ThemeSwitch from "./elisa/ThemeSwitch";
+import { redirect } from "next/navigation";
 
 const RightNav = ({ username }: { username: string | undefined }) => {
   const [rotate, setRotate] = useState(false);
@@ -31,7 +32,7 @@ const RightNav = ({ username }: { username: string | undefined }) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user"], refetchType: "all" });
       revalidatePath("/");
-      // redirect("/");
+      redirect("/");
     },
   });
   // console.log("rotate: ", rotate);
@@ -49,27 +50,15 @@ const RightNav = ({ username }: { username: string | undefined }) => {
       }}
     >
       <DrawerTrigger asChild>
-        {username ? (
-          <button>
-            <Image
-              src="/images/navbar/Mypage.svg"
-              className="w-[34px] h-[34px]"
-              alt="Profile Icon"
-              width={50}
-              height={50}
-            />
-          </button>
-        ) : (
-          <Link href="sign-in">
-            <Image
-              src="/images/navbar/log-in.svg"
-              className="w-[34px] h-[34px]"
-              alt="Login Icon"
-              width={50}
-              height={50}
-            />
-          </Link>
-        )}
+        <button>
+          <Image
+            src="/images/navbar/Mypage.svg"
+            className="w-[34px] h-[34px]"
+            alt="Profile Icon"
+            width={50}
+            height={50}
+          />
+        </button>
       </DrawerTrigger>
       <DrawerContent className="font-['KT'] flex flex-col items-end ">
         <DrawerHeader>
@@ -83,19 +72,21 @@ const RightNav = ({ username }: { username: string | undefined }) => {
           <DrawerClose asChild>
             <Link href="/user/reviews">내 리뷰</Link>
           </DrawerClose>
-          <Button
-            className="flex justify-start items-center w-full p-0 h-5 text-[16px]"
-            variant="ghost"
-            onClick={() => {
-              mutation.mutate();
-            }}
-          >
-            <LogOut
-              className="mr-1"
-              size={16}
-            />
-            로그아웃
-          </Button>
+          <DrawerClose asChild>
+            <Button
+              className="flex justify-start items-center w-full p-0 h-5 text-[16px]"
+              variant="ghost"
+              onClick={() => {
+                mutation.mutate();
+              }}
+            >
+              <LogOut
+                className="mr-1"
+                size={16}
+              />
+              로그아웃
+            </Button>
+          </DrawerClose>
         </div>
         <DrawerFooter>
           <div className="flex justify-end items-center gap-2">
