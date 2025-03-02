@@ -13,7 +13,7 @@ import RightNav from "./RightNav";
 import { useTheme } from "next-themes";
 import ThemeSwitch from "./elisa/ThemeSwitch";
 
-const Navbar = () => {
+const NavBar = () => {
   const { theme } = useTheme();
   const [rotate, setRotate] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -228,4 +228,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default NavBar;
