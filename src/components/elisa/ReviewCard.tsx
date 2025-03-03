@@ -29,7 +29,7 @@ const ReviewCard = ({ review }: any) => {
   });
 
   return (
-    <Card className="rounded-xl text-sm">
+    <Card className="rounded-xl text-sm flex flex-col">
       <CardHeader className="py-2">
         <div className="flex justify-between items-center">
           <div className="flex gap-2">
@@ -56,12 +56,11 @@ const ReviewCard = ({ review }: any) => {
           </Button>
         </div>
       </CardHeader>
-      <div className="mb-4">
-        <ImageSwiper imgUrls={review.img_urls} />
-      </div>
-
-      <CardContent>
-        <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-2 h-full justify-between">
+        <div className="h-full">
+          <ImageSwiper imgUrls={review.img_urls} />
+        </div>
+        <CardContent className="flex flex-col gap-3">
           <div className="flex justify-between">
             <span className="font-semibold">@{review.username}</span>
             <span className="">
@@ -102,8 +101,8 @@ const ReviewCard = ({ review }: any) => {
             </div>
           </div>
           {/* 콘텐츠 영역 */}
-        </div>
-      </CardContent>
+        </CardContent>
+      </div>
     </Card>
   );
 };
