@@ -127,7 +127,7 @@ const MyReviewsPage = () => {
             <Separator className="mt-8 mb-3" />
             {/* 데스크탑 & 테블릿 */}
             <div className="max-sm:hidden flex max-[800px]:flex-wrap gap-3">
-              <div className="grid grid-cols-4 gap-3">
+              <div className="grow grid grid-cols-4 gap-3">
                 {/* 좌석 & 별점 */}
                 <div className="col-span-3 grid gap-3">
                   <div className="flex gap-4 xl:gap-8 text-muted-foreground">
@@ -225,6 +225,8 @@ const MyReviewsPage = () => {
                     className="block object-fill w-full h-full"
                     src={review.img_urls[0]}
                     alt="Thumbnail Image"
+                    width={300}
+                    height={300}
                   />
                   <span className="absolute bottom-1 right-1 bg-black bg-opacity-65 text-white text-sm font-bold px-2 py-1 rounded-lg">
                     {review.img_urls.length}
@@ -232,7 +234,8 @@ const MyReviewsPage = () => {
                 </div>
               </div>
               {/* 수정 & 삭제 버튼 */}
-              <div className="col-span-1 w-full flex max-[801px]:justify-end min-[801px]:flex-col min-[801px]:items-end gap-3">
+              {/* <div className="col-span-1 w-full flex max-[801px]:justify-end min-[801px]:flex-col min-[801px]:items-end gap-3"> */}
+              <div className="flex max-[801px]:w-full max-[801px]:justify-end min-[801px]:flex-col min-[801px]:items-end gap-3">
                 <ReviewUpdateDialog reviewInfo={review} />
                 <Button
                   className="px-10 rounded-xl"
