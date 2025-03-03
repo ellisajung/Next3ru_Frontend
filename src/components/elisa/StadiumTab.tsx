@@ -84,6 +84,7 @@ const StadiumTab = () => {
                   variant="outline"
                   className="rounded-xl p-2 text-lg"
                   onClick={handleReset}
+                  aria-label="선택 초기화하기"
                 >
                   <GrPowerReset />
                 </Button>

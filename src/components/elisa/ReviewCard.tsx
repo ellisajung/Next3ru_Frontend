@@ -48,7 +48,10 @@ const ReviewCard = ({ review }: any) => {
               });
             }}
           >
-            <RiThumbUpLine strokeWidth="1" />
+            <RiThumbUpLine
+              strokeWidth="1"
+              aria-label="좋아요"
+            />
             <p>{review.likes}</p>
           </Button>
         </div>
@@ -61,7 +64,7 @@ const ReviewCard = ({ review }: any) => {
         <div className="flex flex-col gap-3">
           <div className="flex justify-between">
             <span className="font-semibold">@{review.username}</span>
-            <span className="text-zinc-500">
+            <span className="">
               작성일 {review.created_at.slice(0, 10).replaceAll("-", ".")}
             </span>
           </div>
@@ -92,7 +95,7 @@ const ReviewCard = ({ review }: any) => {
                 readOnly
               />
             </div>
-            <div className="flex flex-col justify-between text-zinc-500">
+            <div className="flex flex-col justify-between">
               <span>(3점) 좋아요</span>
               <span>(3점) 좋아요</span>
               <span>(3점) 좋아요</span>

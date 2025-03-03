@@ -34,7 +34,7 @@ const SeatMapImg = () => {
             <Image
               id="imgExample" // zoomToElement에서 사용할 ID
               src="/images/elisa/seatmap.png"
-              alt="seatmap"
+              alt="좌석 안내도"
               className="sm:size-60 xl:size-80"
               width={500}
               height={500}
@@ -45,6 +45,7 @@ const SeatMapImg = () => {
               variant="outline"
               className="border-none rounded-xl text-lg p-2"
               onClick={() => zoomIn()}
+              aria-label="확대하기"
             >
               <FiZoomIn />
             </Button>
@@ -53,6 +54,7 @@ const SeatMapImg = () => {
               variant="outline"
               className="border-none rounded-xl text-lg p-2"
               onClick={() => zoomOut()}
+              aria-label="축소하기"
             >
               <FiZoomOut />
             </Button>
@@ -60,6 +62,7 @@ const SeatMapImg = () => {
               variant="outline"
               className="border-none rounded-xl text-lg p-2"
               onClick={() => resetTransform()}
+              aria-label="확대 및 축소 초기화하기"
             >
               <MdZoomInMap />
             </Button>

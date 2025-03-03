@@ -12,6 +12,7 @@ import "../../styles/image-swiper.css";
 
 // import required modules
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
+import Image from "next/image";
 
 const ImageSwiper = ({ imgUrls }: { imgUrls: string[] }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
@@ -28,7 +29,12 @@ const ImageSwiper = ({ imgUrls }: { imgUrls: string[] }) => {
       >
         {imgUrls?.map((url: string, i) => (
           <SwiperSlide key={i}>
-            <img src={url} />
+            <Image
+              src={url}
+              alt="Thumbnail Image"
+              width={400}
+              height={400}
+            />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -46,7 +52,12 @@ const ImageSwiper = ({ imgUrls }: { imgUrls: string[] }) => {
       >
         {imgUrls?.map((url: string, i: number) => (
           <SwiperSlide key={i}>
-            <img src={url} />
+            <Image
+              src={url}
+              alt="Image List"
+              width={100}
+              height={100}
+            />
           </SwiperSlide>
         ))}
       </Swiper>

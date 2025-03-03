@@ -75,17 +75,18 @@ const ReviewPagination = ({
                 {totalPages}
               </PaginationLink>
             </PaginationItem>
-            <PaginationItem></PaginationItem>
           </>
         )}
-        <PaginationNext
-          onClick={() =>
-            updateSearchParams(
-              "page",
-              Math.min(currentPage + 1, totalPages || 1) + "",
-            )
-          }
-        />
+        <PaginationItem>
+          <PaginationNext
+            onClick={() =>
+              updateSearchParams(
+                "page",
+                Math.min(currentPage + 1, totalPages || 1) + "",
+              )
+            }
+          />
+        </PaginationItem>
       </PaginationContent>
     </Pagination>
   );
