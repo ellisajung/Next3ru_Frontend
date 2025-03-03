@@ -26,6 +26,8 @@ const AreaNameSwiper: React.FC<AreaNameSwiperProps> = ({
     queryFn: fetchSeatsData,
   });
 
+  console.log(hides);
+
   return (
     <Swiper
       className="area-name bg-transparent w-full"
@@ -44,6 +46,9 @@ const AreaNameSwiper: React.FC<AreaNameSwiperProps> = ({
           <div
             className="group relative w-full h-full flex justify-between items-center py-1 gap-2"
             onClick={() => onToggleHide(area_name)}
+            role="button"
+            aria-pressed={!hides[area_name]}
+            aria-label={`${area_name} 구역`}
           >
             <div
               className="w-5 h-5 rounded border-solid border-2 group-hover:outline transition-all duration-150 ease-in-out hover:outline-2 hover:outline-black dark:hover:outline-white"

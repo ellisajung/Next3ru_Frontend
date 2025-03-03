@@ -79,6 +79,9 @@ const ReviewFilter = ({ updateSearchParams }: ReviewFilterProps) => {
               variant="outline"
               role="combobox"
               aria-expanded={areaNameOpen}
+              aria-label={
+                areaNameValue ? `${areaNameValue} 선택됨` : "구역 이름 선택"
+              }
               className="w-full rounded-xl"
             >
               {areaNameValue
@@ -140,6 +143,7 @@ const ReviewFilter = ({ updateSearchParams }: ReviewFilterProps) => {
               variant="outline"
               role="combobox"
               aria-expanded={zoneOpen}
+              aria-label={zoneValue ? `${zoneValue} 선택됨` : "구역 이름 선택"}
               className="w-full rounded-xl"
             >
               {zoneValue
