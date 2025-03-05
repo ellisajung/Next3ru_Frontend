@@ -1,12 +1,13 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { Suspense, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
   Environment,
   CameraControls,
   PerspectiveCamera,
   Center,
+  Html,
 } from "@react-three/drei";
 import { SkeletonModel } from "./SkeletonModel";
 import { CenterModel } from "./CenterModel";
@@ -25,17 +26,9 @@ import { Sky1RuModel } from "./Sky1RuModel";
 import { Sky3RuModel } from "./Sky3RuModel";
 import { TvingTableModel } from "./TvingTableModel";
 import { YBoxModel } from "./YBoxModel";
-import SeatInfoModal from "./SeatInfoModal";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../shadcn-ui/dialog";
+import { Dialog, DialogContent } from "../shadcn-ui/dialog";
 import SeatInfoDialog from "./SeatInfoDialog";
+import StadiumSkeleton from "./StadiumSkeleton";
 
 export interface IClickedMeshInfo {
   area_name: any;
@@ -71,130 +64,138 @@ export default function StadiumModel({ hides }: any) {
         </DialogContent>
       </Dialog>
       <Canvas>
-        <Center>
-          <SkeletonModel
-            showModal={showModal}
-            handleMeshHover={handleMeshHover}
-            handleMeshClick={handleMeshClick}
-          />
-          <CenterModel
-            areaName="중앙지정석"
-            hides={hides}
-            showModal={showModal}
-            handleMeshHover={handleMeshHover}
-            handleMeshClick={handleMeshClick}
-          />
-          <Cheering1RuModel
-            areaName="응원지정석(1루)"
-            hides={hides}
-            showModal={showModal}
-            handleMeshHover={handleMeshHover}
-            handleMeshClick={handleMeshClick}
-          />
-          <Cheering3RuModel
-            areaName="응원지정석(3루)"
-            hides={hides}
-            showModal={showModal}
-            handleMeshHover={handleMeshHover}
-            handleMeshClick={handleMeshClick}
-          />
-          <Exiting1RuModel
-            areaName="하이파이브존"
-            hides={hides}
-            showModal={showModal}
-            handleMeshHover={handleMeshHover}
-            handleMeshClick={handleMeshClick}
-          />
-          <Exiting3RuModel
-            areaName="익사이팅석"
-            hides={hides}
-            showModal={showModal}
-            handleMeshHover={handleMeshHover}
-            handleMeshClick={handleMeshClick}
-          />
-          <GiniTvModel
-            areaName="지니TV석"
-            hides={hides}
-            showModal={showModal}
-            handleMeshHover={handleMeshHover}
-            handleMeshClick={handleMeshClick}
-          />
-          <GiniModel
-            areaName="지니존"
-            hides={hides}
-            showModal={showModal}
-            handleMeshHover={handleMeshHover}
-            handleMeshClick={handleMeshClick}
-          />
-          <Grass1RuModel
-            areaName="외야잔디(자유석)"
-            hides={hides}
-            showModal={showModal}
-            handleMeshHover={handleMeshHover}
-            handleMeshClick={handleMeshClick}
-          />
-          <Grass3RuModel
-            areaName="외야잔디(자유석)"
-            hides={hides}
-            showModal={showModal}
-            handleMeshHover={handleMeshHover}
-            handleMeshClick={handleMeshClick}
-          />
-          <Kidsland4thModel
-            areaName="키즈랜드존"
-            hides={hides}
-            showModal={showModal}
-            handleMeshHover={handleMeshHover}
-            handleMeshClick={handleMeshClick}
-          />
-          <Kidsland5thModel
-            areaName="키즈랜드존"
-            hides={hides}
-            showModal={showModal}
-            handleMeshHover={handleMeshHover}
-            handleMeshClick={handleMeshClick}
-          />
-          <KtAlphaModel
-            areaName="KT알파쇼핑석"
-            hides={hides}
-            showModal={showModal}
-            handleMeshHover={handleMeshHover}
-            handleMeshClick={handleMeshClick}
-          />
-          <Sky1RuModel
-            areaName="스카이존(1루)"
-            hides={hides}
-            showModal={showModal}
-            handleMeshHover={handleMeshHover}
-            handleMeshClick={handleMeshClick}
-          />
-          <Sky3RuModel
-            areaName="스카이존(3루)"
-            hides={hides}
-            showModal={showModal}
-            handleMeshHover={handleMeshHover}
-            handleMeshClick={handleMeshClick}
-          />
-          <TvingTableModel
-            areaName="티빙테이블석(외야)"
-            hides={hides}
-            showModal={showModal}
-            handleMeshHover={handleMeshHover}
-            handleMeshClick={handleMeshClick}
-          />
-          <YBoxModel
-            areaName="Y박스석"
-            hides={hides}
-            showModal={showModal}
-            handleMeshHover={handleMeshHover}
-            handleMeshClick={handleMeshClick}
-          />
-          {/* <TooltipModel
+        <Suspense
+          fallback={
+            <Html center>
+              <StadiumSkeleton />
+            </Html>
+          }
+        >
+          <Center>
+            <SkeletonModel
+              showModal={showModal}
+              handleMeshHover={handleMeshHover}
+              handleMeshClick={handleMeshClick}
+            />
+            <CenterModel
+              areaName="중앙지정석"
+              hides={hides}
+              showModal={showModal}
+              handleMeshHover={handleMeshHover}
+              handleMeshClick={handleMeshClick}
+            />
+            <Cheering1RuModel
+              areaName="응원지정석(1루)"
+              hides={hides}
+              showModal={showModal}
+              handleMeshHover={handleMeshHover}
+              handleMeshClick={handleMeshClick}
+            />
+            <Cheering3RuModel
+              areaName="응원지정석(3루)"
+              hides={hides}
+              showModal={showModal}
+              handleMeshHover={handleMeshHover}
+              handleMeshClick={handleMeshClick}
+            />
+            <Exiting1RuModel
+              areaName="하이파이브존"
+              hides={hides}
+              showModal={showModal}
+              handleMeshHover={handleMeshHover}
+              handleMeshClick={handleMeshClick}
+            />
+            <Exiting3RuModel
+              areaName="익사이팅석"
+              hides={hides}
+              showModal={showModal}
+              handleMeshHover={handleMeshHover}
+              handleMeshClick={handleMeshClick}
+            />
+            <GiniTvModel
+              areaName="지니TV석"
+              hides={hides}
+              showModal={showModal}
+              handleMeshHover={handleMeshHover}
+              handleMeshClick={handleMeshClick}
+            />
+            <GiniModel
+              areaName="지니존"
+              hides={hides}
+              showModal={showModal}
+              handleMeshHover={handleMeshHover}
+              handleMeshClick={handleMeshClick}
+            />
+            <Grass1RuModel
+              areaName="외야잔디(자유석)"
+              hides={hides}
+              showModal={showModal}
+              handleMeshHover={handleMeshHover}
+              handleMeshClick={handleMeshClick}
+            />
+            <Grass3RuModel
+              areaName="외야잔디(자유석)"
+              hides={hides}
+              showModal={showModal}
+              handleMeshHover={handleMeshHover}
+              handleMeshClick={handleMeshClick}
+            />
+            <Kidsland4thModel
+              areaName="키즈랜드존"
+              hides={hides}
+              showModal={showModal}
+              handleMeshHover={handleMeshHover}
+              handleMeshClick={handleMeshClick}
+            />
+            <Kidsland5thModel
+              areaName="키즈랜드존"
+              hides={hides}
+              showModal={showModal}
+              handleMeshHover={handleMeshHover}
+              handleMeshClick={handleMeshClick}
+            />
+            <KtAlphaModel
+              areaName="KT알파쇼핑석"
+              hides={hides}
+              showModal={showModal}
+              handleMeshHover={handleMeshHover}
+              handleMeshClick={handleMeshClick}
+            />
+            <Sky1RuModel
+              areaName="스카이존(1루)"
+              hides={hides}
+              showModal={showModal}
+              handleMeshHover={handleMeshHover}
+              handleMeshClick={handleMeshClick}
+            />
+            <Sky3RuModel
+              areaName="스카이존(3루)"
+              hides={hides}
+              showModal={showModal}
+              handleMeshHover={handleMeshHover}
+              handleMeshClick={handleMeshClick}
+            />
+            <TvingTableModel
+              areaName="티빙테이블석(외야)"
+              hides={hides}
+              showModal={showModal}
+              handleMeshHover={handleMeshHover}
+              handleMeshClick={handleMeshClick}
+            />
+            <YBoxModel
+              areaName="Y박스석"
+              hides={hides}
+              showModal={showModal}
+              handleMeshHover={handleMeshHover}
+              handleMeshClick={handleMeshClick}
+            />
+            {/* <TooltipModel
             position={[100, 100, 100]}
             text="tooltip"
           /> */}
-          {/* <Floor /> */}
-        </Center>
+            {/* <Floor /> */}
+          </Center>
+        </Suspense>
         <Environment
           background={false}
           preset="city"
