@@ -58,7 +58,8 @@ const StadiumTab = () => {
       <div className="relative w-full h-full">
         <StadiumModel hides={hides} />
         {/* 페이지 설명 카드 */}
-        <div className="absolute top-0 left-0 px-4 pt-14 xl:pt-16">
+        {/* <div className="absolute top-0 left-0 px-4 pt-14 xl:pt-16"> */}
+        <div className="absolute top-0 left-0 p-4">
           <Card className="rounded-xl flex min-w-min p-4 gap-2 md:gap-10 border-none items-center bg-white bg-opacity-65 dark:bg-black dark:bg-opacity-55">
             <CardTitle className="max-md:hidden text-lg">
               3D 좌석 안내도
