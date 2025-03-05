@@ -35,7 +35,7 @@ export const fetchReviewsData = async (
 
     const totalPages = Math.ceil((count || 1) / itemsPerPage);
 
-    console.log("reviews: ", reviews, "filtered count: ", count);
+    // console.log("reviews: ", reviews, "filtered count: ", count);
     return { reviews, totalPages };
   }
 
@@ -84,7 +84,7 @@ export const fetchFilteredReviewsData = async (
     console.log(error.message);
   }
 
-  console.log("reviews: ", reviews, "filtered count: ", count);
+  // console.log("reviews: ", reviews, "filtered count: ", count);
   return { reviews, count };
 };
 
@@ -150,7 +150,7 @@ export const createReviewData = async ({
     return { success: false };
   }
 
-  console.log("created review: ", data);
+  // console.log("created review: ", data);
   return { success: true, message: "리뷰가 성공적으로 저장되었습니다." };
 };
 
@@ -181,7 +181,7 @@ export const updateUserReviewData = async ({
     return;
   }
 
-  console.log("Updated Review: ", data);
+  // console.log("Updated Review: ", data);
   return data;
 };
 
@@ -240,6 +240,6 @@ export const toggleLike = async ({
     return;
   }
 
-  console.log("Updated Likes: ", data);
+  // console.log("Updated Likes: ", data);
   return data;
 };
