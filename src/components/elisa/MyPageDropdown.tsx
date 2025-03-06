@@ -48,7 +48,7 @@ const MyPageDropdown = ({ username }: { username: string }) => {
         <Link href="/user/account">
           <DropdownMenuItem>내 계정</DropdownMenuItem>
         </Link>
-        <Link href="/user/reviews">
+        <Link href="/user/my-reviews">
           <DropdownMenuItem>내 리뷰</DropdownMenuItem>
         </Link>
         <DropdownMenuItem>

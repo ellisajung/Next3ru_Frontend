@@ -62,7 +62,7 @@ const TicketLayout = ({ children }: { children: React.ReactNode }) => {
         //       )
         // }
         // className="absolute w-full h-full"
-        className="absolute w-full h-[84%]"
+        className="absolute w-full h-[94%]"
       >
         <div
           className={`min-w-max w-full sticky top-[60px] z-[90] px-4 py-2 xl:p-4 ${
