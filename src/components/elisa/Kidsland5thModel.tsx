@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { useEffect, useState } from "react";
 import { Html, useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
-import { TClickedMeshInfo } from "./StadiumModel";
+import { IClickedMeshInfo } from "./StadiumModel";
 import MeshLabel from "./MeshLabel";
 
 type NodeKeys = "Mesh15721_Kidsland-5th";
@@ -26,20 +26,20 @@ export function Kidsland5thModel({
   ) as GLTFResult;
 
   const [isHovered, setIsHovered] = useState(false);
-  const [hoveredMesh, setHoveredMesh] = useState<TClickedMeshInfo | null>(null);
-  const [clickedMesh, setClickedMesh] = useState<TClickedMeshInfo | null>(null);
+  const [hoveredMesh, setHoveredMesh] = useState<IClickedMeshInfo | null>(null);
+  const [clickedMesh, setClickedMesh] = useState<IClickedMeshInfo | null>(null);
 
   const defaultColor = nodes["Mesh15721_Kidsland-5th"]
     .material as THREE.MeshStandardMaterial;
   const hoverColor = defaultColor.clone();
   hoverColor.color.set("#1D8DCC");
 
-  const onMeshClick = (info: TClickedMeshInfo): void => {
+  const onMeshClick = (info: IClickedMeshInfo): void => {
     handleMeshClick(info);
     setClickedMesh(info);
   };
 
-  const onMeshOver = (info: TClickedMeshInfo): void => {
+  const onMeshOver = (info: IClickedMeshInfo): void => {
     handleMeshHover(info);
     setHoveredMesh(info);
   };
@@ -48,7 +48,7 @@ export function Kidsland5thModel({
     setHoveredMesh(null);
   };
 
-  const getColor = (info: TClickedMeshInfo) =>
+  const getColor = (info: IClickedMeshInfo) =>
     !hides[areaName] || isHovered || info.zone === clickedMesh?.zone
       ? hoverColor
       : defaultColor;
@@ -61,7 +61,7 @@ export function Kidsland5thModel({
 
   const mesh = nodes["Mesh15721_Kidsland-5th"];
   const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
-  const meshInfo: TClickedMeshInfo = {
+  const meshInfo: IClickedMeshInfo = {
     area_name: areaName,
     zone: zone,
   };

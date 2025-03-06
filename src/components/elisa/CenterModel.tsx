@@ -4,7 +4,7 @@ import * as THREE from "three";
 import { useEffect, useState } from "react";
 import { useGLTF, Html } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
-import { type TClickedMeshInfo } from "@/components/elisa/StadiumModel";
+import { type IClickedMeshInfo } from "@/components/elisa/StadiumModel";
 import MeshLabel from "./MeshLabel";
 
 type NodeKeys =
@@ -80,21 +80,21 @@ export function CenterModel({
   const { nodes, materials } = useGLTF("/models/center.glb") as GLTFResult;
 
   const [isHovered, setIsHovered] = useState(false);
-  const [hoveredMesh, setHoveredMesh] = useState<TClickedMeshInfo | null>(null);
-  const [clickedMesh, setClickedMesh] = useState<TClickedMeshInfo | null>(null);
+  const [hoveredMesh, setHoveredMesh] = useState<IClickedMeshInfo | null>(null);
+  const [clickedMesh, setClickedMesh] = useState<IClickedMeshInfo | null>(null);
 
   const defaultColor = nodes["Mesh6271_Center_zone-218"]
     .material as THREE.MeshStandardMaterial;
   const hoverColor = defaultColor.clone();
   hoverColor.color.set("#702CA4");
 
-  const onMeshClick = (info: TClickedMeshInfo): void => {
+  const onMeshClick = (info: IClickedMeshInfo): void => {
     handleMeshClick(info);
     setClickedMesh(info);
     console.log(info);
   };
 
-  const onMeshOver = (info: TClickedMeshInfo): void => {
+  const onMeshOver = (info: IClickedMeshInfo): void => {
     handleMeshHover(info);
     setHoveredMesh(info);
   };
@@ -103,7 +103,7 @@ export function CenterModel({
     setHoveredMesh(null);
   };
 
-  const getColor = (info: TClickedMeshInfo) =>
+  const getColor = (info: IClickedMeshInfo) =>
     // 아레아가 히든 상태가 아니거나, 아레아가 호버 상태이거나, 존이 클릭되어 있는 상태일 경우
     !hides[areaName] || isHovered || info.zone === clickedMesh?.zone
       ? hoverColor
@@ -119,7 +119,7 @@ export function CenterModel({
     const mesh = nodes[name];
     const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
 
-    const meshInfo: TClickedMeshInfo = {
+    const meshInfo: IClickedMeshInfo = {
       area_name: areaName,
       zone: zone,
     };
