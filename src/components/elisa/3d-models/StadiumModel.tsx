@@ -56,7 +56,7 @@ export default function StadiumModel({ hides }: any) {
         open={showModal}
         onOpenChange={setShowModal}
       >
-        <DialogContent className="sm:max-w-[650px]">
+        <DialogContent className="mx-4 w-9/10 sm:w-2/3 md:max-w-2xl">
           <SeatInfoDialog
             areaName={clickedMeshInfo?.area_name}
             zone={clickedMeshInfo?.zone}
