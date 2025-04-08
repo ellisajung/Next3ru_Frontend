@@ -3,9 +3,12 @@ import { useEffect, useState } from "react";
 import { Html, useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { IClickedMeshInfo } from "./StadiumModel";
-import MeshLabel from "./MeshLabel";
+import MeshLabel from "../MeshLabel";
 
-type NodeKeys = "Mesh2887_Tving-table";
+type NodeKeys =
+  | "Mesh7189_Gini-right"
+  | "Mesh7827_Gini-center"
+  | "Mesh19819_Gini-left";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -14,23 +17,34 @@ type GLTFResult = GLTF & {
   materials: { [key: string]: THREE.MeshStandardMaterial };
 };
 
-export function TvingTableModel({
+type MeshData = {
+  name: NodeKeys;
+  position: [number, number, number];
+};
+
+const meshesData: MeshData[] = [
+  { name: "Mesh7189_Gini-right", position: [-458.379, 23.033, -420.72] },
+  { name: "Mesh7827_Gini-center", position: [-381.379, 26.01, -550.511] },
+  { name: "Mesh19819_Gini-left", position: [-226.25, 22.991, -551.744] },
+];
+
+export function GiniModel({
   hides,
   areaName,
-  showModal,
   handleMeshHover,
+  showModal,
   handleMeshClick,
 }: any) {
-  const { nodes, materials } = useGLTF("/models/tving-table.glb") as GLTFResult;
+  const { nodes, materials } = useGLTF("/models/gini.glb") as GLTFResult;
 
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredMesh, setHoveredMesh] = useState<IClickedMeshInfo | null>(null);
   const [clickedMesh, setClickedMesh] = useState<IClickedMeshInfo | null>(null);
 
-  const defaultColor = nodes["Mesh2887_Tving-table"]
+  const defaultColor = nodes["Mesh7189_Gini-right"]
     .material as THREE.MeshStandardMaterial;
   const hoverColor = defaultColor.clone();
-  hoverColor.color.set("#DB7390");
+  hoverColor.color.set("#4864CA");
 
   const onMeshClick = (info: IClickedMeshInfo): void => {
     handleMeshClick(info);
@@ -57,20 +71,21 @@ export function TvingTableModel({
     }
   }, [showModal]);
 
-  const mesh = nodes["Mesh2887_Tving-table"];
-  const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
-  const meshInfo: IClickedMeshInfo = {
-    area_name: areaName,
-    zone: zone,
-  };
-
-  return (
-    <group
-      dispose={null}
-      onPointerOver={() => setIsHovered(true)}
-      onPointerOut={() => setIsHovered(false)}
-    >
+  const meshes = meshesData.map(({ name, position }) => {
+    const mesh = nodes[name];
+    const zone =
+      mesh.name.split("-")[1] === "right"
+        ? "우"
+        : mesh.name.split("-")[1] === "left"
+        ? "좌"
+        : "중앙";
+    const meshInfo: IClickedMeshInfo = {
+      area_name: areaName,
+      zone: zone,
+    };
+    return (
       <mesh
+        key={name}
         castShadow
         receiveShadow
         geometry={mesh.geometry}
@@ -78,7 +93,7 @@ export function TvingTableModel({
         onClick={() => onMeshClick(meshInfo)}
         onPointerOver={() => onMeshOver(meshInfo)}
         onPointerOut={onMeshOut}
-        position={[563.362, 139.246, 975.975]}
+        position={position}
         rotation={[-3.141, -1.305, -3.141]}
         scale={0.292}
       >
@@ -88,8 +103,18 @@ export function TvingTableModel({
           </Html>
         )}
       </mesh>
+    );
+  });
+
+  return (
+    <group
+      dispose={null}
+      onPointerOver={() => setIsHovered(true)}
+      onPointerOut={() => setIsHovered(false)}
+    >
+      {meshes}
     </group>
   );
 }
 
-useGLTF.preload("/models/tving-table.glb");
+useGLTF.preload("/models/gini.glb");

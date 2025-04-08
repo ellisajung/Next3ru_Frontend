@@ -32,8 +32,8 @@ const ImageSwiper = ({ imgUrls }: { imgUrls: string[] }) => {
             <Image
               src={url}
               alt="Thumbnail Image"
-              width={400}
-              height={400}
+              width={500}
+              height={500}
             />
           </SwiperSlide>
         ))}
@@ -55,8 +55,8 @@ const ImageSwiper = ({ imgUrls }: { imgUrls: string[] }) => {
             <Image
               src={url}
               alt="Image List"
-              width={100}
-              height={100}
+              width={200}
+              height={200}
             />
           </SwiperSlide>
         ))}

@@ -29,13 +29,13 @@ const SeatInfoDialog: React.FC<SeatInfoDialogProps> = ({ areaName, zone }) => {
 
   const imgUrls = data?.reviews?.reduce(
     (acc, curr) => [...acc, ...curr.img_urls],
-    [],
+    []
   );
 
   const getAvgRate = (key: string) => {
     const total = data?.reviews?.reduce(
       (acc, curr) => acc + curr.rates[key],
-      0,
+      0
     );
     const avgRate = Math.round(total / Number(data?.count));
     return avgRate;
@@ -57,7 +57,7 @@ const SeatInfoDialog: React.FC<SeatInfoDialogProps> = ({ areaName, zone }) => {
           <ImageSwiper imgUrls={imgUrls} />
         </div>
         {/* 정보 필드 */}
-        <div className="grid grid-rows-2 gap-8">
+        <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-4">
             <p className="font-semibold">통합 정보</p>
             <div className="pl-4 flex flex-col gap-2">
@@ -88,7 +88,7 @@ const SeatInfoDialog: React.FC<SeatInfoDialogProps> = ({ areaName, zone }) => {
                 (리뷰 {`${data?.count}`}개 &rarr;)
               </Link>
             </div>
-            <div className="flex justify-between pl-4">
+            <div className="flex gap-4">
               <div className="flex flex-col gap-1">
                 <p className="font-semibold">거리</p>
                 <p className="font-semibold">시야</p>
@@ -119,11 +119,11 @@ const SeatInfoDialog: React.FC<SeatInfoDialogProps> = ({ areaName, zone }) => {
                   readOnly
                 />
               </div>
-              <div className="flex gap-3">
+              <div className="flex gap-2">
                 <div className="flex flex-col gap-1">
-                  <p>{getAvgRate("distance")} 점</p>
-                  <p>{getAvgRate("view")} 점</p>
-                  <p>{getAvgRate("energy")} 점</p>
+                  <p>({getAvgRate("distance")}점)</p>
+                  <p>({getAvgRate("view")}점)</p>
+                  <p>({getAvgRate("energy")}점)</p>
                 </div>
                 <div className="flex flex-col gap-1">
                   {getAvgRate("distance") !== null && (
@@ -147,7 +147,6 @@ const SeatInfoDialog: React.FC<SeatInfoDialogProps> = ({ areaName, zone }) => {
           </div>
         </div>
       </div>
-      <DialogFooter></DialogFooter>
     </>
   );
 };

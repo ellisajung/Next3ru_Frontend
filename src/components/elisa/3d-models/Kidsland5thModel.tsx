@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import { Html, useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { IClickedMeshInfo } from "./StadiumModel";
-import MeshLabel from "./MeshLabel";
+import MeshLabel from "../MeshLabel";
 
-type NodeKeys = "Mesh22083_3Ru-exiting";
+type NodeKeys = "Mesh15721_Kidsland-5th";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -14,23 +14,25 @@ type GLTFResult = GLTF & {
   materials: { [key: string]: THREE.MeshStandardMaterial };
 };
 
-export function Exiting3RuModel({
+export function Kidsland5thModel({
   hides,
   areaName,
-  handleMeshHover,
   showModal,
+  handleMeshHover,
   handleMeshClick,
 }: any) {
-  const { nodes, materials } = useGLTF("/models/exiting-3ru.glb") as GLTFResult;
+  const { nodes, materials } = useGLTF(
+    "/models/kidsland-5th.glb",
+  ) as GLTFResult;
 
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredMesh, setHoveredMesh] = useState<IClickedMeshInfo | null>(null);
   const [clickedMesh, setClickedMesh] = useState<IClickedMeshInfo | null>(null);
 
-  const defaultColor = nodes["Mesh22083_3Ru-exiting"]
+  const defaultColor = nodes["Mesh15721_Kidsland-5th"]
     .material as THREE.MeshStandardMaterial;
   const hoverColor = defaultColor.clone();
-  hoverColor.color.set("#36A09A");
+  hoverColor.color.set("#1D8DCC");
 
   const onMeshClick = (info: IClickedMeshInfo): void => {
     handleMeshClick(info);
@@ -57,7 +59,7 @@ export function Exiting3RuModel({
     }
   }, [showModal]);
 
-  const mesh = nodes["Mesh22083_3Ru-exiting"];
+  const mesh = nodes["Mesh15721_Kidsland-5th"];
   const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
   const meshInfo: IClickedMeshInfo = {
     area_name: areaName,
@@ -78,7 +80,7 @@ export function Exiting3RuModel({
         onClick={() => onMeshClick(meshInfo)}
         onPointerOver={() => onMeshOver(meshInfo)}
         onPointerOut={onMeshOut}
-        position={[323.71, 24.066, -399.248]}
+        position={[-729.709, 240.003, 675.877]}
         rotation={[-3.141, -1.305, -3.141]}
         scale={0.292}
       >
@@ -92,4 +94,4 @@ export function Exiting3RuModel({
   );
 }
 
-useGLTF.preload("/models/exiting-3ru.glb");
+useGLTF.preload("/models/kidsland-5th.glb");

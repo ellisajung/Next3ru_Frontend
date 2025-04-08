@@ -2,8 +2,8 @@ import * as THREE from "three";
 import { useEffect, useState } from "react";
 import { Html, useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
-import { TClickedMeshInfo } from "./StadiumModel";
-import MeshLabel from "./MeshLabel";
+import { IClickedMeshInfo } from "./StadiumModel";
+import MeshLabel from "../MeshLabel";
 
 type NodeKeys =
   | "Mesh10445_Sky-3ru_zone-413"
@@ -120,20 +120,20 @@ export function Sky3RuModel({
   const { nodes, materials } = useGLTF("/models/sky-3ru.glb") as GLTFResult;
 
   const [isHovered, setIsHovered] = useState(false);
-  const [hoveredMesh, setHoveredMesh] = useState<TClickedMeshInfo | null>(null);
-  const [clickedMesh, setClickedMesh] = useState<TClickedMeshInfo | null>(null);
+  const [hoveredMesh, setHoveredMesh] = useState<IClickedMeshInfo | null>(null);
+  const [clickedMesh, setClickedMesh] = useState<IClickedMeshInfo | null>(null);
 
   const defaultColor = nodes["Mesh10445_Sky-3ru_zone-413"]
     .material as THREE.MeshStandardMaterial;
   const hoverColor = defaultColor.clone();
   hoverColor.color.set("#211C79");
 
-  const onMeshClick = (info: TClickedMeshInfo): void => {
+  const onMeshClick = (info: IClickedMeshInfo): void => {
     handleMeshClick(info);
     setClickedMesh(info);
   };
 
-  const onMeshOver = (info: TClickedMeshInfo): void => {
+  const onMeshOver = (info: IClickedMeshInfo): void => {
     handleMeshHover(info);
     setHoveredMesh(info);
   };
@@ -142,7 +142,7 @@ export function Sky3RuModel({
     setHoveredMesh(null);
   };
 
-  const getColor = (info: TClickedMeshInfo) =>
+  const getColor = (info: IClickedMeshInfo) =>
     !hides[areaName] || isHovered || info.zone === clickedMesh?.zone
       ? hoverColor
       : defaultColor;
@@ -156,7 +156,7 @@ export function Sky3RuModel({
   const meshes = meshesData.map(({ name, position }) => {
     const mesh = nodes[name];
     const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
-    const meshInfo: TClickedMeshInfo = {
+    const meshInfo: IClickedMeshInfo = {
       area_name: areaName,
       zone: zone,
     };

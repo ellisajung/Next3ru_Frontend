@@ -4,8 +4,8 @@ import * as THREE from "three";
 import { useEffect, useState } from "react";
 import { useGLTF, Html } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
-import { type IClickedMeshInfo } from "@/components/elisa/StadiumModel";
-import MeshLabel from "./MeshLabel";
+import { type IClickedMeshInfo } from "./StadiumModel";
+import MeshLabel from "../MeshLabel";
 
 type NodeKeys =
   | "Mesh6271_Center_zone-218"

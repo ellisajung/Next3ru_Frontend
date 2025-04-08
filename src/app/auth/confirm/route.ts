@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
   if (token_hash && type) {
     const supabase = await createClient()
 
-    const { error } = await supabase.auth.verifyOtp({ token_hash, type })
+    const { error } = await supabase.auth.verifyOtp({ token_hash, type }) // 유효성 검사
 
     if (!error) {
       // redirect user to specified redirect URL or root of app

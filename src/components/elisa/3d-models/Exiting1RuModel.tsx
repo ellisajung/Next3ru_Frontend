@@ -1,11 +1,11 @@
 import * as THREE from "three";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Html, useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { IClickedMeshInfo } from "./StadiumModel";
-import MeshLabel from "./MeshLabel";
+import MeshLabel from "../MeshLabel";
 
-type NodeKeys = "Mesh15721_Kidsland-5th";
+type NodeKeys = "Mesh6965_1Ru-exiting";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -14,25 +14,23 @@ type GLTFResult = GLTF & {
   materials: { [key: string]: THREE.MeshStandardMaterial };
 };
 
-export function Kidsland5thModel({
+export function Exiting1RuModel({
   hides,
   areaName,
   showModal,
   handleMeshHover,
   handleMeshClick,
 }: any) {
-  const { nodes, materials } = useGLTF(
-    "/models/kidsland-5th.glb",
-  ) as GLTFResult;
+  const { nodes, materials } = useGLTF("/models/exiting-1ru.glb") as GLTFResult;
 
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredMesh, setHoveredMesh] = useState<IClickedMeshInfo | null>(null);
   const [clickedMesh, setClickedMesh] = useState<IClickedMeshInfo | null>(null);
 
-  const defaultColor = nodes["Mesh15721_Kidsland-5th"]
+  const defaultColor = nodes["Mesh6965_1Ru-exiting"]
     .material as THREE.MeshStandardMaterial;
   const hoverColor = defaultColor.clone();
-  hoverColor.color.set("#1D8DCC");
+  hoverColor.color.set("#36A09A");
 
   const onMeshClick = (info: IClickedMeshInfo): void => {
     handleMeshClick(info);
@@ -59,7 +57,7 @@ export function Kidsland5thModel({
     }
   }, [showModal]);
 
-  const mesh = nodes["Mesh15721_Kidsland-5th"];
+  const mesh = nodes["Mesh6965_1Ru-exiting"];
   const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
   const meshInfo: IClickedMeshInfo = {
     area_name: areaName,
@@ -80,7 +78,7 @@ export function Kidsland5thModel({
         onClick={() => onMeshClick(meshInfo)}
         onPointerOver={() => onMeshOver(meshInfo)}
         onPointerOut={onMeshOut}
-        position={[-729.709, 240.003, 675.877]}
+        position={[-509.209, 25.682, 155.138]}
         rotation={[-3.141, -1.305, -3.141]}
         scale={0.292}
       >
@@ -94,4 +92,4 @@ export function Kidsland5thModel({
   );
 }
 
-useGLTF.preload("/models/kidsland-5th.glb");
+useGLTF.preload("/models/exiting-1ru.glb");

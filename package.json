@@ -79,6 +79,7 @@
     "zustand": "^4.5.4"
   },
   "devDependencies": {
+    "@svgr/webpack": "^8.1.0",
     "@tanstack/eslint-plugin-query": "^5.64.2",
     "@types/node": "^20.14.10",
     "@types/react": "^18",

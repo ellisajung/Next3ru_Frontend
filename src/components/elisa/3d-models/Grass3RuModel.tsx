@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import { Html, useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { IClickedMeshInfo } from "./StadiumModel";
-import MeshLabel from "./MeshLabel";
+import MeshLabel from "../MeshLabel";
 
-type NodeKeys = "Mesh3475_Kidsland-4th";
+type NodeKeys = "Mesh1608_Grass-3ru";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -14,25 +14,23 @@ type GLTFResult = GLTF & {
   materials: { [key: string]: THREE.MeshStandardMaterial };
 };
 
-export function Kidsland4thModel({
+export function Grass3RuModel({
   hides,
   areaName,
   showModal,
   handleMeshHover,
   handleMeshClick,
 }: any) {
-  const { nodes, materials } = useGLTF(
-    "/models/kidsland-4th.glb",
-  ) as GLTFResult;
+  const { nodes, materials } = useGLTF("/models/grass-3ru.glb") as GLTFResult;
 
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredMesh, setHoveredMesh] = useState<IClickedMeshInfo | null>(null);
   const [clickedMesh, setClickedMesh] = useState<IClickedMeshInfo | null>(null);
 
-  const defaultColor = nodes["Mesh3475_Kidsland-4th"]
+  const defaultColor = nodes["Mesh1608_Grass-3ru"]
     .material as THREE.MeshStandardMaterial;
   const hoverColor = defaultColor.clone();
-  hoverColor.color.set("#2DB0B2");
+  hoverColor.color.set("#BDBDBD");
 
   const onMeshClick = (info: IClickedMeshInfo): void => {
     handleMeshClick(info);
@@ -59,7 +57,7 @@ export function Kidsland4thModel({
     }
   }, [showModal]);
 
-  const mesh = nodes["Mesh3475_Kidsland-4th"];
+  const mesh = nodes["Mesh1608_Grass-3ru"];
   const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
   const meshInfo: IClickedMeshInfo = {
     area_name: areaName,
@@ -80,7 +78,7 @@ export function Kidsland4thModel({
         onClick={() => onMeshClick(meshInfo)}
         onPointerOver={() => onMeshOver(meshInfo)}
         onPointerOut={onMeshOut}
-        position={[44.925, 105.473, 1010.175]}
+        position={[859.407, 79.13, 347.1]}
         rotation={[-3.141, -1.305, -3.141]}
         scale={0.292}
       >
@@ -94,4 +92,4 @@ export function Kidsland4thModel({
   );
 }
 
-useGLTF.preload("/models/kidsland-4th.glb");
+useGLTF.preload("/models/grass-3ru.glb");

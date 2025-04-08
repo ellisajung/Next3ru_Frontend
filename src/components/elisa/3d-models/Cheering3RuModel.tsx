@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Html, useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { IClickedMeshInfo } from "./StadiumModel";
-import MeshLabel from "./MeshLabel";
+import MeshLabel from "../MeshLabel";
 
 type NodeKeys =
   | "Mesh8727_3Ru-cheering_zone-331"

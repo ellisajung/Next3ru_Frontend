@@ -1,12 +1,14 @@
 "use client";
 
-import { useRef, useState } from "react";
+import StadiumSkeleton from "@/assets/stadium.svg";
+import { Suspense, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
   Environment,
   CameraControls,
   PerspectiveCamera,
   Center,
+  Html,
 } from "@react-three/drei";
 import { SkeletonModel } from "./SkeletonModel";
 import { CenterModel } from "./CenterModel";
@@ -25,7 +27,8 @@ import { Sky1RuModel } from "./Sky1RuModel";
 import { Sky3RuModel } from "./Sky3RuModel";
 import { TvingTableModel } from "./TvingTableModel";
 import { YBoxModel } from "./YBoxModel";
-import SeatInfoModal from "./SeatInfoModal";
+import { Dialog, DialogContent } from "../../shadcn-ui/dialog";
+import SeatInfoDialog from "../SeatInfoDialog";
 
 export interface IClickedMeshInfo {
   area_name: any;
@@ -49,7 +52,27 @@ export default function StadiumModel({ hides }: any) {
 
   return (
     <>
+      <Dialog
+        open={showModal}
+        onOpenChange={setShowModal}
+      >
+        <DialogContent className="sm:max-w-[650px]">
+          <SeatInfoDialog
+            areaName={clickedMeshInfo?.area_name}
+            zone={clickedMeshInfo?.zone}
+          />
+        </DialogContent>
+      </Dialog>
       <Canvas>
+        {/* <Suspense
+          fallback={
+            <Html center>
+              <div className="w-[600px] h-[600px] fill-zinc-600">
+                <StadiumSkeleton />
+              </div>
+            </Html>
+          }
+        > */}
         <Center>
           <SkeletonModel
             showModal={showModal}
@@ -174,6 +197,7 @@ export default function StadiumModel({ hides }: any) {
           /> */}
           {/* <Floor /> */}
         </Center>
+        {/* </Suspense> */}
         <Environment
           background={false}
           preset="city"
@@ -188,13 +212,6 @@ export default function StadiumModel({ hides }: any) {
           position={[6000, 4000, 4000]}
         />
       </Canvas>
-      {showModal && (
-        <SeatInfoModal
-          setShowModal={setShowModal} // 에러 해결: https://velog.io/@keynene/ErrorTypeScript-TS2322-Type-DispatchSetStateActionboolean-is-not-assignable-to-type-boolean.-setState%EB%8A%94-boolean%ED%83%80%EC%9E%85%EC%9D%B4-%EC%95%84%EB%8B%98-ReactTypeScript%EC%97%90%EC%84%9C-setState-props-%EC%A0%84%EB%8B%AC%ED%95%98%EA%B8%B0
-          areaName={clickedMeshInfo?.area_name}
-          zone={clickedMeshInfo?.zone}
-        />
-      )}
     </>
   );
 }

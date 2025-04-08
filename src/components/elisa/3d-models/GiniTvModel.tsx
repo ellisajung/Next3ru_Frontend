@@ -3,12 +3,18 @@ import { useEffect, useState } from "react";
 import { Html, useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { IClickedMeshInfo } from "./StadiumModel";
-import MeshLabel from "./MeshLabel";
+import MeshLabel from "../MeshLabel";
 
 type NodeKeys =
-  | "Mesh7189_Gini-right"
-  | "Mesh7827_Gini-center"
-  | "Mesh19819_Gini-left";
+  | "Mesh15944_Gini-tv_zone-116"
+  | "Mesh18309_Gini-tv_zone-226"
+  | "Mesh18613_Gini-tv_zone-323"
+  | "Mesh22240_Gini-tv_zone-117"
+  | "Mesh22432_Gini-tv_zone-118"
+  | "Mesh23420_Gini-tv_zone-225"
+  | "Mesh23667_Gini-tv_zone-322"
+  | "Mesh26793_Gini-tv_zone-321"
+  | "Mesh29225_Gini-tv_zone-224";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -23,28 +29,40 @@ type MeshData = {
 };
 
 const meshesData: MeshData[] = [
-  { name: "Mesh7189_Gini-right", position: [-458.379, 23.033, -420.72] },
-  { name: "Mesh7827_Gini-center", position: [-381.379, 26.01, -550.511] },
-  { name: "Mesh19819_Gini-left", position: [-226.25, 22.991, -551.744] },
+  { name: "Mesh15944_Gini-tv_zone-116", position: [-183.37, 56.436, -686.351] },
+  { name: "Mesh18309_Gini-tv_zone-226", position: [21.334, 91.706, -778.016] },
+  { name: "Mesh18613_Gini-tv_zone-323", position: [58.405, 134.049, -916.246] },
+  { name: "Mesh22240_Gini-tv_zone-117", position: [-92.666, 57.117, -665.181] },
+  { name: "Mesh22432_Gini-tv_zone-118", position: [-14.267, 56.055, -639.634] },
+  { name: "Mesh23420_Gini-tv_zone-225", position: [-60.587, 91.714, -799.888] },
+  {
+    name: "Mesh23667_Gini-tv_zone-322",
+    position: [-23.847, 134.053, -938.236],
+  },
+  {
+    name: "Mesh26793_Gini-tv_zone-321",
+    position: [-110.856, 134.781, -961.164],
+  },
+  { name: "Mesh29225_Gini-tv_zone-224", position: [-147.383, 92.05, -822.684] },
 ];
 
-export function GiniModel({
+export function GiniTvModel({
   hides,
   areaName,
-  handleMeshHover,
   showModal,
+  handleMeshHover,
   handleMeshClick,
 }: any) {
-  const { nodes, materials } = useGLTF("/models/gini.glb") as GLTFResult;
+  const { nodes, materials } = useGLTF("/models/gini-tv.glb") as GLTFResult;
 
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredMesh, setHoveredMesh] = useState<IClickedMeshInfo | null>(null);
   const [clickedMesh, setClickedMesh] = useState<IClickedMeshInfo | null>(null);
 
-  const defaultColor = nodes["Mesh7189_Gini-right"]
+  const defaultColor = nodes["Mesh29225_Gini-tv_zone-224"]
     .material as THREE.MeshStandardMaterial;
   const hoverColor = defaultColor.clone();
-  hoverColor.color.set("#4864CA");
+  hoverColor.color.set("#4F9236");
 
   const onMeshClick = (info: IClickedMeshInfo): void => {
     handleMeshClick(info);
@@ -73,12 +91,7 @@ export function GiniModel({
 
   const meshes = meshesData.map(({ name, position }) => {
     const mesh = nodes[name];
-    const zone =
-      mesh.name.split("-")[1] === "right"
-        ? "우"
-        : mesh.name.split("-")[1] === "left"
-        ? "좌"
-        : "중앙";
+    const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
     const meshInfo: IClickedMeshInfo = {
       area_name: areaName,
       zone: zone,
@@ -117,4 +130,4 @@ export function GiniModel({
   );
 }
 
-useGLTF.preload("/models/gini.glb");
+useGLTF.preload("/models/gini-tv.glb");

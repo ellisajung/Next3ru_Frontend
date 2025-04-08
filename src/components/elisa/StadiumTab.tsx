@@ -2,7 +2,7 @@
 
 import { Card, CardDescription, CardTitle } from "@/components/shadcn-ui/card";
 import AreaNameSwiper from "./AreaNameSwiper";
-import StadiumModel from "./StadiumModel";
+import StadiumModel from "./3d-models/StadiumModel";
 import { GrPowerReset } from "react-icons/gr";
 import { Button } from "../shadcn-ui/button";
 import { useEffect, useState } from "react";
@@ -29,8 +29,8 @@ const StadiumTab = () => {
       setHides(
         data.reduce(
           (acc: any, curr: any) => ({ ...acc, [curr.area_name]: true }),
-          {},
-        ),
+          {}
+        )
       );
     }
   }, [data]);
@@ -46,8 +46,8 @@ const StadiumTab = () => {
     setHides(
       data?.reduce(
         (acc: any, curr: any) => ({ ...acc, [curr.area_name]: true }),
-        {},
-      ),
+        {}
+      )
     );
   };
 

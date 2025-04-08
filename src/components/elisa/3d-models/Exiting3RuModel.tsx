@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import { Html, useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { IClickedMeshInfo } from "./StadiumModel";
-import MeshLabel from "./MeshLabel";
+import MeshLabel from "../MeshLabel";
 
-type NodeKeys = "Mesh1608_Grass-3ru";
+type NodeKeys = "Mesh22083_3Ru-exiting";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -14,23 +14,23 @@ type GLTFResult = GLTF & {
   materials: { [key: string]: THREE.MeshStandardMaterial };
 };
 
-export function Grass3RuModel({
+export function Exiting3RuModel({
   hides,
   areaName,
-  showModal,
   handleMeshHover,
+  showModal,
   handleMeshClick,
 }: any) {
-  const { nodes, materials } = useGLTF("/models/grass-3ru.glb") as GLTFResult;
+  const { nodes, materials } = useGLTF("/models/exiting-3ru.glb") as GLTFResult;
 
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredMesh, setHoveredMesh] = useState<IClickedMeshInfo | null>(null);
   const [clickedMesh, setClickedMesh] = useState<IClickedMeshInfo | null>(null);
 
-  const defaultColor = nodes["Mesh1608_Grass-3ru"]
+  const defaultColor = nodes["Mesh22083_3Ru-exiting"]
     .material as THREE.MeshStandardMaterial;
   const hoverColor = defaultColor.clone();
-  hoverColor.color.set("#BDBDBD");
+  hoverColor.color.set("#36A09A");
 
   const onMeshClick = (info: IClickedMeshInfo): void => {
     handleMeshClick(info);
@@ -57,7 +57,7 @@ export function Grass3RuModel({
     }
   }, [showModal]);
 
-  const mesh = nodes["Mesh1608_Grass-3ru"];
+  const mesh = nodes["Mesh22083_3Ru-exiting"];
   const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
   const meshInfo: IClickedMeshInfo = {
     area_name: areaName,
@@ -78,7 +78,7 @@ export function Grass3RuModel({
         onClick={() => onMeshClick(meshInfo)}
         onPointerOver={() => onMeshOver(meshInfo)}
         onPointerOut={onMeshOut}
-        position={[859.407, 79.13, 347.1]}
+        position={[323.71, 24.066, -399.248]}
         rotation={[-3.141, -1.305, -3.141]}
         scale={0.292}
       >
@@ -92,4 +92,4 @@ export function Grass3RuModel({
   );
 }
 
-useGLTF.preload("/models/grass-3ru.glb");
+useGLTF.preload("/models/exiting-3ru.glb");
