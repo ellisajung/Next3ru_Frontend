@@ -3,21 +3,12 @@ import { useEffect, useState } from "react";
 import { Html, useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { IClickedMeshInfo } from "./StadiumModel";
-import MeshLabel from "./MeshLabel";
+import MeshLabel from "../MeshLabel";
 
 type NodeKeys =
-  | "Mesh10445_Sky-1ru_zone-401"
-  | "Mesh10445_Sky-1ru_zone-402"
-  | "Mesh10445_Sky-1ru_zone-403"
-  | "Mesh10445_Sky-1ru_zone-405"
-  | "Mesh10445_Sky-1ru_zone-406"
-  | "Mesh10445_Sky-1ru_zone-407"
-  | "Mesh10445_Sky-1ru_zone-408"
-  | "Mesh15721_Sky-1ru_zone-410"
-  | "Mesh9812_Sky-1ru_zone-404"
-  | "Mesh10445_Sky-1ru_zone-409"
-  | "Mesh10445_Sky-1ru_zone-411"
-  | "Mesh10445_Sky-1ru_zone-412";
+  | "Mesh8072_Kt-alpha-right"
+  | "Mesh8269_Kt-alpha-center"
+  | "Mesh8401_Kt-alpha-left";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -32,64 +23,28 @@ type MeshData = {
 };
 
 const meshesData: MeshData[] = [
-  { name: "Mesh10445_Sky-1ru_zone-401", position: [-737.017, 239.18, 560.506] },
-  {
-    name: "Mesh10445_Sky-1ru_zone-402",
-    position: [-743.393, 239.566, 488.915],
-  },
-  {
-    name: "Mesh10445_Sky-1ru_zone-403",
-    position: [-752.707, 239.976, 380.518],
-  },
-  { name: "Mesh10445_Sky-1ru_zone-405", position: [-775.214, 239.96, 91.657] },
-  {
-    name: "Mesh10445_Sky-1ru_zone-406",
-    position: [-785.097, 239.224, -54.314],
-  },
-  {
-    name: "Mesh10445_Sky-1ru_zone-407",
-    position: [-784.296, 237.213, -189.634],
-  },
-  {
-    name: "Mesh10445_Sky-1ru_zone-408",
-    position: [-763.859, 240.732, -313.978],
-  },
-  {
-    name: "Mesh15721_Sky-1ru_zone-410",
-    position: [-714.377, 252.987, -570.564],
-  },
-  { name: "Mesh9812_Sky-1ru_zone-404", position: [-763.976, 239.949, 235.664] },
-  {
-    name: "Mesh10445_Sky-1ru_zone-409",
-    position: [-727.512, 239.49, -437.893],
-  },
-  {
-    name: "Mesh10445_Sky-1ru_zone-411",
-    position: [-595.412, 204.771, -643.678],
-  },
-  {
-    name: "Mesh10445_Sky-1ru_zone-412",
-    position: [-539.837, 204.736, -713.59],
-  },
+  { name: "Mesh8072_Kt-alpha-right", position: [-572.012, 57.268, -540.046] },
+  { name: "Mesh8269_Kt-alpha-center", position: [-458.05, 57.828, -675.671] },
+  { name: "Mesh8401_Kt-alpha-left", position: [-300.116, 57.392, -712.899] },
 ];
 
-export function Sky1RuModel({
+export function KtAlphaModel({
   hides,
   areaName,
   showModal,
   handleMeshHover,
   handleMeshClick,
 }: any) {
-  const { nodes, materials } = useGLTF("/models/sky-1ru.glb") as GLTFResult;
+  const { nodes, materials } = useGLTF("/models/kt-alpha.glb") as GLTFResult;
 
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredMesh, setHoveredMesh] = useState<IClickedMeshInfo | null>(null);
   const [clickedMesh, setClickedMesh] = useState<IClickedMeshInfo | null>(null);
 
-  const defaultColor = nodes["Mesh10445_Sky-1ru_zone-401"]
+  const defaultColor = nodes["Mesh8072_Kt-alpha-right"]
     .material as THREE.MeshStandardMaterial;
   const hoverColor = defaultColor.clone();
-  hoverColor.color.set("#211C79");
+  hoverColor.color.set("#CE4E9D");
 
   const onMeshClick = (info: IClickedMeshInfo): void => {
     handleMeshClick(info);
@@ -118,7 +73,12 @@ export function Sky1RuModel({
 
   const meshes = meshesData.map(({ name, position }) => {
     const mesh = nodes[name];
-    const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
+    const zone =
+      mesh.name.split("-")[2] === "right"
+        ? "우"
+        : mesh.name.split("-")[2] === "left"
+        ? "좌"
+        : "중앙";
     const meshInfo: IClickedMeshInfo = {
       area_name: areaName,
       zone: zone,
@@ -157,4 +117,4 @@ export function Sky1RuModel({
   );
 }
 
-useGLTF.preload("/models/sky-1ru.glb");
+useGLTF.preload("/models/kt-alpha.glb");

@@ -20,5 +20,6 @@
     "net"
   ],
   "editor.formatOnSave": true,
-  "emmet.showAbbreviationSuggestions": false
+  "emmet.showAbbreviationSuggestions": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }

@@ -3,12 +3,18 @@ import { useEffect, useState } from "react";
 import { Html, useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { IClickedMeshInfo } from "./StadiumModel";
-import MeshLabel from "./MeshLabel";
+import MeshLabel from "../MeshLabel";
 
 type NodeKeys =
-  | "Mesh8072_Kt-alpha-right"
-  | "Mesh8269_Kt-alpha-center"
-  | "Mesh8401_Kt-alpha-left";
+  | "Mesh23780_Y-box_zone-114"
+  | "Mesh23940_Y-box_zone-115"
+  | "Mesh24131_Y-box_zone-214"
+  | "Mesh24329_Y-box_zone-311"
+  | "Mesh24550_Y-box_zone-312"
+  | "Mesh24648_Y-box_zone-215"
+  | "Mesh26049_Y-box_zone-310"
+  | "Mesh26234_Y-box_zone-213"
+  | "Mesh26341_Y-box_zone-113";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -23,28 +29,34 @@ type MeshData = {
 };
 
 const meshesData: MeshData[] = [
-  { name: "Mesh8072_Kt-alpha-right", position: [-572.012, 57.268, -540.046] },
-  { name: "Mesh8269_Kt-alpha-center", position: [-458.05, 57.828, -675.671] },
-  { name: "Mesh8401_Kt-alpha-left", position: [-300.116, 57.392, -712.899] },
+  { name: "Mesh23780_Y-box_zone-114", position: [-633.48, 56.168, -297.805] },
+  { name: "Mesh23940_Y-box_zone-115", position: [-609.484, 56.167, -395.034] },
+  { name: "Mesh24131_Y-box_zone-214", position: [-766.962, 90.389, -332.551] },
+  { name: "Mesh24329_Y-box_zone-311", position: [-905.723, 132.763, -367.435] },
+  { name: "Mesh24550_Y-box_zone-312", position: [-882.458, 132.764, -461.133] },
+  { name: "Mesh24648_Y-box_zone-215", position: [-743.575, 90.377, -426.586] },
+  { name: "Mesh26049_Y-box_zone-310", position: [-928.716, 133.153, -276.234] },
+  { name: "Mesh26234_Y-box_zone-213", position: [-789.662, 91.12, -249.489] },
+  { name: "Mesh26341_Y-box_zone-113", position: [-655.978, 57.012, -218.884] },
 ];
 
-export function KtAlphaModel({
+export function YBoxModel({
   hides,
   areaName,
   showModal,
   handleMeshHover,
   handleMeshClick,
 }: any) {
-  const { nodes, materials } = useGLTF("/models/kt-alpha.glb") as GLTFResult;
+  const { nodes, materials } = useGLTF("/models/y-box.glb") as GLTFResult;
 
   const [isHovered, setIsHovered] = useState(false);
   const [hoveredMesh, setHoveredMesh] = useState<IClickedMeshInfo | null>(null);
   const [clickedMesh, setClickedMesh] = useState<IClickedMeshInfo | null>(null);
 
-  const defaultColor = nodes["Mesh8072_Kt-alpha-right"]
+  const defaultColor = nodes["Mesh23780_Y-box_zone-114"]
     .material as THREE.MeshStandardMaterial;
   const hoverColor = defaultColor.clone();
-  hoverColor.color.set("#CE4E9D");
+  hoverColor.color.set("#EC9341");
 
   const onMeshClick = (info: IClickedMeshInfo): void => {
     handleMeshClick(info);
@@ -73,12 +85,7 @@ export function KtAlphaModel({
 
   const meshes = meshesData.map(({ name, position }) => {
     const mesh = nodes[name];
-    const zone =
-      mesh.name.split("-")[2] === "right"
-        ? "우"
-        : mesh.name.split("-")[2] === "left"
-        ? "좌"
-        : "중앙";
+    const zone = mesh.name.includes("zone") ? mesh.name.slice(-3) : null;
     const meshInfo: IClickedMeshInfo = {
       area_name: areaName,
       zone: zone,
@@ -117,4 +124,4 @@ export function KtAlphaModel({
   );
 }
 
-useGLTF.preload("/models/kt-alpha.glb");
+useGLTF.preload("/models/y-box.glb");

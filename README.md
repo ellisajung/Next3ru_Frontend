@@ -1,4 +1,4 @@
-![alt text](https://file%2B.vscode-resource.vscode-cdn.net/Users/elisa/Documents/1_Projects/Next3ru_Frontend/public/images/elisa/readme/image.png?version%3D1741285647763)
+![alt text](image.png)
 
 # Next3Ru 넥스트3루
 

@@ -30,10 +30,11 @@ const ImageSwiper = ({ imgUrls }: { imgUrls: string[] }) => {
         {imgUrls?.map((url: string, i) => (
           <SwiperSlide key={i}>
             <Image
+              className="aspect-square"
               src={url}
               alt="Thumbnail Image"
-              width={400}
-              height={400}
+              width={500}
+              height={500}
             />
           </SwiperSlide>
         ))}
@@ -53,10 +54,11 @@ const ImageSwiper = ({ imgUrls }: { imgUrls: string[] }) => {
         {imgUrls?.map((url: string, i: number) => (
           <SwiperSlide key={i}>
             <Image
+              className="aspect-square"
               src={url}
               alt="Image List"
-              width={100}
-              height={100}
+              width={200}
+              height={200}
             />
           </SwiperSlide>
         ))}
